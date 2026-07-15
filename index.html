@@ -147,7 +147,7 @@
 
         /* ── MAIN ── */
         .main-container {
-            max-width: 1080px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -487,6 +487,51 @@
             }
         }
 
+        /* ── DEBUG PANEL ── */
+        .debug-panel {
+            display: none;
+            background: #1e1e1e;
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 14px;
+            font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 0.7rem;
+            color: #d4d4d4;
+            max-height: 360px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+            line-height: 1.5;
+        }
+        .debug-panel.show {
+            display: block;
+        }
+        .debug-panel .key {
+            color: #9cdcfe;
+        }
+        .debug-panel .str {
+            color: #ce9178;
+        }
+        .debug-panel .num {
+            color: #b5cea8;
+        }
+        .debug-panel .bool {
+            color: #569cd6;
+        }
+        .debug-toggle {
+            font-size: 0.7rem;
+            background: #333;
+            color: #ccc;
+            border: none;
+            border-radius: 6px;
+            padding: 4px 12px;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+        .debug-toggle:hover {
+            background: #555;
+        }
+
         /* ── RESULTS ── */
         .results-section {
             display: none;
@@ -501,7 +546,7 @@
         }
         .trip-columns.single {
             grid-template-columns: 1fr;
-            max-width: 600px;
+            max-width: 620px;
             margin: 0 auto;
         }
         @media (max-width: 768px) {
@@ -533,9 +578,9 @@
             color: #c62828;
         }
         .trip-column-body {
-            max-height: 520px;
+            max-height: 560px;
             overflow-y: auto;
-            padding: 6px;
+            padding: 8px;
         }
         .trip-column-body .empty {
             text-align: center;
@@ -557,7 +602,7 @@
         .flight-card {
             border: 2px solid #f0f0f0;
             border-radius: 10px;
-            padding: 12px;
+            padding: 14px;
             margin: 6px;
             cursor: pointer;
             transition: all 0.2s;
@@ -586,6 +631,7 @@
             justify-content: center;
             font-size: 12px;
             transition: all 0.2s;
+            color: transparent;
         }
         .flight-card.selected .select-indicator {
             background: var(--success);
@@ -594,33 +640,34 @@
         }
         .flight-card .airline-tag {
             display: inline-block;
-            padding: 2px 10px;
-            border-radius: 12px;
-            font-size: 0.68rem;
+            padding: 3px 12px;
+            border-radius: 14px;
+            font-size: 0.7rem;
             font-weight: 700;
             color: #fff;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
-        .flight-card .route {
+        .flight-card .route-line {
             font-weight: 700;
-            font-size: 0.95rem;
-            margin-bottom: 3px;
+            font-size: 1rem;
+            margin-bottom: 4px;
+            letter-spacing: 0.3px;
         }
-        .flight-card .times {
+        .flight-card .time-line {
             color: var(--sub);
-            font-size: 0.82rem;
-            margin-bottom: 3px;
+            font-size: 0.84rem;
+            margin-bottom: 5px;
         }
         .flight-card .flight-meta {
             display: flex;
             gap: 6px;
             flex-wrap: wrap;
-            margin-top: 4px;
+            margin-top: 6px;
         }
         .flight-card .flight-meta .badge {
-            padding: 3px 8px;
+            padding: 3px 10px;
             border-radius: 10px;
-            font-size: 0.68rem;
+            font-size: 0.7rem;
             font-weight: 600;
         }
         .badge-direct {
@@ -635,22 +682,31 @@
             background: #ede7f6;
             color: #6B2D8B;
         }
+        .badge-flight {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
         .flight-card .price-area {
             display: flex;
             align-items: baseline;
-            gap: 8px;
-            margin-top: 6px;
+            gap: 10px;
+            margin-top: 8px;
             flex-wrap: wrap;
         }
         .flight-card .price-money {
-            font-size: 1.3rem;
+            font-size: 1.35rem;
             font-weight: 800;
             color: #0d8a3e;
         }
         .flight-card .price-points {
-            font-size: 0.82rem;
+            font-size: 0.84rem;
             font-weight: 600;
             color: #6B2D8B;
+        }
+        .flight-card .price-raw {
+            font-size: 0.68rem;
+            color: #999;
+            font-style: italic;
         }
 
         /* ── SUMMARY ── */
@@ -682,7 +738,7 @@
             font-size: 0.95rem;
         }
         .summary-total {
-            font-size: 1.45rem;
+            font-size: 1.5rem;
             font-weight: 800;
             color: #0d8a3e;
         }
@@ -860,8 +916,8 @@
 
         <!-- ═══ CORS WARNING ═══ -->
         <div class="cors-warning" id="corsWarning">
-            ⚠️ <strong>Aberto como arquivo local</strong> — as requisições estão sendo roteadas via <strong>proxy CORS</strong>, o que pode ser mais lento.<br>
-            💡 <strong>Recomendado:</strong> abra este arquivo com <code>Live Server</code> (VSCode) ou <code>npx serve .</code> para eliminar esse aviso e acelerar as buscas.
+            ⚠️ <strong>Aberto como arquivo local</strong> — as requisições estão sendo roteadas via <strong>proxy CORS</strong>.<br>
+            💡 <strong>Recomendado:</strong> publique no GitHub Pages ou use <code>Live Server</code> (VSCode).
         </div>
 
         <!-- ═══ TOGGLES: TRIP TYPE + REGION ═══ -->
@@ -944,6 +1000,13 @@
         <!-- ═══ RESULTS ═══ -->
         <div class="results-section" id="resultsSection">
             <div class="trip-columns" id="tripColumns"></div>
+
+            <!-- DEBUG PANEL -->
+            <div style="display:flex;align-items:center;gap:6px;margin-top:8px;">
+                <button class="debug-toggle" id="debugToggleBtn" onclick="toggleDebug()" style="display:none;">🔧 Ver JSON bruto</button>
+            </div>
+            <div class="debug-panel" id="debugPanel"></div>
+
             <div class="summary-bar" id="summaryBar">
                 <div class="summary-info">
                     <div class="item" id="summaryIdaItem" style="display:none;">🟢 <strong>Ida:</strong> <span id="summaryIda">—</span></div>
@@ -984,7 +1047,6 @@
             { iata: 'SDU', city: 'Rio de Janeiro', name: 'Santos Dumont (SDU)', country: 'BR' },
             { iata: 'BSB', city: 'Brasília', name: 'Juscelino Kubitschek (BSB)', country: 'BR' },
             { iata: 'CNF', city: 'Belo Horizonte', name: 'Confins (CNF)', country: 'BR' },
-            { iata: 'PLU', city: 'Belo Horizonte', name: 'Pampulha (PLU)', country: 'BR' },
             { iata: 'SSA', city: 'Salvador', name: 'L.E. Magalhães (SSA)', country: 'BR' },
             { iata: 'REC', city: 'Recife', name: 'Guararapes (REC)', country: 'BR' },
             { iata: 'FOR', city: 'Fortaleza', name: 'Pinto Martins (FOR)', country: 'BR' },
@@ -1000,43 +1062,28 @@
             { iata: 'CGB', city: 'Cuiabá', name: 'Marechal Rondon (CGB)', country: 'BR' },
             { iata: 'CGR', city: 'Campo Grande', name: 'Internacional (CGR)', country: 'BR' },
             { iata: 'PVH', city: 'Porto Velho', name: 'Jorge Teixeira (PVH)', country: 'BR' },
-            { iata: 'BVB', city: 'Boa Vista', name: 'A.B. Cantanhede (BVB)', country: 'BR' },
-            { iata: 'RBR', city: 'Rio Branco', name: 'Internacional (RBR)', country: 'BR' },
-            { iata: 'MCP', city: 'Macapá', name: 'Internacional (MCP)', country: 'BR' },
             { iata: 'SLZ', city: 'São Luís', name: 'Cunha Machado (SLZ)', country: 'BR' },
             { iata: 'THE', city: 'Teresina', name: 'Petrônio Portella (THE)', country: 'BR' },
             { iata: 'JPA', city: 'João Pessoa', name: 'Castro Pinto (JPA)', country: 'BR' },
             { iata: 'AJU', city: 'Aracaju', name: 'Santa Maria (AJU)', country: 'BR' },
-            { iata: 'RAO', city: 'Ribeirão Preto', name: 'Leite Lopes (RAO)', country: 'BR' },
-            { iata: 'SJP', city: 'S.J. Rio Preto', name: 'Eribelto Reino (SJP)', country: 'BR' },
-            { iata: 'UDI', city: 'Uberlândia', name: 'César Bombonato (UDI)', country: 'BR' },
             { iata: 'BPS', city: 'Porto Seguro', name: 'Jorge Amado (BPS)', country: 'BR' },
-            { iata: 'IOS', city: 'Ilhéus', name: 'Jorge Amado (IOS)', country: 'BR' },
-            { iata: 'VDC', city: 'Vit. da Conquista', name: 'Pedro Figueiredo (VDC)', country: 'BR' },
-            { iata: 'STM', city: 'Santarém', name: 'Wilson Fonseca (STM)', country: 'BR' },
+            { iata: 'UDI', city: 'Uberlândia', name: 'César Bombonato (UDI)', country: 'BR' },
+            { iata: 'RAO', city: 'Ribeirão Preto', name: 'Leite Lopes (RAO)', country: 'BR' },
         ];
 
         const AIRPORTS_INTERNACIONAL = [
             { iata: 'EZE', city: 'Buenos Aires', name: 'Ezeiza (EZE)', country: 'AR' },
-            { iata: 'AEP', city: 'Buenos Aires', name: 'Aeroparque (AEP)', country: 'AR' },
-            { iata: 'COR', city: 'Córdoba', name: 'Ing. Taravella (COR)', country: 'AR' },
             { iata: 'SCL', city: 'Santiago', name: 'Arturo Merino (SCL)', country: 'CL' },
             { iata: 'LIM', city: 'Lima', name: 'Jorge Chávez (LIM)', country: 'PE' },
             { iata: 'BOG', city: 'Bogotá', name: 'El Dorado (BOG)', country: 'CO' },
             { iata: 'MIA', city: 'Miami', name: 'International (MIA)', country: 'US' },
             { iata: 'MCO', city: 'Orlando', name: 'International (MCO)', country: 'US' },
             { iata: 'JFK', city: 'Nova York', name: 'J.F. Kennedy (JFK)', country: 'US' },
-            { iata: 'EWR', city: 'Newark', name: 'Liberty (EWR)', country: 'US' },
             { iata: 'LAX', city: 'Los Angeles', name: 'International (LAX)', country: 'US' },
             { iata: 'SFO', city: 'San Francisco', name: 'International (SFO)', country: 'US' },
-            { iata: 'ORD', city: 'Chicago', name: "O'Hare (ORD)", country: 'US' },
             { iata: 'ATL', city: 'Atlanta', name: 'Hartsfield-Jackson (ATL)', country: 'US' },
-            { iata: 'DFW', city: 'Dallas', name: 'Fort Worth (DFW)', country: 'US' },
-            { iata: 'IAH', city: 'Houston', name: 'George Bush (IAH)', country: 'US' },
+            { iata: 'ORD', city: 'Chicago', name: "O'Hare (ORD)", country: 'US' },
             { iata: 'LAS', city: 'Las Vegas', name: 'Harry Reid (LAS)', country: 'US' },
-            { iata: 'BOS', city: 'Boston', name: 'Logan (BOS)', country: 'US' },
-            { iata: 'YYZ', city: 'Toronto', name: 'Pearson (YYZ)', country: 'CA' },
-            { iata: 'YVR', city: 'Vancouver', name: 'International (YVR)', country: 'CA' },
             { iata: 'MEX', city: 'Cid. do México', name: 'Benito Juárez (MEX)', country: 'MX' },
             { iata: 'CUN', city: 'Cancún', name: 'International (CUN)', country: 'MX' },
             { iata: 'LIS', city: 'Lisboa', name: 'Portela (LIS)', country: 'PT' },
@@ -1044,48 +1091,31 @@
             { iata: 'MAD', city: 'Madrid', name: 'Barajas (MAD)', country: 'ES' },
             { iata: 'BCN', city: 'Barcelona', name: 'El Prat (BCN)', country: 'ES' },
             { iata: 'FCO', city: 'Roma', name: 'Fiumicino (FCO)', country: 'IT' },
-            { iata: 'MXP', city: 'Milão', name: 'Malpensa (MXP)', country: 'IT' },
             { iata: 'CDG', city: 'Paris', name: 'Charles de Gaulle (CDG)', country: 'FR' },
-            { iata: 'ORY', city: 'Paris', name: 'Orly (ORY)', country: 'FR' },
             { iata: 'LHR', city: 'Londres', name: 'Heathrow (LHR)', country: 'GB' },
-            { iata: 'LGW', city: 'Londres', name: 'Gatwick (LGW)', country: 'GB' },
             { iata: 'FRA', city: 'Frankfurt', name: 'International (FRA)', country: 'DE' },
-            { iata: 'MUC', city: 'Munique', name: 'F.J. Strauss (MUC)', country: 'DE' },
             { iata: 'AMS', city: 'Amsterdã', name: 'Schiphol (AMS)', country: 'NL' },
-            { iata: 'ZRH', city: 'Zurique', name: 'International (ZRH)', country: 'CH' },
             { iata: 'IST', city: 'Istambul', name: 'International (IST)', country: 'TR' },
             { iata: 'DXB', city: 'Dubai', name: 'International (DXB)', country: 'AE' },
             { iata: 'DOH', city: 'Doha', name: 'Hamad (DOH)', country: 'QA' },
             { iata: 'NRT', city: 'Tóquio', name: 'Narita (NRT)', country: 'JP' },
-            { iata: 'HND', city: 'Tóquio', name: 'Haneda (HND)', country: 'JP' },
-            { iata: 'ICN', city: 'Seul', name: 'Incheon (ICN)', country: 'KR' },
-            { iata: 'PEK', city: 'Pequim', name: 'Capital (PEK)', country: 'CN' },
-            { iata: 'PVG', city: 'Shanghai', name: 'Pudong (PVG)', country: 'CN' },
-            { iata: 'SIN', city: 'Singapura', name: 'Changi (SIN)', country: 'SG' },
-            { iata: 'BKK', city: 'Bangkok', name: 'Suvarnabhumi (BKK)', country: 'TH' },
             { iata: 'SYD', city: 'Sydney', name: 'Kingsford Smith (SYD)', country: 'AU' },
-            { iata: 'MEL', city: 'Melbourne', name: 'Tullamarine (MEL)', country: 'AU' },
-            { iata: 'AKL', city: 'Auckland', name: 'International (AKL)', country: 'NZ' },
         ];
 
         // ████████████████████████████████████████████████████████████
         //  CONFIG
         // ████████████████████████████████████████████████████████████
         const GECKO_API = 'https://api.geckoapi.com.br/v1/extract';
-        const CORS_PROXIES = [
-            'https://corsproxy.io/?',
-            'https://api.allorigins.win/raw?url=',
-        ];
 
         const AIRLINES = {
             'LATAM': { id: 'LATAM', label: 'LATAM', target: 'latamairlines.com', type: 'plp',
-                capabilities: { money: true, points: true }, color: '#E30613', dot: '#E30613' },
-            'AZUL': { id: 'AZUL', label: 'Azul', target: 'voeazul.com.br', type: 'plp',
-                capabilities: { money: true, points: true }, color: '#0033A0', dot: '#0033A0' },
+                capabilities: { money: true, points: true }, color: '#E30613' },
+            'AZUL': { id: 'AZUL', label: 'Azul', target: 'voeazul.com.br', type: 'plp', capabilities: { money: true,
+                    points: true }, color: '#0033A0' },
             'SMILES': { id: 'SMILES', label: 'Smiles', target: 'smiles.com.br', type: 'plp',
-                capabilities: { money: true, points: true }, color: '#6B2D8B', dot: '#6B2D8B' },
-            'GOL': { id: 'GOL', label: 'GOL', target: 'voegol.com.br', type: 'plp',
-                capabilities: { money: true, points: false }, color: '#FF6600', dot: '#FF6600' },
+                capabilities: { money: true, points: true }, color: '#6B2D8B' },
+            'GOL': { id: 'GOL', label: 'GOL', target: 'voegol.com.br', type: 'plp', capabilities: { money: true,
+                    points: false }, color: '#FF6600' },
         };
 
         // ████████████████████████████████████████████████████████████
@@ -1101,7 +1131,7 @@
         let selectedVolta = null;
         let fromAirportData = null;
         let toAirportData = null;
-        let useProxy = false; // será detectado automaticamente
+        let debugRawData = { ida: [], volta: [] }; // armazena JSONs brutos para debug
 
         // ████████████████████████████████████████████████████████████
         //  INIT
@@ -1116,7 +1146,6 @@
             updateStatusBar();
             initAirportSelectors();
             applyTripTypeUI();
-            detectCorsAndLocalFile();
         });
 
         function setDefaultDates() {
@@ -1127,24 +1156,6 @@
             volta.setDate(volta.getDate() + 7);
             document.getElementById('depDate').value = ida.toISOString().split('T')[0];
             document.getElementById('retDate').value = volta.toISOString().split('T')[0];
-        }
-
-        // ████████████████████████████████████████████████████████████
-        //  CORS DETECTION
-        // ████████████████████████████████████████████████████████████
-        function detectCorsAndLocalFile() {
-            const isLocalFile = window.location.protocol === 'file:';
-            if (isLocalFile) {
-                useProxy = true;
-                document.getElementById('corsWarning').classList.add('show');
-                document.getElementById('proxyBadge').style.display = 'inline-block';
-                console.log('[CORS] Arquivo local detectado — usando proxy CORS automático');
-            }
-        }
-
-        function updateProxyBadge() {
-            const badge = document.getElementById('proxyBadge');
-            badge.style.display = useProxy ? 'inline-block' : 'none';
         }
 
         // ████████████████████████████████████████████████████████████
@@ -1202,9 +1213,7 @@
         }
 
         function getDropdownHeader(type) {
-            if (type === 'from' && region === 'internacional') {
-                return '🇧🇷🌎 Nacionais e Internacionais';
-            }
+            if (type === 'from' && region === 'internacional') return '🇧🇷🌎 Nacionais e Internacionais';
             return region === 'nacional' ? '🇧🇷 Aeroportos Nacionais' : '🌎 Aeroportos Internacionais';
         }
 
@@ -1216,17 +1225,18 @@
             wrap.classList.toggle('has-value', !!value.trim());
             const airports = getAirportsForField(type);
             const filtered = filterAirports(airports, value);
+            const headerLabel = getDropdownHeader(type);
             if (filtered.length === 0) {
                 dropdown.innerHTML = '<div class="no-results">Nenhum aeroporto encontrado</div>';
             } else {
-                const headerLabel = getDropdownHeader(type);
                 let html =
                     `<div class="airport-dropdown-header">${headerLabel} — ${filtered.length} opções</div>`;
                 const sliced = filtered.slice(0, 24);
                 for (const ap of sliced) {
                     const flagIcon = ap.country === 'BR' ? '🇧🇷' : '';
+                    const escName = ap.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                     html += `
-                    <div class="airport-item" onmousedown="event.preventDefault();selectAirport('${type}','${ap.iata}','${ap.city}','${ap.name.replace(/'/g,"\\'")}')">
+                    <div class="airport-item" onmousedown="event.preventDefault();selectAirport('${type}','${ap.iata}','${ap.city}','${escName}')">
                       <span class="iata-code">${ap.iata}</span>
                       <div class="airport-info">
                         <div class="city-name">${flagIcon} ${ap.city}</div>
@@ -1267,10 +1277,7 @@
             if (!query || !query.trim()) return airports;
             const q = query.toUpperCase().trim();
             return airports.filter(ap =>
-                ap.iata.includes(q) ||
-                ap.city.toUpperCase().includes(q) ||
-                ap.name.toUpperCase().includes(q)
-            );
+                ap.iata.includes(q) || ap.city.toUpperCase().includes(q) || ap.name.toUpperCase().includes(q));
         }
 
         function extractIata(value) {
@@ -1309,7 +1316,7 @@
             try {
                 const payload = { target: 'latamairlines.com', type: 'plp', from: 'GRU', to: 'GIG',
                     departureDate: getFutureDate(14), numAdults: 1, numChildren: 0, numInfants: 0 };
-                const resp = await fetchWithCorsFallback(GECKO_API, {
+                const resp = await fetch(GECKO_API, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
                     body: JSON.stringify(payload),
@@ -1330,79 +1337,7 @@
         }
 
         // ████████████████████████████████████████████████████████████
-        //  CORS-PROOF FETCH (direto → proxy fallback)
-        // ████████████████████████████████████████████████████████████
-        async function fetchWithCorsFallback(url, options) {
-            // Tenta requisição direta primeiro
-            if (!useProxy) {
-                try {
-                    const resp = await fetch(url, options);
-                    return resp;
-                } catch (err) {
-                    const msg = (err.message || '').toLowerCase();
-                    // Se for erro de CORS ou rede, ativa proxy e tenta novamente
-                    if (msg.includes('cors') || msg.includes('failed to fetch') || msg.includes(
-                            'networkerror')) {
-                        console.warn('[CORS] Requisição direta falhou, ativando proxy...', msg);
-                        useProxy = true;
-                        updateProxyBadge();
-                        document.getElementById('corsWarning').classList.add('show');
-                    } else {
-                        throw err;
-                    }
-                }
-            }
-
-            // Fallback via proxy
-            const proxyUrl = CORS_PROXIES[0]; // corsproxy.io
-            const proxied = proxyUrl + encodeURIComponent(url);
-            console.log(`[CORS] Usando proxy: ${proxyUrl}...`);
-
-            // No proxy, o body e headers precisam ser adaptados
-            // corsproxy.io suporta POST repassando o body
-            const proxyOptions = {
-                method: options.method || 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // Passa o Authorization como header adicional
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-                body: options.body,
-            };
-
-            // Se o proxy requer que o Auth vá no header original, tentamos
-            if (options.headers && options.headers['Authorization']) {
-                proxyOptions.headers['Authorization'] = options.headers['Authorization'];
-            }
-
-            try {
-                const resp = await fetch(proxied, proxyOptions);
-                if (!resp.ok) {
-                    const text = await resp.text();
-                    throw new Error(`Proxy retornou ${resp.status}: ${text.substring(0, 150)}`);
-                }
-                return resp;
-            } catch (proxyErr) {
-                // Se o proxy também falhar, tenta o segundo proxy (allorigins)
-                console.warn('[CORS] Primeiro proxy falhou, tentando fallback...', proxyErr.message);
-                const fallbackUrl = CORS_PROXIES[1] + encodeURIComponent(url);
-                try {
-                    const resp2 = await fetch(fallbackUrl, proxyOptions);
-                    if (!resp2.ok) {
-                        const text2 = await resp2.text();
-                        throw new Error(`Proxy fallback retornou ${resp2.status}: ${text2.substring(0, 150)}`);
-                    }
-                    return resp2;
-                } catch (fbErr) {
-                    throw new Error(
-                        `Falha CORS: requisição direta e proxies falharam. Abra com Live Server (VSCode) para resolver. Detalhes: ${fbErr.message}`
-                        );
-                }
-            }
-        }
-
-        // ████████████████████████████████████████████████████████████
-        //  REGION
+        //  REGION / SEARCH TYPE
         // ████████████████████████████████████████████████████████████
         function setRegion(r) {
             region = r;
@@ -1413,9 +1348,6 @@
             updateStatusBar();
         }
 
-        // ████████████████████████████████████████████████████████████
-        //  SEARCH TYPE
-        // ████████████████████████████████████████████████████████████
         function setSearchType(type) {
             searchType = type;
             document.querySelectorAll('#searchTypeToggles .search-type-btn').forEach(b =>
@@ -1442,12 +1374,11 @@
                 const sel = selectedAirlines.has(id);
                 const compat = isCompatible(id);
                 const btn = document.createElement('button');
-                btn.className =
-                    ['airline-toggle', sel ? 'active' : '', compat ? '' : 'incompatible'].join(' ').trim();
+                btn.className = ['airline-toggle', sel ? 'active' : '', compat ? '' : 'incompatible'].join(
+                    ' ').trim();
                 btn.onclick = () => toggleAirline(id);
-                btn.title = compat ? `Clique para ${sel?'remover':'adicionar'} ${cfg.label}` :
-                    `${cfg.label} não suporta ${searchType==='points'?'pontos':'dinheiro'}`;
-                btn.innerHTML = `<span class="dot" style="background:${cfg.dot}"></span> ${cfg.label}`;
+                btn.innerHTML =
+                    `<span class="dot" style="background:${cfg.color}"></span> ${cfg.label}`;
                 container.appendChild(btn);
             }
         }
@@ -1477,9 +1408,8 @@
                 bar.classList.add('warning');
             } else {
                 const tipoViagem = tripType === 'oneway' ? '➡️ Apenas Ida' : '🔄 Ida e Volta';
-                const proxyInfo = useProxy ? ' | 🔁 via proxy' : '';
                 bar.textContent =
-                    `${tipoViagem} | ${region==='nacional'?'🇧🇷 Nacional':'🌎 Internacional'} | 🔍 ${targets.length} cia(s): ${targets.map(t=>t.label).join(', ')}${proxyInfo}`;
+                    `${tipoViagem} | ${region==='nacional'?'🇧🇷 Nacional':'🌎 Internacional'} | 🔍 ${targets.length} cia(s): ${targets.map(t=>t.label).join(', ')}`;
                 bar.classList.add('ok');
             }
         }
@@ -1510,7 +1440,10 @@
             document.getElementById('loadingOverlay').classList.add('show');
             document.getElementById('resultsSection').classList.remove('show');
             document.getElementById('summaryBar').classList.remove('show');
+            document.getElementById('debugPanel').classList.remove('show');
+            document.getElementById('debugToggleBtn').style.display = 'none';
             allFlights = { ida: [], volta: [] };
+            debugRawData = { ida: [], volta: [] };
             selectedIda = null;
             selectedVolta = null;
 
@@ -1527,7 +1460,6 @@
                     numInfants: 0,
                 };
                 requests.push({ cfg: tgt, payload: { ...basePayload }, direction: 'ida' });
-
                 if (tripType === 'roundtrip' && retDate) {
                     requests.push({
                         cfg: tgt,
@@ -1538,24 +1470,21 @@
             }
 
             document.getElementById('loadingText').textContent =
-                `Consultando ${requests.length} chamada(s) em ${targets.length} cia(s)${useProxy?' via proxy...':'...'}`;
+                `Consultando ${requests.length} chamada(s) em ${targets.length} cia(s)...`;
             updateStatusBar();
 
             const results = await Promise.allSettled(
                 requests.map(async (req) => {
-                    const resp = await fetchWithCorsFallback(GECKO_API, {
+                    const resp = await fetch(GECKO_API, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
                         body: JSON.stringify(req.payload),
                     });
                     const text = await resp.text();
-                    if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${text.substring(0, 120)}`);
+                    if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${text.substring(0, 200)}`);
                     let json;
                     try { json = JSON.parse(text); } catch (e) { throw new Error(
                             `JSON inválido: ${text.substring(0, 200)}`); }
-                    console.log(
-                        `[GeckoAPI] ${req.cfg.label} ${req.direction} → status=${resp.status}, keys=${Object.keys(json).join(',')}`
-                        );
                     return { direction: req.direction, cfg: req.cfg, raw: json };
                 })
             );
@@ -1567,15 +1496,18 @@
             for (const r of results) {
                 if (r.status === 'fulfilled') {
                     const { direction, cfg, raw } = r.value;
+                    debugRawData[direction].push({ airline: cfg.label, raw });
                     const flights = parseFlightGeneric(raw, cfg);
-                    console.log(`[Parser] ${cfg.label} ${direction} → ${flights.length} voo(s)`);
+                    console.log(`[Parser] ${cfg.label} ${direction}: ${flights.length} voo(s) parseado(s)`);
                     if (flights.length > 0) {
+                        console.log(`[Parser] Amostra do 1º voo:`, JSON.stringify(flights[0], null, 2));
                         if (direction === 'ida') allFlights.ida.push(...flights);
                         else allFlights.volta.push(...flights);
                         successCount++;
                     } else {
-                        errors.push({ direction, label: cfg.label, reason: 'parser vazio',
-                            sampleKeys: Object.keys(raw).join(', ') });
+                        const keys = typeof raw === 'object' ? Object.keys(raw).join(', ') : typeof raw;
+                        errors.push({ direction, label: cfg.label, reason: 'Parser não encontrou voos',
+                            keys });
                         errorCount++;
                     }
                 } else {
@@ -1584,8 +1516,10 @@
                 }
             }
 
-            console.log(`[Resultado] ${successCount} sucesso(s), ${errorCount} erro(s)`, errors);
+            console.log(`[Resultado] ${successCount} sucesso(s), ${errorCount} erro(s)`);
+            if (errors.length > 0) console.table(errors);
 
+            // Ordenar por preço
             allFlights.ida.sort((a, b) => (a.moneyTotal ?? Infinity) - (b.moneyTotal ?? Infinity));
             allFlights.volta.sort((a, b) => (a.moneyTotal ?? Infinity) - (b.moneyTotal ?? Infinity));
 
@@ -1593,95 +1527,158 @@
             btn.textContent = '🔍 Buscar';
             document.getElementById('loadingOverlay').classList.remove('show');
             document.getElementById('resultsSection').classList.add('show');
+
+            // Mostrar botão de debug se houver dados
+            if (debugRawData.ida.length > 0 || debugRawData.volta.length > 0) {
+                document.getElementById('debugToggleBtn').style.display = 'inline-block';
+            }
+
             renderResults(errors);
             document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
-
-            if (successCount === 0 && errorCount > 0) {
-                const proxyMsg = useProxy ?
-                    ' (via proxy — tente abrir com Live Server para melhor performance)' : '';
-                showToast(`⚠️ Nenhum resultado.${proxyMsg}`);
-            }
         }
 
         // ████████████████████████████████████████████████████████████
-        //  PARSER GENÉRICO
+        //  PARSER GENÉRICO — VERSÃO ROBUSTA
         // ████████████████████████████████████████████████████████████
         function parseFlightGeneric(raw, cfg) {
             const flights = [];
+
+            // ── 1. Navegar até os dados ──
             let data = raw;
             if (data && typeof data === 'object' && !Array.isArray(data)) {
-                if (data.data && typeof data.data === 'object') data = data.data;
-                else if (data.result && typeof data.result === 'object') data = data.result;
-                else if (data.response && typeof data.response === 'object') data = data.response;
-            }
-
-            let items = null;
-            const candidateArrays = [];
-
-            function findArrays(obj, depth) {
-                if (!obj || typeof obj !== 'object' || depth > 8) return;
-                if (Array.isArray(obj)) {
-                    if (obj.length > 0 && typeof obj[0] === 'object') candidateArrays.push(obj);
-                    for (const item of obj) findArrays(item, depth + 1);
-                    return;
+                // Tenta caminhos comuns de wrapper
+                for (const key of ['data', 'result', 'response', 'body', 'payload', 'content']) {
+                    if (data[key] && typeof data[key] === 'object') { data = data[key]; break; }
                 }
-                for (const key of Object.keys(obj)) { findArrays(obj[key], depth + 1); }
+                // Se data virou array, ótimo; se ainda é objeto, procura array com maior nº de itens
+                if (!Array.isArray(data)) {
+                    let bestArr = null;
+                    const scan = (obj, depth) => {
+                        if (!obj || typeof obj !== 'object' || depth > 10) return;
+                        if (Array.isArray(obj)) {
+                            if (!bestArr || obj.length > bestArr.length) bestArr = obj;
+                            for (const item of obj) scan(item, depth + 1);
+                            return;
+                        }
+                        for (const v of Object.values(obj)) scan(v, depth + 1);
+                    };
+                    scan(data, 0);
+                    if (bestArr) data = bestArr;
+                }
             }
-            findArrays(data, 0);
 
-            candidateArrays.sort((a, b) => b.length - a.length);
-            for (const arr of candidateArrays) {
-                const sample = arr[0];
-                const hasFlightFields =
-                    (sample.departure || sample.arrival || sample.segments || sample.flights ||
-                        sample.price || sample.fare || sample.duration || sample.from || sample.to ||
-                        sample.origin || sample.destination);
-                if (hasFlightFields) { items = arr; break; }
-            }
-            if (!items && candidateArrays.length > 0) items = candidateArrays[0];
-            if (!items || !Array.isArray(items)) {
-                console.warn(`[Parser] ${cfg.label}: nenhum array de itens`, data);
+            if (!Array.isArray(data)) {
+                console.warn(`[Parser] ${cfg.label}: não encontrei array de itens. Tipo:`, typeof data);
                 return flights;
             }
 
-            console.log(`[Parser] ${cfg.label}: ${items.length} itens`);
+            const items = data;
+            console.log(`[Parser] ${cfg.label}: analisando ${items.length} itens...`);
 
-            for (const item of items) {
+            // ── 2. Extrair cada voo ──
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
                 if (!item || typeof item !== 'object') continue;
 
-                let segments = item.segments || item.flights || item.legs || item.itineraries || [];
-                if (!Array.isArray(segments)) segments = [];
-
-                if (segments.length === 0 && (item.departure || item.arrival || item.from || item.to)) {
-                    segments = [{
-                        departure: { airport: item.from || item.origin || item.departureAirport || '?',
-                            time: item.departure || item.departureTime || item.depTime || null },
-                        arrival: { airport: item.to || item.destination || item.arrivalAirport || '?',
-                            time: item.arrival || item.arrivalTime || item.arrTime || null },
-                        flightNumber: item.flightNumber || item.flight || null,
-                    }];
+                // --- CAMPO: segmentos ---
+                let segments = [];
+                const segSources = ['segments', 'flights', 'legs', 'itineraries', 'journeys', 'stops', 'connections',
+                    'routes'
+                ];
+                for (const src of segSources) {
+                    if (Array.isArray(item[src]) && item[src].length > 0) { segments = item[src]; break; }
                 }
+
+                // Se não tem segmentos mas tem campos de voo único
+                if (segments.length === 0) {
+                    const hasFlightFields = item.departure || item.arrival || item.from || item.to || item
+                        .origin || item.destination ||
+                        item.departureTime || item.arrivalTime || item.depTime || item.arrTime ||
+                        item.flightNumber || item.flight;
+                    if (hasFlightFields) {
+                        segments = [item];
+                    }
+                }
+
+                if (segments.length === 0) {
+                    // Tenta extrair de sub-objetos
+                    for (const key of Object.keys(item)) {
+                        const val = item[key];
+                        if (Array.isArray(val) && val.length > 0 && typeof val[0] === 'object') {
+                            const s0 = val[0];
+                            if (s0.departure || s0.arrival || s0.from || s0.to || s0.origin || s0.flightNumber) {
+                                segments = val;
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 if (segments.length === 0) continue;
 
-                const first = segments[0];
-                const last = segments[segments.length - 1];
+                // --- CAMPO: origem / destino ---
+                const firstSeg = segments[0];
+                const lastSeg = segments[segments.length - 1];
 
-                const getSegDep = (seg) => seg?.departure?.airport || seg?.departure?.code || seg?.origin || seg
-                    ?.from || '?';
-                const getSegArr = (seg) => seg?.arrival?.airport || seg?.arrival?.code || seg?.destination || seg
-                    ?.to || '?';
-                const getSegDepTime = (seg) => seg?.departure?.time || seg?.departureTime || seg?.depTime || null;
-                const getSegArrTime = (seg) => seg?.arrival?.time || seg?.arrivalTime || seg?.arrTime || null;
-                const getSegFlightNum = (seg) => seg?.flightNumber || seg?.flight || seg?.number || seg?.code ||
+                function pick(obj, ...keys) {
+                    for (const k of keys) {
+                        if (obj[k] !== undefined && obj[k] !== null) return obj[k];
+                    }
+                    return null;
+                }
+
+                function pickNested(obj, prefix, ...keys) {
+                    if (obj[prefix] && typeof obj[prefix] === 'object') {
+                        for (const k of keys) {
+                            if (obj[prefix][k] !== undefined && obj[prefix][k] !== null) return obj[prefix][k];
+                        }
+                    }
+                    return null;
+                }
+
+                const fromCode = pick(firstSeg, 'from', 'origin', 'departureAirport') ||
+                    pickNested(firstSeg, 'departure', 'airport', 'code', 'iata') ||
+                    pickNested(firstSeg, 'origin', 'airport', 'code', 'iata') ||
+                    '?';
+
+                const toCode = pick(lastSeg, 'to', 'destination', 'arrivalAirport') ||
+                    pickNested(lastSeg, 'arrival', 'airport', 'code', 'iata') ||
+                    pickNested(lastSeg, 'destination', 'airport', 'code', 'iata') ||
+                    '?';
+
+                // --- CAMPO: horários ---
+                const depTime = pick(firstSeg, 'departureTime', 'depTime', 'departure') ||
+                    pickNested(firstSeg, 'departure', 'time', 'datetime', 'scheduled') ||
+                    null;
+                const arrTime = pick(lastSeg, 'arrivalTime', 'arrTime', 'arrival') ||
+                    pickNested(lastSeg, 'arrival', 'time', 'datetime', 'scheduled') ||
                     null;
 
-                const fromCode = getSegDep(first);
-                const toCode = getSegArr(last);
-                const depTime = getSegDepTime(first);
-                const arrTime = getSegArrTime(last);
+                // Função auxiliar para formatar horário
+                function fmtTime(t) {
+                    if (!t) return null;
+                    const s = String(t).trim();
+                    // ISO datetime: "2026-08-01T14:30:00"
+                    const isoMatch = s.match(/T(\d{2}:\d{2})/);
+                    if (isoMatch) return isoMatch[1];
+                    // HH:MM já formatado
+                    const hmMatch = s.match(/(\d{1,2}:\d{2})/);
+                    if (hmMatch) return hmMatch[1];
+                    // Timestamp numérico? Tenta converter
+                    const num = Number(s);
+                    if (!isNaN(num) && num > 0 && num < 86400) {
+                        const h = Math.floor(num / 3600);
+                        const m = Math.floor((num % 3600) / 60);
+                        return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+                    }
+                    return s.substring(0, 5);
+                }
+                const depFmt = fmtTime(depTime);
+                const arrFmt = fmtTime(arrTime);
 
-                let durationMs = item.duration || item.durationMs || item.totalDuration || 0;
-                if (!durationMs && segments.length === 1 && depTime && arrTime) {
+                // --- CAMPO: duração ---
+                let durationMs = item.duration || item.durationMs || item.totalDuration || item.travelTime || 0;
+                if (!durationMs && depTime && arrTime && segments.length === 1) {
                     const dp = parseTimeStr(depTime),
                         ar = parseTimeStr(arrTime);
                     if (dp != null && ar != null) {
@@ -1690,39 +1687,109 @@
                         durationMs = diff;
                     }
                 }
+                // Se duration for string "PT2H30M" ou "2h30m"
+                if (typeof durationMs === 'string') {
+                    const isoMatch = durationMs.match(/PT(?:(\d+)H)?(?:(\d+)M)?/);
+                    if (isoMatch) durationMs = (parseInt(isoMatch[1] || 0) * 3600 + parseInt(isoMatch[2] || 0) *
+                        60) * 1000;
+                    else {
+                        const hm = durationMs.match(/(\d+)\s*h\s*(\d+)\s*m/i) || durationMs.match(
+                            /(\d+):(\d+)/);
+                        if (hm) durationMs = (parseInt(hm[1]) * 3600 + parseInt(hm[2]) * 60) * 1000;
+                        else durationMs = 0;
+                    }
+                }
+                const durationStr = formatDurationMs(Number(durationMs) || 0);
 
+                // --- CAMPO: número de voo ---
+                const flightNumbers = segments.map(s =>
+                    pick(s, 'flightNumber', 'flight', 'number', 'code', 'flightCode') ||
+                    pickNested(s, 'flight', 'number', 'code') || null
+                ).filter(Boolean);
+
+                // --- CAMPO: paradas ---
+                const stopAirports = segments.slice(0, -1).map(s => pick(s, 'to', 'destination', 'arrivalAirport') ||
+                    pickNested(s, 'arrival', 'airport', 'code', 'iata')).filter(Boolean);
+
+                // --- CAMPO: PREÇO (a parte mais importante!) ---
                 let moneyTotal = null;
                 let pts = null;
                 let ptsDisc = null;
                 let fareBrand = null;
 
-                const priceObj = item.price || item.fare || item.pricing || item.cheapestFare || (item.fares?.[
-                    0]) || (item.fareOptions?.[0]) || {};
-                if (typeof priceObj === 'object') {
-                    moneyTotal = priceObj.total || priceObj.amount || priceObj.money || priceObj.value ||
-                        priceObj.price || null;
-                    pts = priceObj.points || priceObj.pts || priceObj.miles || null;
-                    ptsDisc = priceObj.discountedPoints || priceObj.discountedMiles || null;
-                    fareBrand = priceObj.brand || priceObj.fareBrand || priceObj.name || null;
+                // Estratégia: vasculhar TODAS as chaves do item em busca de preço
+                function findPrice(obj, depth) {
+                    if (!obj || typeof obj !== 'object' || depth > 6) return;
+                    if (Array.isArray(obj)) {
+                        for (const el of obj) findPrice(el, depth + 1);
+                        return;
+                    }
+
+                    // Checa campos diretos
+                    if (obj.amount !== undefined || obj.total !== undefined || obj.price !== undefined ||
+                        obj.value !== undefined) {
+                        const amt = obj.amount ?? obj.total ?? obj.price ?? obj.value ?? obj.money ?? obj
+                            .priceTotal ?? obj.totalPrice ?? obj.totalAmount;
+                        const ptsVal = obj.points ?? obj.pts ?? obj.miles ?? obj.pointsRequired ?? obj.pointsTotal;
+                        const ptsD = obj.discountedPoints ?? obj.discountedMiles ?? obj.pointsDiscounted;
+                        const brand = obj.brand ?? obj.fareBrand ?? obj.name ?? obj.fareClass ?? obj
+                            .fareFamily;
+
+                        if (amt !== undefined && amt !== null && moneyTotal === null) {
+                            moneyTotal = Number(amt);
+                        }
+                        if (ptsVal !== undefined && ptsVal !== null && pts === null) {
+                            pts = Number(ptsVal);
+                        }
+                        if (ptsD !== undefined && ptsD !== null && ptsDisc === null) {
+                            ptsDisc = Number(ptsD);
+                        }
+                        if (brand !== undefined && brand !== null && fareBrand === null) {
+                            fareBrand = String(brand);
+                        }
+                    }
+
+                    for (const v of Object.values(obj)) findPrice(v, depth + 1);
                 }
-                if (moneyTotal === null && typeof item.price === 'number') moneyTotal = item.price;
-                if (moneyTotal === null && typeof item.totalPrice === 'number') moneyTotal = item.totalPrice;
-                if (pts === null && typeof item.points === 'number') pts = item.points;
-                if (pts === null && typeof item.pointsRequired === 'number') pts = item.pointsRequired;
 
-                const flightNumbers = segments.map(s => getSegFlightNum(s)).filter(Boolean);
-                const stopAirports = segments.slice(0, -1).map(s => getSegArr(s)).filter(Boolean);
-                const durationStr = formatDurationMs(durationMs);
+                // Procura no item inteiro
+                findPrice(item, 0);
 
+                // Fallbacks adicionais para preço
+                if (moneyTotal === null) {
+                    const candidates = ['price', 'totalPrice', 'total', 'amount', 'value', 'priceTotal',
+                        'totalAmount', 'fare', 'cheapestFare'
+                    ];
+                    for (const c of candidates) {
+                        if (typeof item[c] === 'number') { moneyTotal = item[c]; break; }
+                        if (typeof item[c] === 'string') {
+                            const n = parseFloat(item[c].replace(/[^0-9.]/g, ''));
+                            if (!isNaN(n)) { moneyTotal = n; break; }
+                        }
+                    }
+                }
+                if (pts === null) {
+                    for (const c of ['points', 'pts', 'miles', 'pointsRequired', 'pointsTotal']) {
+                        if (typeof item[c] === 'number') { pts = item[c]; break; }
+                    }
+                }
+
+                // --- CAMPO: fare brand ---
+                if (!fareBrand) {
+                    fareBrand = item.fareBrand || item.fareClass || item.fareFamily || item.brand || item
+                        .cabinClass || null;
+                }
+
+                // --- MONTAR OBJETO FINAL ---
                 flights.push({
-                    id: `${cfg.id.toLowerCase()}-${Date.now()}-${Math.random().toString(36).substr(2,6)}`,
+                    id: `${cfg.id.toLowerCase()}-${i}-${Date.now()}`,
                     airline: cfg.label,
                     airlineColor: cfg.color,
                     from: fromCode,
                     to: toCode,
-                    dep: depTime,
-                    arr: arrTime,
-                    durationStr,
+                    dep: depFmt,
+                    arr: arrFmt,
+                    durationStr: durationStr || '—',
                     stops: Math.max(0, segments.length - 1),
                     stopAirports,
                     moneyTotal: moneyTotal != null ? Number(moneyTotal) : null,
@@ -1733,14 +1800,18 @@
                     segments,
                 });
             }
+
             return flights;
         }
 
         function parseTimeStr(t) {
             if (!t) return null;
-            const m = String(t).match(/(\d{1,2}):(\d{2})/);
-            if (!m) return null;
-            return (parseInt(m[1]) * 60 + parseInt(m[2])) * 60 * 1000;
+            const s = String(t);
+            const m = s.match(/(\d{1,2}):(\d{2})/);
+            if (m) return (parseInt(m[1]) * 60 + parseInt(m[2])) * 60 * 1000;
+            const num = Number(s);
+            if (!isNaN(num) && num > 0 && num < 86400) return num * 1000;
+            return null;
         }
 
         function formatDurationMs(ms) {
@@ -1750,11 +1821,44 @@
         }
 
         // ████████████████████████████████████████████████████████████
+        //  DEBUG
+        // ████████████████████████████████████████████████████████████
+        function toggleDebug() {
+            const panel = document.getElementById('debugPanel');
+            if (panel.classList.contains('show')) {
+                panel.classList.remove('show');
+                return;
+            }
+            let text = '';
+            for (const dir of ['ida', 'volta']) {
+                if (debugRawData[dir].length === 0) continue;
+                text += `\n${'='.repeat(60)}\n📦 ${dir.toUpperCase()} - JSON(s) brutos da API\n${'='.repeat(60)}\n`;
+                for (const d of debugRawData[dir]) {
+                    text +=
+                        `\n── ${d.airline} ──\n${JSON.stringify(d.raw, null, 2).substring(0, 3000)}\n`;
+                    const itemCount = countItems(d.raw);
+                    text += `(≈ ${itemCount} itens encontrados no JSON)\n`;
+                }
+            }
+            panel.textContent = text || 'Nenhum debug disponível. Faça uma busca primeiro.';
+            panel.classList.add('show');
+        }
+
+        function countItems(obj) {
+            let count = 0;
+            const scan = (o) => {
+                if (Array.isArray(o)) { count += o.length; return; }
+                if (o && typeof o === 'object') { for (const v of Object.values(o)) scan(v); }
+            };
+            scan(obj);
+            return count;
+        }
+
+        // ████████████████████████████████████████████████████████████
         //  RESULTS RENDER
         // ████████████████████████████████████████████████████████████
         function renderResults(errors) {
             const container = document.getElementById('tripColumns');
-            const hasVolta = tripType === 'roundtrip' && allFlights.volta.length > 0;
             const showVoltaCol = tripType === 'roundtrip';
             container.className = 'trip-columns' + (showVoltaCol ? '' : ' single');
 
@@ -1762,15 +1866,11 @@
 
             if (showVoltaCol) {
                 const volErrors = errors.filter(e => e.direction === 'volta');
-                if (allFlights.volta.length > 0 || volErrors.length > 0) {
-                    html += buildTripColumn('volta', '🔴 Volta', allFlights.volta, volErrors);
-                } else {
-                    html +=
-                        '<div class="trip-column"><div class="trip-column-header volta">🔴 Volta</div><div class="trip-column-body"><div class="empty">Nenhum voo de volta</div></div></div>';
-                }
+                html += buildTripColumn('volta', '🔴 Volta', allFlights.volta, volErrors);
             }
 
             container.innerHTML = html;
+
             ['ida', 'volta'].forEach(dir => {
                 document.querySelectorAll(`.flight-card[data-direction="${dir}"]`).forEach(card => {
                     card.addEventListener('click', () => selectFlight(dir, card.dataset.flightId));
@@ -1781,38 +1881,64 @@
 
         function buildTripColumn(dir, label, flights, errors) {
             let body = '';
-            if (!flights.length && (!errors || errors.length === 0)) {
+
+            if (!flights.length) {
                 body = '<div class="empty">Nenhum voo encontrado</div>';
+                if (errors && errors.length > 0) {
+                    body +=
+                        `<div class="debug-info">🔍 ${errors.length} chamada(s) sem resultados.<br>`;
+                    for (const e of errors) {
+                        body +=
+                            `   • ${e.label}: ${e.reason}${e.keys? ' (keys: '+e.keys+')' : ''}<br>`;
+                    }
+                    body +=
+                        `<br>💡 Clique em <b>"Ver JSON bruto"</b> abaixo para inspecionar a resposta da API.</div>`;
+                }
             } else {
                 for (const f of flights) {
-                    const sBadge = f.stops === 0 ? '<span class="badge badge-direct">Direto</span>' :
-                        `<span class="badge badge-stops">${f.stops} parada(s)</span>`;
+                    const isDirect = f.stops === 0;
+                    const sBadge = isDirect ?
+                        '<span class="badge badge-direct">Direto</span>' :
+                        `<span class="badge badge-stops">${f.stops} parada(s)${f.stopAirports.length?' ('+f.stopAirports.join('→')+')':''}</span>`;
+
                     const fBadge = f.fareBrand ? `<span class="badge badge-fare">${f.fareBrand}</span>` : '';
-                    const money = f.moneyTotal ? `R$ ${f.moneyTotal.toFixed(2)}` : '';
-                    const pts = f.pts ? `${f.pts.toLocaleString()} pts` : '';
-                    const ptsDisc = f.ptsDisc ?
-                        ` <span style="text-decoration:line-through;color:#999;font-size:0.7rem;">${f.ptsDisc.toLocaleString()}</span>` :
-                        '';
+                    const fnBadge = f.flightNumbers.length ?
+                        `<span class="badge badge-flight">✈️ ${f.flightNumbers.join(', ')}</span>` : '';
+
+                    // Preço
+                    let priceHtml = '';
+                    if (f.moneyTotal !== null) {
+                        priceHtml +=
+                            `<span class="price-money">R$ ${f.moneyTotal.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>`;
+                    }
+                    if (f.pts !== null) {
+                        priceHtml +=
+                            `<span class="price-points">${f.pts.toLocaleString('pt-BR')} pts</span>`;
+                        if (f.ptsDisc !== null && f.ptsDisc !== f.pts) {
+                            priceHtml +=
+                                ` <span style="text-decoration:line-through;color:#999;font-size:0.68rem;">${f.ptsDisc.toLocaleString('pt-BR')}</span>`;
+                        }
+                    }
+                    if (f.moneyTotal === null && f.pts === null) {
+                        priceHtml += '<span class="price-raw">💰 Preço não identificado — ver JSON</span>';
+                    }
+
                     body += `
-                  <div class="flight-card" data-direction="${dir}" data-flight-id="${f.id}">
-                    <div class="select-indicator">✓</div>
-                    <span class="airline-tag" style="background:${f.airlineColor}">${f.airline}</span>
-                    <div class="route">${f.from} → ${f.to}</div>
-                    <div class="times">${f.dep||'--:--'} — ${f.arr||'--:--'} | ${f.durationStr}</div>
-                    <div class="flight-meta">${sBadge}${fBadge}</div>
-                    <div class="price-area">
-                      ${money?`<span class="price-money">${money}</span>`:''}
-                      ${pts?`<span class="price-points">${pts}${ptsDisc}</span>`:''}
-                      ${!money&&!pts?'<span style="color:#999">Preço indisponível</span>':''}
-                    </div>
-                  </div>`;
-                }
-                if (errors && errors.length > 0 && flights.length === 0) {
-                    body +=
-                        `<div class="debug-info">🔍 ${errors.length} chamada(s) sem resultados. Abra o console (F12) para detalhes da resposta da API.</div>`;
+                <div class="flight-card" data-direction="${dir}" data-flight-id="${f.id}">
+                  <div class="select-indicator">✓</div>
+                  <span class="airline-tag" style="background:${f.airlineColor}">${f.airline}</span>
+                  <div class="route-line">${f.from} → ${f.to}</div>
+                  <div class="time-line">🕐 ${f.dep||'--:--'} → ${f.arr||'--:--'} &nbsp;|&nbsp; ⏱ ${f.durationStr}</div>
+                  <div class="flight-meta">${sBadge}${fBadge}${fnBadge}</div>
+                  <div class="price-area">${priceHtml}</div>
+                </div>`;
                 }
             }
-            return `<div class="trip-column"><div class="trip-column-header ${dir}">${label} <span style="font-weight:400;font-size:0.78rem;margin-left:auto;">${flights.length} voo(s)</span></div><div class="trip-column-body">${body}</div></div>`;
+
+            return `<div class="trip-column">
+            <div class="trip-column-header ${dir}">${label} <span style="font-weight:400;font-size:0.78rem;margin-left:auto;">${flights.length} voo(s)</span></div>
+            <div class="trip-column-body">${body}</div>
+          </div>`;
         }
 
         function selectFlight(dir, flightId) {
@@ -1833,6 +1959,7 @@
             const voltaItem = document.getElementById('summaryVoltaItem');
             const hasIda = !!selectedIda;
             const hasVolta = tripType === 'roundtrip' && !!selectedVolta;
+
             if (!hasIda && !hasVolta) { bar.classList.remove('show'); return; }
             bar.classList.add('show');
             idaItem.style.display = hasIda ? '' : 'none';
@@ -1854,20 +1981,20 @@
                 hp = true; }
             let ts = '';
             if (hm) ts += `R$ ${total.toFixed(2)}`;
-            if (hp) ts += (ts ? ' + ' : '') + `${totalPts.toLocaleString()} pts`;
+            if (hp) ts += (ts ? ' + ' : '') + `${totalPts.toLocaleString('pt-BR')} pts`;
             document.getElementById('summaryTotal').textContent = ts || '—';
 
-            if (tripType === 'roundtrip') {
-                wp.disabled = !(selectedIda && selectedVolta);
-                wp.textContent = !(selectedIda && selectedVolta) ? '⚠️ Selecione ida E volta' : '💬 WhatsApp';
-            } else {
-                wp.disabled = !selectedIda;
-                wp.textContent = !selectedIda ? '⚠️ Selecione um voo' : '💬 WhatsApp';
-            }
+            const required = tripType === 'roundtrip' ? (selectedIda && selectedVolta) : !!selectedIda;
+            wp.disabled = !required;
+            wp.textContent = required ? '💬 WhatsApp' : (tripType === 'roundtrip' ? '⚠️ Selecione ida E volta' :
+                '⚠️ Selecione um voo');
         }
 
         function fmtSummary(f) {
-            return `${f.airline} | ${f.from}→${f.to} | ${f.dep||'--:--'} | ${f.moneyTotal?'R$ '+f.moneyTotal.toFixed(2):''}${f.pts?' | '+f.pts.toLocaleString()+' pts':''}`;
+            const parts = [`${f.airline}`, `${f.from}→${f.to}`, `${f.dep||'--:--'}`];
+            if (f.moneyTotal) parts.push(`R$ ${f.moneyTotal.toFixed(2)}`);
+            if (f.pts) parts.push(`${f.pts.toLocaleString('pt-BR')} pts`);
+            return parts.join(' | ');
         }
 
         // ████████████████████████████████████████████████████████████
@@ -1881,7 +2008,7 @@
                 m +=
                     `🟢 *IDA*: ${f.from} → ${f.to}\n   📅 ${depD} | 🕐 ${f.dep||'--:--'} → ${f.arr||'--:--'} | ${f.durationStr}\n   ✈️ ${f.airline} | ${f.stops===0?'Direto':f.stops+' parada(s)'}\n`;
                 if (f.moneyTotal) m += `   💰 R$ ${f.moneyTotal.toFixed(2)}\n`;
-                if (f.pts) m += `   🎯 ${f.pts.toLocaleString()} pts\n`;
+                if (f.pts) m += `   🎯 ${f.pts.toLocaleString('pt-BR')} pts\n`;
                 if (f.flightNumbers?.length) m += `   🔢 Voo: ${f.flightNumbers.join(' / ')}\n`;
                 m += '\n';
             }
@@ -1891,7 +2018,7 @@
                 m +=
                     `🔴 *VOLTA*: ${f.from} → ${f.to}\n   📅 ${retD} | 🕐 ${f.dep||'--:--'} → ${f.arr||'--:--'} | ${f.durationStr}\n   ✈️ ${f.airline} | ${f.stops===0?'Direto':f.stops+' parada(s)'}\n`;
                 if (f.moneyTotal) m += `   💰 R$ ${f.moneyTotal.toFixed(2)}\n`;
-                if (f.pts) m += `   🎯 ${f.pts.toLocaleString()} pts\n`;
+                if (f.pts) m += `   🎯 ${f.pts.toLocaleString('pt-BR')} pts\n`;
                 if (f.flightNumbers?.length) m += `   🔢 Voo: ${f.flightNumbers.join(' / ')}\n`;
                 m += '\n';
             }
@@ -1904,7 +2031,7 @@
             if (tM > 0 || tP > 0) {
                 m += '💵 *TOTAL*: ';
                 if (tM > 0) m += `R$ ${tM.toFixed(2)}`;
-                if (tP > 0) m += `${tM>0?' + ':''}${tP.toLocaleString()} pts`;
+                if (tP > 0) m += `${tM>0?' + ':''}${tP.toLocaleString('pt-BR')} pts`;
                 m += '\n\n';
             }
             m +=
