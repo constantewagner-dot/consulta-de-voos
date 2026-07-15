@@ -32,7 +32,6 @@
             min-height: 100vh;
         }
 
-        /* ── HEADER ── */
         .header {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             color: #fff;
@@ -100,52 +99,6 @@
             background: #ffffff33;
         }
 
-        /* ── CORS WARNING ── */
-        .cors-warning {
-            background: #fff3cd;
-            border: 1px solid #ffc107;
-            color: #856404;
-            padding: 10px 18px;
-            border-radius: 8px;
-            font-size: 0.82rem;
-            text-align: center;
-            margin-bottom: 16px;
-            display: none;
-            line-height: 1.5;
-        }
-        .cors-warning.show {
-            display: block;
-        }
-        .cors-warning code {
-            background: #ffeeba;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.78rem;
-        }
-
-        /* ── PROXY BADGE ── */
-        .proxy-badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.68rem;
-            font-weight: 700;
-            background: #fff3cd;
-            color: #856404;
-            margin-left: 6px;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.6;
-            }
-        }
-
-        /* ── MAIN ── */
         .main-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -190,7 +143,6 @@
             color: var(--text);
         }
 
-        /* ── SEARCH CARD ── */
         .search-card {
             background: var(--card);
             border-radius: var(--radius);
@@ -258,7 +210,6 @@
             box-shadow: none;
         }
 
-        /* ── AIRPORT SELECTOR ── */
         .airport-selector {
             position: relative;
         }
@@ -377,7 +328,6 @@
             font-size: 0.82rem;
         }
 
-        /* ── FILTERS ── */
         .filters-row {
             display: flex;
             gap: 12px;
@@ -448,7 +398,6 @@
             display: inline-block;
         }
 
-        /* ── STATUS ── */
         .status-bar {
             text-align: center;
             font-size: 0.78rem;
@@ -463,7 +412,6 @@
             color: var(--success);
         }
 
-        /* ── LOADING ── */
         .loading-overlay {
             display: none;
             text-align: center;
@@ -487,7 +435,6 @@
             }
         }
 
-        /* ── RESULTS ── */
         .results-section {
             display: none;
         }
@@ -661,7 +608,6 @@
             font-weight: 600;
         }
 
-        /* ── FARE OPTIONS TABLE (inside card) ── */
         .fare-options-table {
             width: 100%;
             border-collapse: collapse;
@@ -684,28 +630,12 @@
             border-bottom: 1px solid #f5f5f5;
             font-size: 0.78rem;
         }
-        .fare-options-table .fo-highlight {
-            background: #f6fff6;
-            font-weight: 700;
-        }
-        .fare-row {
-            cursor: pointer;
-            transition: background 0.12s;
-        }
-        .fare-row:hover {
-            background: #f0f8ff;
-        }
         .fare-row.selected-fare {
             background: #e8f5e9;
             outline: 2px solid var(--success);
             border-radius: 4px;
         }
-        .fare-row .fare-type {
-            font-weight: 700;
-            font-size: 0.72rem;
-        }
 
-        /* ── SUMMARY ── */
         .summary-bar {
             display: none;
             background: var(--card);
@@ -762,7 +692,6 @@
             box-shadow: none;
         }
 
-        /* ── MODAL ── */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -844,7 +773,6 @@
             background: #ddd;
         }
 
-        /* ── TOAST ── */
         .toast {
             position: fixed;
             bottom: 24px;
@@ -898,7 +826,6 @@
 </head>
 <body>
 
-    <!-- ═══════════ HEADER ═══════════ -->
     <header class="header">
         <div class="header-logo">✈️ Consulta de <span>Voos</span></div>
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
@@ -908,20 +835,11 @@
                 <button class="btn-sm ghost" onclick="testConnection()" title="Testar conexão">🔌</button>
             </div>
             <span class="header-badge" id="apiStatus">⚪ Não configurada</span>
-            <span class="proxy-badge" id="proxyBadge" style="display:none;">🔁 Proxy</span>
         </div>
     </header>
 
-    <!-- ═══════════ MAIN ═══════════ -->
     <div class="main-container">
 
-        <!-- ═══ CORS WARNING ═══ -->
-        <div class="cors-warning" id="corsWarning">
-            ⚠️ <strong>Aberto como arquivo local</strong> — as requisições estão sendo roteadas via <strong>proxy CORS</strong>.<br>
-            💡 <strong>Recomendado:</strong> publique no GitHub Pages ou use <code>Live Server</code> (VSCode).
-        </div>
-
-        <!-- ═══ TOGGLES: TRIP TYPE + REGION ═══ -->
         <div class="toggles-row">
             <div class="toggle-bar" id="tripTypeBar">
                 <button class="toggle-btn active" onclick="setTripType('roundtrip')" data-type="roundtrip">🔄 Ida e Volta</button>
@@ -933,7 +851,6 @@
             </div>
         </div>
 
-        <!-- ═══ SEARCH FORM ═══ -->
         <div class="search-card" id="searchForm">
             <div class="search-row">
                 <div class="search-field">
@@ -979,7 +896,6 @@
             </div>
         </div>
 
-        <!-- ═══ FILTERS ═══ -->
         <div class="filters-row">
             <div class="search-type-toggles" id="searchTypeToggles">
                 <button class="search-type-btn active" onclick="setSearchType('both')" data-type="both">🔄 Ambos</button>
@@ -989,16 +905,13 @@
             <div class="airline-toggles" id="airlineToggles"></div>
         </div>
 
-        <!-- ═══ STATUS ═══ -->
         <div class="status-bar" id="statusBar"></div>
 
-        <!-- ═══ LOADING ═══ -->
         <div class="loading-overlay" id="loadingOverlay">
             <div class="spinner"></div>
             <p id="loadingText" style="color:#666;">Buscando voos...</p>
         </div>
 
-        <!-- ═══ RESULTS ═══ -->
         <div class="results-section" id="resultsSection">
             <div class="trip-columns" id="tripColumns"></div>
             <div class="summary-bar" id="summaryBar">
@@ -1012,7 +925,6 @@
         </div>
     </div>
 
-    <!-- ═══════════ WHATSAPP MODAL ═══════════ -->
     <div class="modal-overlay" id="whatsappModal">
         <div class="modal">
             <h3>💬 Compartilhar Cotação</h3>
@@ -1026,13 +938,12 @@
         </div>
     </div>
 
-    <!-- ═══════════ TOAST ═══════════ -->
     <div class="toast" id="toast"></div>
 
     <script>
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         //  AIRPORTS DATABASE
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         const AIRPORTS_NACIONAL = [
             { iata: 'GRU', city: 'São Paulo', name: 'Guarulhos (GRU)', country: 'BR' },
             { iata: 'CGH', city: 'São Paulo', name: 'Congonhas (CGH)', country: 'BR' },
@@ -1083,14 +994,14 @@
             { iata: 'CUN', city: 'Cancún', name: 'International (CUN)', country: 'MX' },
         ];
 
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         //  CONFIG
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         const GECKO_API = 'https://api.geckoapi.com.br/v1/extract';
 
         const AIRLINES = {
             'LATAM': { id: 'LATAM', label: 'LATAM', target: 'latamairlines.com', type: 'plp',
-                capabilities: { money: true, points: true }, color: '#E30613' },
+                capabilities: { money: true, points: true }, color: '#E30613', parser: 'latam' },
             'AZUL': { id: 'AZUL', label: 'Azul', target: 'voeazul.com.br', type: 'plp', capabilities: { money: true,
                     points: true }, color: '#0033A0', parser: 'azul' },
             'SMILES': { id: 'SMILES', label: 'Smiles', target: 'smiles.com.br', type: 'plp',
@@ -1099,9 +1010,9 @@
                     points: false }, color: '#FF6600', parser: 'gol' },
         };
 
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         //  STATE
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         let region = 'nacional';
         let tripType = 'roundtrip';
         let searchType = 'both';
@@ -1113,9 +1024,9 @@
         let fromAirportData = null;
         let toAirportData = null;
 
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         //  INIT
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         document.addEventListener('DOMContentLoaded', () => {
             if (apiKey) {
                 document.getElementById('apiKeyInput').value = apiKey;
@@ -1138,9 +1049,9 @@
             document.getElementById('retDate').value = volta.toISOString().split('T')[0];
         }
 
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         //  TRIP TYPE
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         function setTripType(type) {
             tripType = type;
             document.querySelectorAll('#tripTypeBar .toggle-btn').forEach(b =>
@@ -1157,9 +1068,9 @@
             }
         }
 
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         //  AIRPORT SELECTORS
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         function initAirportSelectors() {
             ['from', 'to'].forEach(type => {
                 const input = document.getElementById(`${type}Airport`);
@@ -1200,7 +1111,6 @@
             if (filtered.length === 0) {
                 dropdown.innerHTML = '<div class="no-results">Nenhum aeroporto encontrado</div>';
             } else {
-                const flagIcon = region !== 'internacional' ? '🇧🇷' : '';
                 let html =
                     `<div class="airport-dropdown-header">${filtered.length} opções</div>`;
                 for (const ap of filtered.slice(0, 24)) {
@@ -1242,7 +1152,8 @@
             if (!query || !query.trim()) return airports;
             const q = query.toUpperCase().trim();
             return airports.filter(ap =>
-                ap.iata.includes(q) || ap.city.toUpperCase().includes(q) || ap.name.toUpperCase().includes(q));
+                ap.iata.includes(q) || ap.city.toUpperCase().includes(q) || ap.name.toUpperCase().includes(
+                q));
         }
 
         function extractIata(value) {
@@ -1250,9 +1161,9 @@
             return m ? m[1].toUpperCase() : value.trim().toUpperCase().replace(/[^A-Z]/g, '').substring(0, 3);
         }
 
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         //  API KEY
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         function saveApiKey() {
             const val = document.getElementById('apiKeyInput').value.trim();
             apiKey = val;
@@ -1301,9 +1212,9 @@
             return d.toISOString().split('T')[0];
         }
 
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         //  REGION / SEARCH TYPE
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         function setRegion(r) {
             region = r;
             document.querySelectorAll('#regionToggleBar .toggle-btn').forEach(b =>
@@ -1370,15 +1281,17 @@
                 bar.classList.add('warning');
             } else {
                 const tipoViagem = tripType === 'oneway' ? '➡️ Apenas Ida' : '🔄 Ida e Volta';
+                const tipoBusca = searchType === 'money' ? '💰 Dinheiro' : searchType === 'points' ?
+                    '🎯 Pontos' : '🔄 Ambos';
                 bar.textContent =
-                    `${tipoViagem} | ${region==='nacional'?'🇧🇷 Nacional':'🌎 Internacional'} | 🔍 ${targets.length} cia(s): ${targets.map(t=>t.label).join(', ')}`;
+                    `${tipoViagem} | ${region==='nacional'?'🇧🇷 Nacional':'🌎 Internacional'} | ${tipoBusca} | 🔍 ${targets.length} cia(s): ${targets.map(t=>t.label).join(', ')}`;
                 bar.classList.add('ok');
             }
         }
 
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         //  SEARCH ENGINE
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         async function doSearch() {
             const targets = getActiveTargets();
             if (targets.length === 0) { showToast('⚠️ Selecione ao menos uma cia aérea compatível'); return; }
@@ -1456,10 +1369,10 @@
                     const { direction, cfg, raw } = r.value;
                     const flights = parseFlights(raw, cfg);
                     console.log(
-                        `[Parser] ${cfg.label} ${direction}: ${flights.length} voo(s) parseado(s) — `
+                        `[Parser] ${cfg.label} (${cfg.parser||'generic'}) ${direction}: ${flights.length} voo(s)`
                     );
                     for (const f of flights.slice(0, 2)) {
-                        console.log(`  → ${f.from}→${f.to} ${f.dep}→${f.arr} stops:${f.stops} fareOptions:${f.fareOptions.length} ` +
+                        console.log(`  → ${f.from}→${f.to} ${f.dep}→${f.arr} stops:${f.stops} options:${f.fareOptions.length} ` +
                             f.fareOptions.map(fo =>
                                 `${fo.type} ${fo.money!=null?'R$'+fo.money:''} ${fo.miles!=null?fo.miles+'pts':''}${fo.costTax!=null?' +taxa R$'+fo.costTax:''}`
                             ).join(' | ')
@@ -1470,10 +1383,17 @@
                         else allFlights.volta.push(...flights);
                         successCount++;
                     } else {
-                        errors.push({ direction, label: cfg.label, reason: 'Parser: 0 voos extraídos' });
+                        // Loga a estrutura do JSON para debug
+                        const rawData = raw?.data;
+                        const keys = rawData ? Object.keys(rawData).slice(0, 10).join(', ') : 'null';
+                        console.warn(`[Parser] ${cfg.label} ${direction}: 0 voos. Chaves de data: ${keys}`);
+                        errors.push({ direction, label: cfg.label,
+                            reason: `Parser: 0 voos (keys: ${keys})` });
                     }
                 } else {
-                    errors.push({ direction: '?', label: '?', reason: r.reason?.message || String(r.reason) });
+                    const reason = r.reason?.message || String(r.reason);
+                    console.error(`[Erro] ${r.reason?.cfg?.label || '?'}: ${reason}`);
+                    errors.push({ direction: '?', label: r.reason?.cfg?.label || '?', reason });
                 }
             }
 
@@ -1493,35 +1413,38 @@
         }
 
         function sortScore(f) {
-            const m = f.fareOptions[0]?.money;
-            const p = f.fareOptions[0]?.miles;
-            if (m != null) return m;
-            if (p != null) return p;
-            return Infinity;
+            const fo = f.fareOptions[0];
+            if (!fo) return Infinity;
+            if (searchType === 'points') return fo.miles ?? Infinity;
+            if (searchType === 'money') return fo.money ?? Infinity;
+            return fo.money ?? fo.miles ?? Infinity;
         }
 
         // ╔══════════════════════════════════════════════════════════╗
-        // ║  PARSERS ESPECÍFICOS POR COMPANHIA                     ║
+        // ║  DISPATCHER                                            ║
         // ╚══════════════════════════════════════════════════════════╝
-
         function parseFlights(raw, cfg) {
             const data = raw?.data;
             if (!data) return [];
 
-            // Detecta qual parser usar baseado na estrutura do JSON
-            // Azul: data.trips[].journeys[]
-            if (data.trips && Array.isArray(data.trips)) {
-                return parseAzul(data, cfg);
+            const parserName = cfg.parser || 'generic';
+            switch (parserName) {
+                case 'azul':
+                    return parseAzul(data, cfg);
+                case 'smiles':
+                case 'gol':
+                    return parseSmilesGol(data, cfg);
+                case 'latam':
+                    return parseLatam(data, cfg);
+                default:
+                    return parseGeneric(raw, cfg);
             }
-            // Smiles/GOL: data.offers[]
-            if (data.offers && Array.isArray(data.offers)) {
-                return parseSmilesGol(data, cfg);
-            }
-            // Fallback: tenta estrutura genérica
-            return parseGeneric(raw, cfg);
         }
 
-        // ─── AZUL ───
+        // ╔══════════════════════════════════════════════════════════╗
+        // ║  AZUL                                                  ║
+        // ║  data.trips[].journeys[]  +  fares[].pointsOptions[]   ║
+        // ╚══════════════════════════════════════════════════════════╝
         function parseAzul(data, cfg) {
             const flights = [];
             for (const trip of data.trips || []) {
@@ -1532,38 +1455,42 @@
                     const carrier = seg?.flight?.carrierCode || 'AD';
                     const aircraft = seg?.flight?.equipmentName || '';
 
-                    // Extrai todas as fares
+                    // Extrai TODAS as fares (dinheiro + pontos)
                     const fareOptions = [];
                     for (const fare of journey.fares || []) {
-                        const fo = {
-                            type: fare.productClass?.name || fare.productClass?.code || fare.classOfService ||
-                                'Tarifa',
-                            money: fare.total?.amount ?? null,
-                            miles: null,
-                            costTax: null,
-                            cabin: fare.cabin || null,
-                            classOfService: fare.classOfService || null,
-                            recommended: !!fare.recommended,
-                            lowestFare: !!fare.lowestFare,
-                        };
-                        // pointsOptions
-                        for (const po of fare.pointsOptions || []) {
+                        // ── Tarifa em dinheiro ──
+                        if (fare.total?.amount != null) {
                             fareOptions.push({
-                                type: 'Pontos',
-                                money: null,
-                                miles: po.amount ?? po.points ?? null,
-                                costTax: po.taxes ?? null,
+                                type: fare.productClass?.name || fare.productClass?.code || 'Tarifa',
+                                money: Number(fare.total.amount),
+                                miles: null,
+                                costTax: null,
                                 cabin: fare.cabin || null,
                                 classOfService: fare.classOfService || null,
                             });
                         }
-                        if (fo.money != null || fo.miles != null) fareOptions.push(fo);
+                        // ── Tarifas em pontos (pointsOptions) ──
+                        for (const po of fare.pointsOptions || []) {
+                            // pointsOptions pode ter estrutura: { amount, taxes } ou { points, amount }
+                            const pts = po.amount ?? po.points ?? po.miles ?? null;
+                            const tax = po.taxes ?? po.tax ?? po.costTax ?? null;
+                            if (pts != null) {
+                                fareOptions.push({
+                                    type: 'Pontos',
+                                    money: null,
+                                    miles: Number(pts),
+                                    costTax: tax != null ? Number(tax) : null,
+                                    cabin: fare.cabin || null,
+                                    classOfService: fare.classOfService || null,
+                                });
+                            }
+                        }
                     }
 
                     if (fareOptions.length === 0) continue;
 
                     flights.push({
-                        id: `azul-${flightNum}-${journey.position||journey.id||Math.random()}`,
+                        id: `azul-${flightNum}-${journey.position||journey.id||Math.random().toString(36).slice(2,8)}`,
                         airline: cfg.label,
                         airlineColor: cfg.color,
                         from: journey.origin || trip.origin,
@@ -1574,22 +1501,26 @@
                         stops: journey.stopsCount || 0,
                         flightNumbers: [flightNum].filter(Boolean),
                         aircraft,
-                        fareOptions,
+                        fareOptions: filterFareOptionsBySearchType(fareOptions),
                     });
                 }
             }
             return flights;
         }
 
-        // ─── SMILES / GOL ───
+        // ╔══════════════════════════════════════════════════════════╗
+        // ║  SMILES / GOL                                          ║
+        // ║  data.offers[]  +  fareOptions[]                       ║
+        // ║  SMILES: APENAS SMILES e SMILES_CLUB                   ║
+        // ╚══════════════════════════════════════════════════════════╝
         function parseSmilesGol(data, cfg) {
             const flights = [];
             const offers = data.offers || [];
 
             for (const offer of offers) {
-                const fareOptions = [];
+                const allFareOptions = [];
                 for (const fo of offer.fareOptions || []) {
-                    fareOptions.push({
+                    allFareOptions.push({
                         type: fo.fareType || 'Tarifa',
                         money: fo.money != null ? Number(fo.money) : null,
                         miles: fo.miles != null ? Number(fo.miles) : null,
@@ -1599,23 +1530,32 @@
                         uid: fo.uid || null,
                     });
                 }
-                if (fareOptions.length === 0) {
-                    // Se não tem fareOptions, usa priceHint
-                    if (offer.priceHint) {
-                        fareOptions.push({
-                            type: 'MILHAS',
-                            money: null,
-                            miles: Number(offer.priceHint),
-                            costTax: null,
-                            cabin: offer.cabin || null,
-                        });
-                    }
+
+                // Se for Smiles, filtra APENAS SMILES e SMILES_CLUB
+                let fareOptions;
+                if (cfg.parser === 'smiles') {
+                    fareOptions = allFareOptions.filter(fo =>
+                        fo.type === 'SMILES' || fo.type === 'SMILES_CLUB'
+                    );
+                } else {
+                    fareOptions = allFareOptions;
+                }
+
+                // Se não tem fareOptions mas tem priceHint, cria uma
+                if (fareOptions.length === 0 && offer.priceHint) {
+                    fareOptions.push({
+                        type: 'MILHAS',
+                        money: null,
+                        miles: Number(offer.priceHint),
+                        costTax: null,
+                        cabin: offer.cabin || null,
+                    });
                 }
 
                 if (fareOptions.length === 0) continue;
 
                 flights.push({
-                    id: `smiles-${offer.uid||Math.random()}`,
+                    id: `smiles-${offer.uid||Math.random().toString(36).slice(2,8)}`,
                     airline: cfg.label,
                     airlineColor: cfg.color,
                     from: offer.departureAirport,
@@ -1625,16 +1565,16 @@
                     durationStr: '—',
                     stops: offer.stops || 0,
                     flightNumbers: [],
-                    fareOptions,
+                    fareOptions: filterFareOptionsBySearchType(fareOptions),
                 });
             }
 
             // Se não tem offers mas tem cheapestOffer
             if (flights.length === 0 && data.cheapestOffer) {
                 const o = data.cheapestOffer;
-                const fareOptions = [];
+                const allFareOptions = [];
                 for (const fo of o.fareOptions || []) {
-                    fareOptions.push({
+                    allFareOptions.push({
                         type: fo.fareType || 'Tarifa',
                         money: fo.money != null ? Number(fo.money) : null,
                         miles: fo.miles != null ? Number(fo.miles) : null,
@@ -1643,9 +1583,17 @@
                         classOfService: fo.productClass || null,
                     });
                 }
+                let fareOptions;
+                if (cfg.parser === 'smiles') {
+                    fareOptions = allFareOptions.filter(fo =>
+                        fo.type === 'SMILES' || fo.type === 'SMILES_CLUB'
+                    );
+                } else {
+                    fareOptions = allFareOptions;
+                }
                 if (fareOptions.length > 0) {
                     flights.push({
-                        id: `smiles-cheapest-${o.uid||Math.random()}`,
+                        id: `smiles-cheapest-${o.uid||Math.random().toString(36).slice(2,8)}`,
                         airline: cfg.label,
                         airlineColor: cfg.color,
                         from: o.departureAirport,
@@ -1655,7 +1603,7 @@
                         durationStr: '—',
                         stops: o.stops || 0,
                         flightNumbers: [],
-                        fareOptions,
+                        fareOptions: filterFareOptionsBySearchType(fareOptions),
                     });
                 }
             }
@@ -1663,20 +1611,212 @@
             return flights;
         }
 
-        // ─── GENÉRICO (fallback) ───
+        // ╔══════════════════════════════════════════════════════════╗
+        // ║  LATAM                                                 ║
+        // ║  Suporta múltiplas estruturas:                          ║
+        // ║  - data.availability.flights[]                          ║
+        // ║  - data.flights[]                                       ║
+        // ║  - data.itineraries[]                                   ║
+        // ║  - data.results[]                                       ║
+        // ╚══════════════════════════════════════════════════════════╝
+        function parseLatam(data, cfg) {
+            const flights = [];
+
+            // Tenta várias estruturas da LATAM
+            let items = null;
+
+            // Estrutura 1: data.availability (mais comum)
+            if (data.availability) {
+                if (Array.isArray(data.availability.flights)) items = data.availability.flights;
+                else if (Array.isArray(data.availability)) items = data.availability;
+            }
+            // Estrutura 2: direto
+            if (!items && Array.isArray(data.flights)) items = data.flights;
+            if (!items && Array.isArray(data.itineraries)) items = data.itineraries;
+            if (!items && Array.isArray(data.results)) items = data.results;
+            if (!items && Array.isArray(data.journeys)) items = data.journeys;
+            if (!items && Array.isArray(data.offers)) items = data.offers;
+
+            // Scan recursivo se ainda não achou
+            if (!items) {
+                const scan = (obj, depth) => {
+                    if (depth > 8 || !obj || typeof obj !== 'object') return null;
+                    if (Array.isArray(obj) && obj.length > 0 && typeof obj[0] === 'object') return obj;
+                    for (const v of Object.values(obj)) {
+                        const r = scan(v, depth + 1);
+                        if (r) return r;
+                    }
+                    return null;
+                };
+                items = scan(data, 0);
+            }
+
+            if (!items || !Array.isArray(items)) {
+                console.warn('[LATAM] Não encontrei array de voos. Chaves:', Object.keys(data).join(', '));
+                return flights;
+            }
+
+            console.log(`[LATAM] Encontrei ${items.length} itens`);
+
+            for (const item of items) {
+                if (!item || typeof item !== 'object') continue;
+
+                // Múltiplos caminhos para segmentos
+                let segments = [];
+                for (const k of ['segments', 'flights', 'legs', 'itineraries', 'journeys', 'connections']) {
+                    if (Array.isArray(item[k]) && item[k].length > 0) { segments = item[k]; break; }
+                }
+                if (segments.length === 0 && (item.origin || item.from || item.departureAirport)) {
+                    segments = [item];
+                }
+
+                if (segments.length === 0) continue;
+
+                const first = segments[0];
+                const last = segments[segments.length - 1];
+
+                const pick = (obj, ...keys) => {
+                    for (const k of keys) { if (obj[k] !== undefined && obj[k] !== null) return obj[k]; }
+                    return null;
+                };
+                const pickNested = (obj, prefix, ...keys) => {
+                    if (obj[prefix] && typeof obj[prefix] === 'object')
+                        for (const k of keys) { if (obj[prefix][k] !== undefined && obj[prefix][k] !== null)
+                                return obj[prefix][k]; }
+                    return null;
+                };
+
+                const fromCode = pick(first, 'origin', 'from', 'departureAirport', 'departureAirportCode') ||
+                    pickNested(first, 'departure', 'airport', 'code', 'iata') ||
+                    pickNested(first, 'origin', 'airport', 'code') || '?';
+                const toCode = pick(last, 'destination', 'to', 'arrivalAirport', 'arrivalAirportCode') ||
+                    pickNested(last, 'arrival', 'airport', 'code', 'iata') ||
+                    pickNested(last, 'destination', 'airport', 'code') || '?';
+
+                const depTime = pick(first, 'departureTime', 'departure', 'departureDateTime', 'depTime') ||
+                    pickNested(first, 'departure', 'time', 'dateTime', 'scheduled') || null;
+                const arrTime = pick(last, 'arrivalTime', 'arrival', 'arrivalDateTime', 'arrTime') ||
+                    pickNested(last, 'arrival', 'time', 'dateTime', 'scheduled') || null;
+
+                const flightNumbers = segments.map(s =>
+                    pick(s, 'flightNumber', 'flight', 'number', 'code') || null
+                ).filter(Boolean);
+
+                const stops = Math.max(0, segments.length - 1);
+                const aircraft = pick(first, 'equipmentName', 'aircraft', 'equipment') ||
+                    pickNested(first, 'flight', 'equipmentName', 'equipmentType') || null;
+
+                // ── FARE OPTIONS ──
+                const fareOptions = [];
+                // Caminho 1: item.fares[]
+                if (Array.isArray(item.fares)) {
+                    for (const f of item.fares) {
+                        const fo = {
+                            type: f.productClass?.name || f.fareClass || f.brand || f.name || 'Tarifa',
+                            money: f.total?.amount ?? f.price?.amount ?? f.amount ?? f.price ?? null,
+                            miles: f.miles ?? f.points ?? f.pointsRequired ?? null,
+                            costTax: f.taxes ?? f.tax ?? f.costTax ?? null,
+                            cabin: f.cabin || item.cabin || null,
+                            classOfService: f.classOfService || f.bookingClass || null,
+                        };
+                        if (fo.money != null || fo.miles != null) fareOptions.push(fo);
+                    }
+                }
+                // Caminho 2: item.fareOptions[]
+                if (fareOptions.length === 0 && Array.isArray(item.fareOptions)) {
+                    for (const fo of item.fareOptions) {
+                        fareOptions.push({
+                            type: fo.fareType || fo.type || fo.name || 'Tarifa',
+                            money: fo.money ?? fo.price ?? fo.amount ?? null,
+                            miles: fo.miles ?? fo.points ?? null,
+                            costTax: fo.costTax ?? fo.taxes ?? null,
+                            cabin: item.cabin || fo.cabin || null,
+                            classOfService: fo.productClass || fo.classOfService || null,
+                        });
+                    }
+                }
+                // Caminho 3: item.price / item.total
+                if (fareOptions.length === 0) {
+                    const m = item.total?.amount ?? item.price?.amount ?? item.price ?? item.amount ?? item
+                        .priceHint;
+                    const p = item.miles ?? item.points ?? item.pointsRequired;
+                    if (m || p) fareOptions.push({
+                        type: 'Tarifa',
+                        money: m ? Number(m) : null,
+                        miles: p ? Number(p) : null,
+                        costTax: item.taxes ?? item.tax ?? null,
+                        cabin: item.cabin || null,
+                    });
+                }
+                // Caminho 4: scan recursivo por preço dentro do item
+                if (fareOptions.length === 0) {
+                    const found = {};
+                    const findPrice = (obj, depth) => {
+                        if (!obj || typeof obj !== 'object' || depth > 6) return;
+                        if (Array.isArray(obj)) { for (const v of obj) findPrice(v, depth + 1);
+                            return; }
+                        if ((obj.amount || obj.total || obj.price) && !found.money) {
+                            found.money = obj.amount || obj.total || obj.price;
+                        }
+                        if ((obj.points || obj.miles || obj.pointsRequired) && !found.miles) {
+                            found.miles = obj.points || obj.miles || obj.pointsRequired;
+                        }
+                        if ((obj.taxes || obj.tax || obj.costTax) && !found.tax) {
+                            found.tax = obj.taxes || obj.tax || obj.costTax;
+                        }
+                        for (const v of Object.values(obj)) findPrice(v, depth + 1);
+                    };
+                    findPrice(item, 0);
+                    if (found.money || found.miles) {
+                        fareOptions.push({
+                            type: 'Tarifa',
+                            money: found.money ? Number(found.money) : null,
+                            miles: found.miles ? Number(found.miles) : null,
+                            costTax: found.tax ? Number(found.tax) : null,
+                        });
+                    }
+                }
+
+                if (fareOptions.length === 0) continue;
+
+                flights.push({
+                    id: `latam-${flightNumbers[0]||Math.random().toString(36).slice(2,8)}`,
+                    airline: cfg.label,
+                    airlineColor: cfg.color,
+                    from: fromCode,
+                    to: toCode,
+                    dep: fmtTimeFromISO(depTime),
+                    arr: fmtTimeFromISO(arrTime),
+                    durationStr: formatDuration(item.duration || first.duration || null),
+                    stops,
+                    flightNumbers,
+                    aircraft,
+                    fareOptions: filterFareOptionsBySearchType(fareOptions),
+                });
+            }
+
+            return flights;
+        }
+
+        // ╔══════════════════════════════════════════════════════════╗
+        // ║  GENÉRICO (fallback)                                   ║
+        // ╚══════════════════════════════════════════════════════════╝
         function parseGeneric(raw, cfg) {
             const flights = [];
             let data = raw?.data;
             if (!data) return flights;
-            // Tenta achar array dentro de data
+
             let items = null;
             if (Array.isArray(data)) items = data;
             else {
-                for (const key of ['trips', 'offers', 'journeys', 'results', 'items', 'flights', 'itineraries']) {
+                for (const key of ['trips', 'offers', 'journeys', 'results', 'items', 'flights', 'itineraries',
+                        'availability'
+                    ]) {
                     if (Array.isArray(data[key])) { items = data[key]; break; }
+                    // availability.flights
+                    if (data[key] && Array.isArray(data[key].flights)) { items = data[key].flights; break; }
                 }
                 if (!items) {
-                    // scan recursivo
                     const scan = (obj) => {
                         if (Array.isArray(obj) && obj.length > 0 && typeof obj[0] === 'object') return obj;
                         if (obj && typeof obj === 'object')
@@ -1689,16 +1829,31 @@
             if (!items) return flights;
 
             for (const item of items) {
-                const fareOptions = item.fares || item.fareOptions || [];
                 const fos = [];
-                for (const fo of fareOptions) {
-                    fos.push({
-                        type: fo.fareType || fo.productClass?.name || fo.name || 'Tarifa',
-                        money: fo.total?.amount ?? fo.money ?? fo.amount ?? null,
-                        miles: fo.miles ?? fo.points ?? fo.pointsRequired ?? null,
-                        costTax: fo.costTax ?? fo.taxes ?? null,
-                    });
+                // fares
+                if (Array.isArray(item.fares)) {
+                    for (const f of item.fares) {
+                        const fo = {
+                            type: f.productClass?.name || f.fareClass || f.name || 'Tarifa',
+                            money: f.total?.amount ?? f.price?.amount ?? f.amount ?? f.price ?? null,
+                            miles: f.miles ?? f.points ?? null,
+                            costTax: f.taxes ?? f.tax ?? null,
+                        };
+                        if (fo.money != null || fo.miles != null) fos.push(fo);
+                    }
                 }
+                // fareOptions
+                if (fos.length === 0 && Array.isArray(item.fareOptions)) {
+                    for (const fo of item.fareOptions) {
+                        fos.push({
+                            type: fo.fareType || fo.type || 'Tarifa',
+                            money: fo.money ?? fo.price ?? null,
+                            miles: fo.miles ?? fo.points ?? null,
+                            costTax: fo.costTax ?? fo.taxes ?? null,
+                        });
+                    }
+                }
+                // fallback
                 if (fos.length === 0) {
                     const m = item.total?.amount ?? item.price ?? item.amount ?? item.priceHint;
                     const p = item.miles ?? item.points ?? item.pointsRequired;
@@ -1706,6 +1861,7 @@
                             null, costTax: null });
                 }
                 if (fos.length === 0) continue;
+
                 const seg = item.segments?.[0] || item;
                 flights.push({
                     id: `gen-${Math.random().toString(36).slice(2,8)}`,
@@ -1714,20 +1870,36 @@
                     from: item.origin || item.from || item.departureAirport || seg.origin || seg.from || '?',
                     to: item.destination || item.to || item.arrivalAirport || seg.destination || seg.to || '?',
                     dep: fmtTimeFromISO(item.departure || item.departureTime || seg.departure || seg
-                        .departureTime),
+                    .departureTime),
                     arr: fmtTimeFromISO(item.arrival || item.arrivalTime || seg.arrival || seg.arrivalTime),
                     durationStr: formatDuration(item.duration || seg.duration),
                     stops: item.stopsCount ?? item.stops ?? seg.stopsCount ?? 0,
                     flightNumbers: [],
-                    fareOptions: fos,
+                    fareOptions: filterFareOptionsBySearchType(fos),
                 });
             }
             return flights;
         }
 
-        // ████████████████████████████████████████████████████████████
+        // ╔══════════════════════════════════════════════════════════╗
+        // ║  FILTRO POR SEARCH TYPE                                ║
+        // ╚══════════════════════════════════════════════════════════╝
+        function filterFareOptionsBySearchType(fareOptions) {
+            if (searchType === 'both') return fareOptions;
+            if (searchType === 'money') {
+                // Apenas opções com valor em dinheiro
+                return fareOptions.filter(fo => fo.money != null);
+            }
+            if (searchType === 'points') {
+                // Apenas opções com milhas/pontos
+                return fareOptions.filter(fo => fo.miles != null);
+            }
+            return fareOptions;
+        }
+
+        // ═══════════════════════════════════════════════════════════
         //  HELPERS
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         function fmtTimeFromISO(t) {
             if (!t) return null;
             const s = String(t).trim();
@@ -1741,7 +1913,6 @@
         function formatDuration(d) {
             if (!d) return '—';
             const s = String(d).trim();
-            // "2H25M" ou "PT2H25M"
             const isoH = s.match(/(\d+)H/);
             const isoM = s.match(/(\d+)M/);
             if (isoH || isoM) {
@@ -1749,15 +1920,14 @@
                 const m = isoM ? parseInt(isoM[1]) : 0;
                 return `${h}h${String(m).padStart(2,'0')}m`;
             }
-            // "hh:mm"
             const hm = s.match(/(\d+):(\d+)/);
             if (hm) return `${parseInt(hm[1])}h${String(parseInt(hm[2])).padStart(2,'0')}m`;
             return s;
         }
 
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         //  RESULTS RENDER
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         function renderResults(errors) {
             const container = document.getElementById('tripColumns');
             const showVoltaCol = tripType === 'roundtrip';
@@ -1765,7 +1935,8 @@
 
             let html = buildTripColumn('ida', '🟢 Ida', allFlights.ida, errors.filter(e => e.direction === 'ida'));
             if (showVoltaCol) {
-                html += buildTripColumn('volta', '🔴 Volta', allFlights.volta, errors.filter(e => e.direction === 'volta'));
+                html += buildTripColumn('volta', '🔴 Volta', allFlights.volta, errors.filter(e => e.direction ===
+                    'volta'));
             }
             container.innerHTML = html;
 
@@ -1783,7 +1954,8 @@
             if (!flights.length) {
                 body = '<div class="empty">Nenhum voo encontrado</div>';
                 if (errors && errors.length > 0) {
-                    body += `<div style="padding:8px;background:#fffbe6;margin:8px;border-radius:6px;font-size:0.72rem;color:#795548;white-space:pre-wrap;">`;
+                    body +=
+                        `<div style="padding:8px;background:#fffbe6;margin:8px;border-radius:6px;font-size:0.72rem;color:#795548;white-space:pre-wrap;">`;
                     for (const e of errors) {
                         body += `⚠️ ${e.label}: ${e.reason}\n`;
                     }
@@ -1795,44 +1967,48 @@
                     const sBadge = isDirect ?
                         '<span class="badge badge-direct">Direto</span>' :
                         `<span class="badge badge-stops">${f.stops} parada(s)</span>`;
-
                     const fnBadge = f.flightNumbers.length ?
                         `<span class="badge badge-flight">✈️ ${f.flightNumbers.join(', ')}</span>` : '';
-
                     const acBadge = f.aircraft ? `<span class="badge badge-fare">${f.aircraft}</span>` : '';
 
                     // Tabela de fare options
                     let fareTable = '';
                     if (f.fareOptions.length > 0) {
-                        // destaca a mais barata
-                        let minIdx = 0,
-                            minVal = Infinity;
-                        for (let i = 0; i < f.fareOptions.length; i++) {
-                            const fo = f.fareOptions[i];
-                            const val = fo.money ?? fo.miles ?? Infinity;
-                            if (val < minVal) { minVal = val;
-                                minIdx = i; }
+                        // Destaque na primeira (menor preço — já ordenado)
+                        const hasClub = f.fareOptions.some(fo => fo.type === 'SMILES_CLUB');
+                        const showCols = {
+                            money: f.fareOptions.some(fo => fo.money != null),
+                            miles: f.fareOptions.some(fo => fo.miles != null),
+                            tax: f.fareOptions.some(fo => fo.costTax != null),
+                        };
+                        // Só mostra tabela se tiver mais de 1 opção OU se for Smiles (SMILES + SMILES_CLUB)
+                        const showTable = f.fareOptions.length > 1;
+
+                        if (showTable) {
+                            let thHtml = '<tr><th>Tipo</th>';
+                            if (showCols.money) thHtml += '<th>💰 Valor</th>';
+                            if (showCols.miles) thHtml += '<th>🎯 Pontos</th>';
+                            if (showCols.tax) thHtml += '<th>🧾 Taxas</th>';
+                            thHtml += '</tr>';
+
+                            let tbHtml = '';
+                            for (let i = 0; i < f.fareOptions.length; i++) {
+                                const fo = f.fareOptions[i];
+                                const isLowest = i === 0;
+                                const typeLabel = formatFareType(fo.type);
+                                tbHtml += `<tr class="fare-row${isLowest?' selected-fare':''}">`;
+                                tbHtml += `<td><span class="fare-type">${typeLabel}</span></td>`;
+                                if (showCols.money) tbHtml +=
+                                    `<td>${fo.money!=null?'<strong>R$ '+fo.money.toLocaleString('pt-BR',{minimumFractionDigits:2})+ '</strong>':'—'}</td>`;
+                                if (showCols.miles) tbHtml +=
+                                    `<td>${fo.miles!=null?'<strong>'+fo.miles.toLocaleString('pt-BR')+'</strong>':'—'}</td>`;
+                                if (showCols.tax) tbHtml +=
+                                    `<td>${fo.costTax!=null?'<span class="badge badge-tax">+R$ '+Number(fo.costTax).toFixed(2)+'</span>':'—'}</td>`;
+                                tbHtml += '</tr>';
+                            }
+                            fareTable =
+                                `<table class="fare-options-table"><thead>${thHtml}</thead><tbody>${tbHtml}</tbody></table>`;
                         }
-                        fareTable = `
-                    <table class="fare-options-table">
-                      <thead><tr>
-                        <th>Tipo</th><th>💰 Valor</th><th>🎯 Pontos</th><th>🧾 Taxas</th>
-                      </tr></thead>
-                      <tbody>`;
-                        for (let i = 0; i < f.fareOptions.length; i++) {
-                            const fo = f.fareOptions[i];
-                            const isLowest = i === minIdx;
-                            const typeLabel = formatFareType(fo.type);
-                            const typeClass = fo.type?.toLowerCase().includes('club') ? 'badge-club' : '';
-                            fareTable += `
-                        <tr class="fare-row${isLowest?' selected-fare':''}">
-                          <td><span class="fare-type ${typeClass}">${typeLabel}</span></td>
-                          <td>${fo.money != null ? '<strong>R$ ' + fo.money.toLocaleString('pt-BR', {minimumFractionDigits:2}) + '</strong>' : '—'}</td>
-                          <td>${fo.miles != null ? '<strong>' + fo.miles.toLocaleString('pt-BR') + '</strong>' : '—'}</td>
-                          <td>${fo.costTax != null ? '<span class="badge badge-tax">+R$ ' + Number(fo.costTax).toFixed(2) + '</span>' : '—'}</td>
-                        </tr>`;
-                        }
-                        fareTable += `</tbody></table>`;
                     }
 
                     // Preço principal (primeira fare option)
@@ -1882,6 +2058,7 @@
                 'SMILES_MONEY': '💳 Smiles + $',
                 'SMILES_MONEY_CLUB': '⭐ Club + $',
                 'Azul': '💺 Azul',
+                'Pontos': '🎯 Pontos',
                 'LATAM': '💺 LATAM',
                 'GOL': '💺 GOL',
             };
@@ -1945,9 +2122,9 @@
             return parts.join(' | ');
         }
 
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         //  WHATSAPP
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         function buildMessage() {
             let m = '✈️ *Cotação de Voos*\n\n';
             const depD = document.getElementById('depDate').value.split('-').reverse().join('/');
@@ -1956,7 +2133,8 @@
                 if (!f) return;
                 const fo = f.fareOptions[0] || {};
                 m += `${label}: ${f.from} → ${f.to}\n`;
-                m += `   📅 ${dateStr} | 🕐 ${f.dep||'--:--'} → ${f.arr||'--:--'} | ${f.durationStr}\n`;
+                m +=
+                    `   📅 ${dateStr} | 🕐 ${f.dep||'--:--'} → ${f.arr||'--:--'} | ${f.durationStr}\n`;
                 m += `   ✈️ ${f.airline} | ${f.stops===0?'Direto':f.stops+' parada(s)'}\n`;
                 if (fo.money) m += `   💰 R$ ${fo.money.toFixed(2)}\n`;
                 if (fo.miles) m += `   🎯 ${fo.miles.toLocaleString('pt-BR')} pts\n`;
@@ -1991,11 +2169,13 @@
         function openWhatsappModal() {
             const msg = buildMessage();
             document.getElementById('msgPreview').textContent = msg;
-            document.getElementById('btnSendWa').href = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+            document.getElementById('btnSendWa').href =
+                `https://wa.me/?text=${encodeURIComponent(msg)}`;
             document.getElementById('whatsappModal').classList.add('show');
             document.getElementById('btnCopy').textContent = '📋 Copiar';
             document.getElementById('btnCopy').classList.remove('copied');
         }
+
         function closeWhatsappModal() { document.getElementById('whatsappModal').classList.remove('show'); }
 
         function copyMessage() {
@@ -2010,9 +2190,6 @@
         }
         document.addEventListener('click', (e) => { if (e.target.id === 'whatsappModal') closeWhatsappModal(); });
 
-        // ████████████████████████████████████████████████████████████
-        //  TOAST
-        // ████████████████████████████████████████████████████████████
         function showToast(msg) {
             const t = document.getElementById('toast');
             t.textContent = msg;
@@ -2021,9 +2198,9 @@
             t._tid = setTimeout(() => t.classList.remove('show'), 2500);
         }
 
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         //  INIT
-        // ████████████████████████████████████████████████████████████
+        // ═══════════════════════════════════════════════════════════
         renderAirlineToggles();
         updateStatusBar();
     </script>
