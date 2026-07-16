@@ -17,6 +17,9 @@
             --danger: #d93025;
             --warning: #e67e22;
             --purple: #6B2D8B;
+            --orange: #FF6600;
+            --blue: #0033A0;
+            --red: #E30613;
             --radius: 12px;
             --shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
         }
@@ -105,7 +108,6 @@
             padding: 20px;
         }
 
-        /* ── TOGGLES ── */
         .toggles-row {
             display: flex;
             justify-content: center;
@@ -490,6 +492,7 @@
             color: #999;
             font-size: 0.85rem;
         }
+
         .flight-card {
             border: 2px solid #f0f0f0;
             border-radius: 10px;
@@ -529,14 +532,30 @@
             border-color: var(--success);
             color: #fff;
         }
-        .flight-card .airline-tag {
+        .flight-card .airline-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        .flight-card .operating-airline {
             display: inline-block;
             padding: 3px 12px;
             border-radius: 14px;
-            font-size: 0.7rem;
+            font-size: 0.73rem;
             font-weight: 700;
             color: #fff;
-            margin-bottom: 8px;
+            background: #333;
+        }
+        .flight-card .source-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            background: #f0f0f0;
+            color: #777;
         }
         .flight-card .route-line {
             font-weight: 700;
@@ -793,6 +812,15 @@
             opacity: 1;
         }
 
+        .error-detail {
+            background: #fffbe6;
+            margin: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            color: #795548;
+        }
+
         @media (max-width: 600px) {
             .search-row {
                 flex-direction: column;
@@ -978,6 +1006,7 @@
 
         const AIRPORTS_INTERNACIONAL = [
             { iata: 'EZE', city: 'Buenos Aires', name: 'Ezeiza (EZE)', country: 'AR' },
+            { iata: 'AEP', city: 'Buenos Aires', name: 'Aeroparque (AEP)', country: 'AR' },
             { iata: 'SCL', city: 'Santiago', name: 'Arturo Merino (SCL)', country: 'CL' },
             { iata: 'LIM', city: 'Lima', name: 'Jorge Chávez (LIM)', country: 'PE' },
             { iata: 'BOG', city: 'Bogotá', name: 'El Dorado (BOG)', country: 'CO' },
@@ -986,28 +1015,86 @@
             { iata: 'JFK', city: 'Nova York', name: 'J.F. Kennedy (JFK)', country: 'US' },
             { iata: 'LAX', city: 'Los Angeles', name: 'International (LAX)', country: 'US' },
             { iata: 'LIS', city: 'Lisboa', name: 'Portela (LIS)', country: 'PT' },
+            { iata: 'OPO', city: 'Porto', name: 'F. Sá Carneiro (OPO)', country: 'PT' },
             { iata: 'MAD', city: 'Madrid', name: 'Barajas (MAD)', country: 'ES' },
+            { iata: 'BCN', city: 'Barcelona', name: 'El Prat (BCN)', country: 'ES' },
             { iata: 'CDG', city: 'Paris', name: 'Charles de Gaulle (CDG)', country: 'FR' },
+            { iata: 'ORY', city: 'Paris', name: 'Orly (ORY)', country: 'FR' },
             { iata: 'LHR', city: 'Londres', name: 'Heathrow (LHR)', country: 'GB' },
             { iata: 'FCO', city: 'Roma', name: 'Fiumicino (FCO)', country: 'IT' },
+            { iata: 'MXP', city: 'Milão', name: 'Malpensa (MXP)', country: 'IT' },
             { iata: 'MEX', city: 'Cid. do México', name: 'Benito Juárez (MEX)', country: 'MX' },
             { iata: 'CUN', city: 'Cancún', name: 'International (CUN)', country: 'MX' },
+            { iata: 'PTY', city: 'Panamá', name: 'Tocumen (PTY)', country: 'PA' },
+            { iata: 'MVD', city: 'Montevidéu', name: 'Carrasco (MVD)', country: 'UY' },
+            { iata: 'ASU', city: 'Assunção', name: 'Silvio Pettirossi (ASU)', country: 'PY' },
         ];
 
         // ═══════════════════════════════════════════════════════════
-        //  CONFIG
+        //  AIRLINE CONFIG — com parâmetros específicos por API
         // ═══════════════════════════════════════════════════════════
         const GECKO_API = 'https://api.geckoapi.com.br/v1/extract';
 
         const AIRLINES = {
-            'LATAM': { id: 'LATAM', label: 'LATAM', target: 'latamairlines.com', type: 'plp',
-                capabilities: { money: true, points: true }, color: '#E30613', parser: 'latam' },
-            'AZUL': { id: 'AZUL', label: 'Azul', target: 'voeazul.com.br', type: 'plp', capabilities: { money: true,
-                    points: true }, color: '#0033A0', parser: 'azul' },
-            'SMILES': { id: 'SMILES', label: 'Smiles', target: 'smiles.com.br', type: 'plp',
-                capabilities: { money: true, points: true }, color: '#6B2D8B', parser: 'smiles' },
-            'GOL': { id: 'GOL', label: 'GOL', target: 'voegol.com.br', type: 'plp', capabilities: { money: true,
-                    points: false }, color: '#FF6600', parser: 'gol' },
+            'LATAM': {
+                id: 'LATAM',
+                label: 'LATAM',
+                target: 'latamairlines.com',
+                type: 'plp',
+                capabilities: { money: true, points: true },
+                color: '#E30613',
+                parser: 'latam',
+                // Parâmetros extras por searchType
+                extraParams: function(st) {
+                    // LATAM precisa de points:true para buscar em pontos
+                    if (st === 'points' || st === 'both') return { points: true };
+                    return {};
+                }
+            },
+            'AZUL': {
+                id: 'AZUL',
+                label: 'Azul',
+                target: 'voeazul.com.br',
+                type: 'plp',
+                capabilities: { money: true, points: true },
+                color: '#0033A0',
+                parser: 'azul',
+                extraParams: function(st) {
+                    return { currency: 'BRL' };
+                }
+            },
+            'SMILES': {
+                id: 'SMILES',
+                label: 'Smiles',
+                target: 'smiles.com.br',
+                type: 'plp',
+                capabilities: { money: false, points: true },
+                color: '#6B2D8B',
+                parser: 'smiles',
+                extraParams: function(st) { return {}; }
+            },
+            'GOL': {
+                id: 'GOL',
+                label: 'GOL',
+                target: 'voegol.com.br',
+                type: 'plp',
+                capabilities: { money: true, points: false },
+                color: '#FF6600',
+                parser: 'gol',
+                extraParams: function(st) { return {}; }
+            },
+        };
+
+        // Cores por código IATA de cia aérea
+        const AIRLINE_COLORS = {
+            'LA': '#E30613',
+            'JJ': '#E30613',
+            'AD': '#0033A0',
+            'G3': '#FF6600',
+            'GOL': '#FF6600',
+            'AZUL': '#0033A0',
+            'LATAM': '#E30613',
+            'SMILES': '#6B2D8B',
         };
 
         // ═══════════════════════════════════════════════════════════
@@ -1068,6 +1155,78 @@
             }
         }
 
+        function setRegion(r) {
+            region = r;
+            document.querySelectorAll('#regionToggleBar .toggle-btn').forEach(b =>
+                b.classList.toggle('active', b.dataset.region === r));
+            clearAirport('from');
+            clearAirport('to');
+            updateStatusBar();
+        }
+
+        function setSearchType(type) {
+            searchType = type;
+            document.querySelectorAll('#searchTypeToggles .search-type-btn').forEach(b =>
+                b.classList.toggle('active', b.dataset.type === type));
+            renderAirlineToggles();
+            updateStatusBar();
+        }
+
+        function isCompatible(airlineId) {
+            const c = AIRLINES[airlineId];
+            if (!c) return false;
+            if (searchType === 'money') return c.capabilities.money;
+            if (searchType === 'points') return c.capabilities.points;
+            return true;
+        }
+
+        function renderAirlineToggles() {
+            const container = document.getElementById('airlineToggles');
+            container.innerHTML = '';
+            for (const [id, cfg] of Object.entries(AIRLINES)) {
+                const sel = selectedAirlines.has(id);
+                const compat = isCompatible(id);
+                const btn = document.createElement('button');
+                btn.className = ['airline-toggle', sel ? 'active' : '', compat ? '' : 'incompatible'].join(' ').trim();
+                btn.onclick = () => toggleAirline(id);
+                btn.innerHTML = `<span class="dot" style="background:${cfg.color}"></span> ${cfg.label}`;
+                container.appendChild(btn);
+            }
+        }
+
+        function toggleAirline(id) {
+            if (selectedAirlines.has(id)) selectedAirlines.delete(id);
+            else selectedAirlines.add(id);
+            renderAirlineToggles();
+            updateStatusBar();
+        }
+
+        function getActiveTargets() {
+            const t = [];
+            for (const id of selectedAirlines) {
+                const c = AIRLINES[id];
+                if (c && isCompatible(id)) t.push(c);
+            }
+            return t;
+        }
+
+        function updateStatusBar() {
+            const bar = document.getElementById('statusBar');
+            const targets = getActiveTargets();
+            bar.className = 'status-bar';
+            if (targets.length === 0) {
+                bar.textContent = '⚠️ Nenhuma cia aérea compatível selecionada';
+                bar.classList.add('warning');
+            } else {
+                const tipoViagem = tripType === 'oneway' ? '➡️ Apenas Ida' : '🔄 Ida e Volta';
+                const reg = region === 'nacional' ? '🇧🇷 Nacional' : '🌎 Internacional';
+                const tipoBusca = searchType === 'money' ? '💰 Dinheiro' : searchType === 'points' ? '🎯 Pontos' : '🔄 Ambos';
+                bar.textContent =
+                    `${tipoViagem} | ${reg} | ${tipoBusca} | 🔍 ${targets.length} cia(s): ${targets.map(t=>t.label).join(', ')}`;
+                bar.classList.add('ok');
+            }
+        }
+
         // ═══════════════════════════════════════════════════════════
         //  AIRPORT SELECTORS
         // ═══════════════════════════════════════════════════════════
@@ -1078,8 +1237,8 @@
                 input.addEventListener('input', () => handleAirportInput(type));
                 input.addEventListener('focus', () => {
                     handleAirportInput(type);
-                    setTimeout(() => { if (document.activeElement === input) dropdown.classList.add(
-                            'show'); }, 50);
+                    setTimeout(() => { if (document.activeElement === input) dropdown.classList.add('show'); },
+                    50);
                 });
                 input.addEventListener('blur', () => {
                     setTimeout(() => dropdown.classList.remove('show'), 180);
@@ -1111,8 +1270,7 @@
             if (filtered.length === 0) {
                 dropdown.innerHTML = '<div class="no-results">Nenhum aeroporto encontrado</div>';
             } else {
-                let html =
-                    `<div class="airport-dropdown-header">${filtered.length} opções</div>`;
+                let html = `<div class="airport-dropdown-header">${filtered.length} opções</div>`;
                 for (const ap of filtered.slice(0, 24)) {
                     const escName = ap.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                     html += `
@@ -1152,8 +1310,7 @@
             if (!query || !query.trim()) return airports;
             const q = query.toUpperCase().trim();
             return airports.filter(ap =>
-                ap.iata.includes(q) || ap.city.toUpperCase().includes(q) || ap.name.toUpperCase().includes(
-                q));
+                ap.iata.includes(q) || ap.city.toUpperCase().includes(q) || ap.name.toUpperCase().includes(q));
         }
 
         function extractIata(value) {
@@ -1213,84 +1370,7 @@
         }
 
         // ═══════════════════════════════════════════════════════════
-        //  REGION / SEARCH TYPE
-        // ═══════════════════════════════════════════════════════════
-        function setRegion(r) {
-            region = r;
-            document.querySelectorAll('#regionToggleBar .toggle-btn').forEach(b =>
-                b.classList.toggle('active', b.dataset.region === r));
-            clearAirport('from');
-            clearAirport('to');
-            updateStatusBar();
-        }
-
-        function setSearchType(type) {
-            searchType = type;
-            document.querySelectorAll('#searchTypeToggles .search-type-btn').forEach(b =>
-                b.classList.toggle('active', b.dataset.type === type));
-            renderAirlineToggles();
-            updateStatusBar();
-        }
-
-        function isCompatible(airlineId) {
-            const c = AIRLINES[airlineId];
-            if (!c) return false;
-            if (searchType === 'money') return c.capabilities.money;
-            if (searchType === 'points') return c.capabilities.points;
-            return true;
-        }
-
-        function renderAirlineToggles() {
-            const container = document.getElementById('airlineToggles');
-            container.innerHTML = '';
-            for (const [id, cfg] of Object.entries(AIRLINES)) {
-                const sel = selectedAirlines.has(id);
-                const compat = isCompatible(id);
-                const btn = document.createElement('button');
-                btn.className = ['airline-toggle', sel ? 'active' : '', compat ? '' : 'incompatible'].join(
-                    ' ').trim();
-                btn.onclick = () => toggleAirline(id);
-                btn.innerHTML =
-                    `<span class="dot" style="background:${cfg.color}"></span> ${cfg.label}`;
-                container.appendChild(btn);
-            }
-        }
-
-        function toggleAirline(id) {
-            if (selectedAirlines.has(id)) selectedAirlines.delete(id);
-            else selectedAirlines.add(id);
-            renderAirlineToggles();
-            updateStatusBar();
-        }
-
-        function getActiveTargets() {
-            const t = [];
-            for (const id of selectedAirlines) {
-                const c = AIRLINES[id];
-                if (c && isCompatible(id)) t.push(c);
-            }
-            return t;
-        }
-
-        function updateStatusBar() {
-            const bar = document.getElementById('statusBar');
-            const targets = getActiveTargets();
-            bar.className = 'status-bar';
-            if (targets.length === 0) {
-                bar.textContent = '⚠️ Nenhuma cia aérea compatível selecionada';
-                bar.classList.add('warning');
-            } else {
-                const tipoViagem = tripType === 'oneway' ? '➡️ Apenas Ida' : '🔄 Ida e Volta';
-                const tipoBusca = searchType === 'money' ? '💰 Dinheiro' : searchType === 'points' ?
-                    '🎯 Pontos' : '🔄 Ambos';
-                bar.textContent =
-                    `${tipoViagem} | ${region==='nacional'?'🇧🇷 Nacional':'🌎 Internacional'} | ${tipoBusca} | 🔍 ${targets.length} cia(s): ${targets.map(t=>t.label).join(', ')}`;
-                bar.classList.add('ok');
-            }
-        }
-
-        // ═══════════════════════════════════════════════════════════
-        //  SEARCH ENGINE
+        //  SEARCH ENGINE — payloads adaptados por cia e searchType
         // ═══════════════════════════════════════════════════════════
         async function doSearch() {
             const targets = getActiveTargets();
@@ -1321,6 +1401,8 @@
 
             const requests = [];
             for (const tgt of targets) {
+                // Monta payload base + extras por searchType
+                const extra = (typeof tgt.extraParams === 'function') ? tgt.extraParams(searchType) : {};
                 const basePayload = {
                     target: tgt.target,
                     type: tgt.type,
@@ -1330,12 +1412,26 @@
                     numAdults,
                     numChildren: 0,
                     numInfants: 0,
+                    ...extra
                 };
+                console.log(`[API] ${tgt.label}: payload =`, JSON.stringify(basePayload));
                 requests.push({ cfg: tgt, payload: { ...basePayload }, direction: 'ida' });
+
                 if (tripType === 'roundtrip' && retDate) {
+                    const retExtra = (typeof tgt.extraParams === 'function') ? tgt.extraParams(searchType) : {};
                     requests.push({
                         cfg: tgt,
-                        payload: { ...basePayload, from: to, to: from, departureDate: retDate },
+                        payload: {
+                            target: tgt.target,
+                            type: tgt.type,
+                            from: to,
+                            to: from,
+                            departureDate: retDate,
+                            numAdults,
+                            numChildren: 0,
+                            numInfants: 0,
+                            ...retExtra
+                        },
                         direction: 'volta',
                     });
                 }
@@ -1357,7 +1453,12 @@
                     let json;
                     try { json = JSON.parse(text); } catch (e) { throw new Error(
                             `JSON inválido: ${text.substring(0, 200)}`); }
-                    return { direction: req.direction, cfg: req.cfg, raw: json };
+                    // Verifica notFound
+                    if (json.notFound === true || json.data === null) {
+                        console.warn(`[API] ${req.cfg.label} ${req.direction}: notFound`);
+                        return { direction: req.direction, cfg: req.cfg, raw: json, notFound: true };
+                    }
+                    return { direction: req.direction, cfg: req.cfg, raw: json, notFound: false };
                 })
             );
 
@@ -1366,15 +1467,19 @@
 
             for (const r of results) {
                 if (r.status === 'fulfilled') {
-                    const { direction, cfg, raw } = r.value;
+                    const { direction, cfg, raw, notFound } = r.value;
+                    if (notFound) {
+                        console.warn(`[Parser] ${cfg.label} ${direction}: notFound (rota sem voos)`);
+                        errors.push({ direction, label: cfg.label, reason: 'Rota não disponível (notFound)' });
+                        continue;
+                    }
                     const flights = parseFlights(raw, cfg);
-                    console.log(
-                        `[Parser] ${cfg.label} (${cfg.parser||'generic'}) ${direction}: ${flights.length} voo(s)`
-                    );
+                    console.log(`[Parser] ${cfg.label} (${cfg.parser}) ${direction}: ${flights.length} voo(s)`);
                     for (const f of flights.slice(0, 2)) {
-                        console.log(`  → ${f.from}→${f.to} ${f.dep}→${f.arr} stops:${f.stops} options:${f.fareOptions.length} ` +
+                        console.log(
+                            `  → ${f.from}→${f.to} ${f.dep}→${f.arr} op:${f.operatingAirline||'?'} stops:${f.stops} ` +
                             f.fareOptions.map(fo =>
-                                `${fo.type} ${fo.money!=null?'R$'+fo.money:''} ${fo.miles!=null?fo.miles+'pts':''}${fo.costTax!=null?' +taxa R$'+fo.costTax:''}`
+                                `${fo.type} ${fo.money!=null?'R$'+fo.money:''} ${fo.miles!=null?fo.miles+'pts':''}${fo.costTax!=null?'+R$'+fo.costTax:''}`
                             ).join(' | ')
                         );
                     }
@@ -1383,24 +1488,21 @@
                         else allFlights.volta.push(...flights);
                         successCount++;
                     } else {
-                        // Loga a estrutura do JSON para debug
                         const rawData = raw?.data;
                         const keys = rawData ? Object.keys(rawData).slice(0, 10).join(', ') : 'null';
-                        console.warn(`[Parser] ${cfg.label} ${direction}: 0 voos. Chaves de data: ${keys}`);
-                        errors.push({ direction, label: cfg.label,
-                            reason: `Parser: 0 voos (keys: ${keys})` });
+                        console.warn(`[Parser] ${cfg.label} ${direction}: 0 voos. data keys: ${keys}`);
+                        errors.push({ direction, label: cfg.label, reason: `0 voos extraídos (keys: ${keys})` });
                     }
                 } else {
                     const reason = r.reason?.message || String(r.reason);
-                    console.error(`[Erro] ${r.reason?.cfg?.label || '?'}: ${reason}`);
-                    errors.push({ direction: '?', label: r.reason?.cfg?.label || '?', reason });
+                    console.error(`[Erro] API: ${reason}`);
+                    errors.push({ direction: '?', label: 'API', reason });
                 }
             }
 
             console.log(`[Resultado] ${successCount} sucesso(s), ${errors.length} erro(s)`);
             if (errors.length > 0) console.table(errors);
 
-            // Ordenar por preço (menor primeiro)
             allFlights.ida.sort((a, b) => sortScore(a) - sortScore(b));
             allFlights.volta.sort((a, b) => sortScore(a) - sortScore(b));
 
@@ -1427,38 +1529,131 @@
             const data = raw?.data;
             if (!data) return [];
 
-            const parserName = cfg.parser || 'generic';
-            switch (parserName) {
+            switch (cfg.parser) {
                 case 'azul':
                     return parseAzul(data, cfg);
-                case 'smiles':
-                case 'gol':
-                    return parseSmilesGol(data, cfg);
                 case 'latam':
                     return parseLatam(data, cfg);
+                case 'smiles':
+                    return parseSmiles(data, cfg);
+                case 'gol':
+                    return parseGol(data, cfg);
                 default:
                     return parseGeneric(raw, cfg);
             }
         }
 
+        // ═══════════════════════════════════════════════════════════
+        //  HELPERS
+        // ═══════════════════════════════════════════════════════════
+        function fmtTimeFromISO(t) {
+            if (!t) return null;
+            const s = String(t).trim();
+            const isoMatch = s.match(/T(\d{2}:\d{2})/);
+            if (isoMatch) return isoMatch[1];
+            const hm = s.match(/(\d{1,2}:\d{2})/);
+            if (hm) return hm[1];
+            return null;
+        }
+
+        function formatDuration(d) {
+            if (!d) return '—';
+            const s = String(d).trim();
+            const isoH = s.match(/(\d+)H/);
+            const isoM = s.match(/(\d+)M/);
+            if (isoH || isoM) {
+                const h = isoH ? parseInt(isoH[1]) : 0;
+                const m = isoM ? parseInt(isoM[1]) : 0;
+                return `${h}h${String(m).padStart(2,'0')}m`;
+            }
+            const hm = s.match(/(\d+):(\d+)/);
+            if (hm) return `${parseInt(hm[1])}h${String(parseInt(hm[2])).padStart(2,'0')}m`;
+            return s;
+        }
+
+        // Extrai a cia aérea operadora dos segmentos
+        function extractOperatingAirline(segments) {
+            if (!segments || !segments.length) return null;
+            const first = segments[0];
+            // Tenta múltiplos caminhos comuns
+            for (const path of [
+                    ['flight', 'carrierCode'],
+                    ['flight', 'operatingCarrier'],
+                    ['flight', 'airlineCode'],
+                    ['operatingCarrier', 'code'],
+                    ['operatingCarrier'],
+                    ['carrier', 'code'],
+                    ['carrier'],
+                    ['airline', 'code'],
+                    ['airline'],
+                    ['marketingCarrier'],
+                    ['marketingCarrier', 'code'],
+                ]) {
+                let val = first;
+                for (const k of path) {
+                    if (val && typeof val === 'object') val = val[k];
+                    else { val = null; break; }
+                }
+                if (val && typeof val === 'string' && val.length <= 6) return val.toUpperCase();
+                if (val && typeof val === 'string') return val;
+            }
+            return null;
+        }
+
+        // Nome amigável para código IATA de cia aérea
+        function airlineName(code) {
+            if (!code) return null;
+            const map = {
+                'LA': 'LATAM',
+                'JJ': 'LATAM',
+                'AD': 'Azul',
+                'G3': 'GOL',
+                'GOL': 'GOL',
+                'AR': 'Aerolíneas Argentinas',
+                'AA': 'American Airlines',
+                'DL': 'Delta',
+                'UA': 'United',
+                'BA': 'British Airways',
+                'AF': 'Air France',
+                'LH': 'Lufthansa',
+                'IB': 'Iberia',
+                'TP': 'TAP',
+                'CM': 'Copa Airlines',
+                'AV': 'Avianca',
+                'AM': 'Aeroméxico',
+            };
+            return map[code] || code;
+        }
+
+        function airlineColor(code) {
+            if (!code) return '#333';
+            return AIRLINE_COLORS[code] || '#333';
+        }
+
+        function filterFareOptionsBySearchType(fareOptions) {
+            if (searchType === 'both') return fareOptions;
+            if (searchType === 'money') return fareOptions.filter(fo => fo.money != null);
+            if (searchType === 'points') return fareOptions.filter(fo => fo.miles != null);
+            return fareOptions;
+        }
+
         // ╔══════════════════════════════════════════════════════════╗
-        // ║  AZUL                                                  ║
-        // ║  data.trips[].journeys[]  +  fares[].pointsOptions[]   ║
+        // ║  PARSER: AZUL                                          ║
+        // ║  data.trips[].journeys[] + fares[] + pointsOptions[]   ║
         // ╚══════════════════════════════════════════════════════════╝
         function parseAzul(data, cfg) {
             const flights = [];
             for (const trip of data.trips || []) {
                 for (const journey of trip.journeys || []) {
                     if (!journey.available) continue;
-                    const seg = journey.segments?.[0];
+                    const segments = journey.segments || [];
+                    const seg = segments[0];
                     const flightNum = seg?.flight?.flightNumber || '';
-                    const carrier = seg?.flight?.carrierCode || 'AD';
+                    const opCarrier = extractOperatingAirline(segments) || 'AD';
                     const aircraft = seg?.flight?.equipmentName || '';
 
-                    // Extrai TODAS as fares (dinheiro + pontos)
                     const fareOptions = [];
                     for (const fare of journey.fares || []) {
-                        // ── Tarifa em dinheiro ──
                         if (fare.total?.amount != null) {
                             fareOptions.push({
                                 type: fare.productClass?.name || fare.productClass?.code || 'Tarifa',
@@ -1466,12 +1661,9 @@
                                 miles: null,
                                 costTax: null,
                                 cabin: fare.cabin || null,
-                                classOfService: fare.classOfService || null,
                             });
                         }
-                        // ── Tarifas em pontos (pointsOptions) ──
                         for (const po of fare.pointsOptions || []) {
-                            // pointsOptions pode ter estrutura: { amount, taxes } ou { points, amount }
                             const pts = po.amount ?? po.points ?? po.miles ?? null;
                             const tax = po.taxes ?? po.tax ?? po.costTax ?? null;
                             if (pts != null) {
@@ -1481,18 +1673,19 @@
                                     miles: Number(pts),
                                     costTax: tax != null ? Number(tax) : null,
                                     cabin: fare.cabin || null,
-                                    classOfService: fare.classOfService || null,
                                 });
                             }
                         }
                     }
-
                     if (fareOptions.length === 0) continue;
 
                     flights.push({
-                        id: `azul-${flightNum}-${journey.position||journey.id||Math.random().toString(36).slice(2,8)}`,
-                        airline: cfg.label,
-                        airlineColor: cfg.color,
+                        id: `azul-${flightNum}-${journey.position||Math.random().toString(36).slice(2,8)}`,
+                        sourceAirline: cfg.label,
+                        sourceColor: cfg.color,
+                        operatingAirline: airlineName(opCarrier),
+                        operatingCode: opCarrier,
+                        operatingColor: airlineColor(opCarrier),
                         from: journey.origin || trip.origin,
                         to: journey.destination || trip.destination,
                         dep: fmtTimeFromISO(journey.departure),
@@ -1509,138 +1702,30 @@
         }
 
         // ╔══════════════════════════════════════════════════════════╗
-        // ║  SMILES / GOL                                          ║
-        // ║  data.offers[]  +  fareOptions[]                       ║
-        // ║  SMILES: APENAS SMILES e SMILES_CLUB                   ║
-        // ╚══════════════════════════════════════════════════════════╝
-        function parseSmilesGol(data, cfg) {
-            const flights = [];
-            const offers = data.offers || [];
-
-            for (const offer of offers) {
-                const allFareOptions = [];
-                for (const fo of offer.fareOptions || []) {
-                    allFareOptions.push({
-                        type: fo.fareType || 'Tarifa',
-                        money: fo.money != null ? Number(fo.money) : null,
-                        miles: fo.miles != null ? Number(fo.miles) : null,
-                        costTax: fo.costTax != null ? Number(fo.costTax) : null,
-                        cabin: offer.cabin || fo.cabin || null,
-                        classOfService: fo.productClass || fo.classOfService || null,
-                        uid: fo.uid || null,
-                    });
-                }
-
-                // Se for Smiles, filtra APENAS SMILES e SMILES_CLUB
-                let fareOptions;
-                if (cfg.parser === 'smiles') {
-                    fareOptions = allFareOptions.filter(fo =>
-                        fo.type === 'SMILES' || fo.type === 'SMILES_CLUB'
-                    );
-                } else {
-                    fareOptions = allFareOptions;
-                }
-
-                // Se não tem fareOptions mas tem priceHint, cria uma
-                if (fareOptions.length === 0 && offer.priceHint) {
-                    fareOptions.push({
-                        type: 'MILHAS',
-                        money: null,
-                        miles: Number(offer.priceHint),
-                        costTax: null,
-                        cabin: offer.cabin || null,
-                    });
-                }
-
-                if (fareOptions.length === 0) continue;
-
-                flights.push({
-                    id: `smiles-${offer.uid||Math.random().toString(36).slice(2,8)}`,
-                    airline: cfg.label,
-                    airlineColor: cfg.color,
-                    from: offer.departureAirport,
-                    to: offer.arrivalAirport,
-                    dep: fmtTimeFromISO(offer.departureTime),
-                    arr: fmtTimeFromISO(offer.arrivalTime),
-                    durationStr: '—',
-                    stops: offer.stops || 0,
-                    flightNumbers: [],
-                    fareOptions: filterFareOptionsBySearchType(fareOptions),
-                });
-            }
-
-            // Se não tem offers mas tem cheapestOffer
-            if (flights.length === 0 && data.cheapestOffer) {
-                const o = data.cheapestOffer;
-                const allFareOptions = [];
-                for (const fo of o.fareOptions || []) {
-                    allFareOptions.push({
-                        type: fo.fareType || 'Tarifa',
-                        money: fo.money != null ? Number(fo.money) : null,
-                        miles: fo.miles != null ? Number(fo.miles) : null,
-                        costTax: fo.costTax != null ? Number(fo.costTax) : null,
-                        cabin: o.cabin || null,
-                        classOfService: fo.productClass || null,
-                    });
-                }
-                let fareOptions;
-                if (cfg.parser === 'smiles') {
-                    fareOptions = allFareOptions.filter(fo =>
-                        fo.type === 'SMILES' || fo.type === 'SMILES_CLUB'
-                    );
-                } else {
-                    fareOptions = allFareOptions;
-                }
-                if (fareOptions.length > 0) {
-                    flights.push({
-                        id: `smiles-cheapest-${o.uid||Math.random().toString(36).slice(2,8)}`,
-                        airline: cfg.label,
-                        airlineColor: cfg.color,
-                        from: o.departureAirport,
-                        to: o.arrivalAirport,
-                        dep: fmtTimeFromISO(o.departureTime),
-                        arr: fmtTimeFromISO(o.arrivalTime),
-                        durationStr: '—',
-                        stops: o.stops || 0,
-                        flightNumbers: [],
-                        fareOptions: filterFareOptionsBySearchType(fareOptions),
-                    });
-                }
-            }
-
-            return flights;
-        }
-
-        // ╔══════════════════════════════════════════════════════════╗
-        // ║  LATAM                                                 ║
-        // ║  Suporta múltiplas estruturas:                          ║
-        // ║  - data.availability.flights[]                          ║
-        // ║  - data.flights[]                                       ║
-        // ║  - data.itineraries[]                                   ║
-        // ║  - data.results[]                                       ║
+        // ║  PARSER: LATAM                                         ║
+        // ║  data.items[] com segments, prices, fareOptions         ║
+        // ║  Quando points=true, retorna estrutura de milhas        ║
         // ╚══════════════════════════════════════════════════════════╝
         function parseLatam(data, cfg) {
             const flights = [];
-
-            // Tenta várias estruturas da LATAM
             let items = null;
 
-            // Estrutura 1: data.availability (mais comum)
-            if (data.availability) {
+            // Estrutura principal: data.items[]
+            if (Array.isArray(data.items)) items = data.items;
+            // data.availability.flights[]
+            if (!items && data.availability) {
                 if (Array.isArray(data.availability.flights)) items = data.availability.flights;
                 else if (Array.isArray(data.availability)) items = data.availability;
             }
-            // Estrutura 2: direto
+            // data.flights[]
             if (!items && Array.isArray(data.flights)) items = data.flights;
+            // data.itineraries[]
             if (!items && Array.isArray(data.itineraries)) items = data.itineraries;
-            if (!items && Array.isArray(data.results)) items = data.results;
-            if (!items && Array.isArray(data.journeys)) items = data.journeys;
-            if (!items && Array.isArray(data.offers)) items = data.offers;
 
-            // Scan recursivo se ainda não achou
+            // Scan recursivo
             if (!items) {
                 const scan = (obj, depth) => {
-                    if (depth > 8 || !obj || typeof obj !== 'object') return null;
+                    if (depth > 6 || !obj || typeof obj !== 'object') return null;
                     if (Array.isArray(obj) && obj.length > 0 && typeof obj[0] === 'object') return obj;
                     for (const v of Object.values(obj)) {
                         const r = scan(v, depth + 1);
@@ -1652,24 +1737,23 @@
             }
 
             if (!items || !Array.isArray(items)) {
-                console.warn('[LATAM] Não encontrei array de voos. Chaves:', Object.keys(data).join(', '));
+                console.warn('[LATAM] Array items não encontrado. Keys:', Object.keys(data).join(', '));
                 return flights;
             }
 
-            console.log(`[LATAM] Encontrei ${items.length} itens`);
+            console.log(`[LATAM] ${items.length} items encontrados`);
 
             for (const item of items) {
                 if (!item || typeof item !== 'object') continue;
 
-                // Múltiplos caminhos para segmentos
+                // ── Segmentos ──
                 let segments = [];
-                for (const k of ['segments', 'flights', 'legs', 'itineraries', 'journeys', 'connections']) {
+                for (const k of ['segments', 'flights', 'legs', 'itineraries', 'journeys', 'connections', 'bounds']) {
                     if (Array.isArray(item[k]) && item[k].length > 0) { segments = item[k]; break; }
                 }
                 if (segments.length === 0 && (item.origin || item.from || item.departureAirport)) {
-                    segments = [item];
+                    segments = [item]; // item único é o próprio segmento
                 }
-
                 if (segments.length === 0) continue;
 
                 const first = segments[0];
@@ -1681,8 +1765,8 @@
                 };
                 const pickNested = (obj, prefix, ...keys) => {
                     if (obj[prefix] && typeof obj[prefix] === 'object')
-                        for (const k of keys) { if (obj[prefix][k] !== undefined && obj[prefix][k] !== null)
-                                return obj[prefix][k]; }
+                        for (const k of keys) { if (obj[prefix][k] !== undefined && obj[prefix][k] !== null) return obj[
+                                prefix][k]; }
                     return null;
                 };
 
@@ -1706,9 +1790,13 @@
                 const aircraft = pick(first, 'equipmentName', 'aircraft', 'equipment') ||
                     pickNested(first, 'flight', 'equipmentName', 'equipmentType') || null;
 
+                // ── Cia operadora ──
+                const opCarrier = extractOperatingAirline(segments) || 'LA';
+
                 // ── FARE OPTIONS ──
                 const fareOptions = [];
-                // Caminho 1: item.fares[]
+
+                // 1) item.fares[]
                 if (Array.isArray(item.fares)) {
                     for (const f of item.fares) {
                         const fo = {
@@ -1717,12 +1805,12 @@
                             miles: f.miles ?? f.points ?? f.pointsRequired ?? null,
                             costTax: f.taxes ?? f.tax ?? f.costTax ?? null,
                             cabin: f.cabin || item.cabin || null,
-                            classOfService: f.classOfService || f.bookingClass || null,
                         };
                         if (fo.money != null || fo.miles != null) fareOptions.push(fo);
                     }
                 }
-                // Caminho 2: item.fareOptions[]
+
+                // 2) item.fareOptions[]
                 if (fareOptions.length === 0 && Array.isArray(item.fareOptions)) {
                     for (const fo of item.fareOptions) {
                         fareOptions.push({
@@ -1731,14 +1819,14 @@
                             miles: fo.miles ?? fo.points ?? null,
                             costTax: fo.costTax ?? fo.taxes ?? null,
                             cabin: item.cabin || fo.cabin || null,
-                            classOfService: fo.productClass || fo.classOfService || null,
                         });
                     }
                 }
-                // Caminho 3: item.price / item.total
+
+                // 3) item.price
                 if (fareOptions.length === 0) {
-                    const m = item.total?.amount ?? item.price?.amount ?? item.price ?? item.amount ?? item
-                        .priceHint;
+                    const m = pick(item, 'total', 'amount') ||
+                        item.price?.amount ?? item.price?.total ?? item.price ?? item.amount ?? item.priceHint;
                     const p = item.miles ?? item.points ?? item.pointsRequired;
                     if (m || p) fareOptions.push({
                         type: 'Tarifa',
@@ -1748,21 +1836,20 @@
                         cabin: item.cabin || null,
                     });
                 }
-                // Caminho 4: scan recursivo por preço dentro do item
+
+                // 4) scan recursivo
                 if (fareOptions.length === 0) {
                     const found = {};
                     const findPrice = (obj, depth) => {
-                        if (!obj || typeof obj !== 'object' || depth > 6) return;
+                        if (!obj || typeof obj !== 'object' || depth > 5) return;
                         if (Array.isArray(obj)) { for (const v of obj) findPrice(v, depth + 1);
                             return; }
-                        if ((obj.amount || obj.total || obj.price) && !found.money) {
+                        if ((obj.amount || obj.total || obj.price) && !found.money && typeof(obj.amount || obj.total ||
+                                obj.price) === 'number') {
                             found.money = obj.amount || obj.total || obj.price;
                         }
                         if ((obj.points || obj.miles || obj.pointsRequired) && !found.miles) {
                             found.miles = obj.points || obj.miles || obj.pointsRequired;
-                        }
-                        if ((obj.taxes || obj.tax || obj.costTax) && !found.tax) {
-                            found.tax = obj.taxes || obj.tax || obj.costTax;
                         }
                         for (const v of Object.values(obj)) findPrice(v, depth + 1);
                     };
@@ -1772,7 +1859,7 @@
                             type: 'Tarifa',
                             money: found.money ? Number(found.money) : null,
                             miles: found.miles ? Number(found.miles) : null,
-                            costTax: found.tax ? Number(found.tax) : null,
+                            costTax: null,
                         });
                     }
                 }
@@ -1781,8 +1868,11 @@
 
                 flights.push({
                     id: `latam-${flightNumbers[0]||Math.random().toString(36).slice(2,8)}`,
-                    airline: cfg.label,
-                    airlineColor: cfg.color,
+                    sourceAirline: cfg.label,
+                    sourceColor: cfg.color,
+                    operatingAirline: airlineName(opCarrier),
+                    operatingCode: opCarrier,
+                    operatingColor: airlineColor(opCarrier),
                     from: fromCode,
                     to: toCode,
                     dep: fmtTimeFromISO(depTime),
@@ -1799,7 +1889,195 @@
         }
 
         // ╔══════════════════════════════════════════════════════════╗
-        // ║  GENÉRICO (fallback)                                   ║
+        // ║  PARSER: SMILES                                        ║
+        // ║  data.offers[] com fareOptions[]                        ║
+        // ║  Apenas SMILES e SMILES_CLUB                            ║
+        // ╚══════════════════════════════════════════════════════════╝
+        function parseSmiles(data, cfg) {
+            const flights = [];
+            const offers = data.offers || [];
+
+            for (const offer of offers) {
+                // Extrai cia operadora
+                const segments = offer.segments || [];
+                const opCarrier = extractOperatingAirline(segments) || 'G3';
+                const flightNums = (segments || []).map(s =>
+                    s.flightNumber || s.flight || s.number || s.code || null
+                ).filter(Boolean);
+
+                const allFareOptions = [];
+                for (const fo of offer.fareOptions || []) {
+                    allFareOptions.push({
+                        type: fo.fareType || 'Tarifa',
+                        money: fo.money != null ? Number(fo.money) : null,
+                        miles: fo.miles != null ? Number(fo.miles) : null,
+                        costTax: fo.costTax != null ? Number(fo.costTax) : null,
+                        cabin: offer.cabin || fo.cabin || null,
+                    });
+                }
+
+                // Filtra APENAS SMILES e SMILES_CLUB
+                let fareOptions = allFareOptions.filter(fo =>
+                    fo.type === 'SMILES' || fo.type === 'SMILES_CLUB'
+                );
+
+                if (fareOptions.length === 0 && offer.priceHint) {
+                    fareOptions.push({
+                        type: 'MILHAS',
+                        money: null,
+                        miles: Number(offer.priceHint),
+                        costTax: null,
+                    });
+                }
+
+                if (fareOptions.length === 0) continue;
+
+                flights.push({
+                    id: `smiles-${offer.uid||Math.random().toString(36).slice(2,8)}`,
+                    sourceAirline: cfg.label,
+                    sourceColor: cfg.color,
+                    operatingAirline: airlineName(opCarrier),
+                    operatingCode: opCarrier,
+                    operatingColor: airlineColor(opCarrier),
+                    from: offer.departureAirport,
+                    to: offer.arrivalAirport,
+                    dep: fmtTimeFromISO(offer.departureTime),
+                    arr: fmtTimeFromISO(offer.arrivalTime),
+                    durationStr: '—',
+                    stops: offer.stops || 0,
+                    flightNumbers: flightNums,
+                    aircraft: null,
+                    fareOptions: filterFareOptionsBySearchType(fareOptions),
+                });
+            }
+
+            // cheapestOffer fallback
+            if (flights.length === 0 && data.cheapestOffer) {
+                const o = data.cheapestOffer;
+                const allFo = [];
+                for (const fo of o.fareOptions || []) {
+                    allFo.push({
+                        type: fo.fareType || 'Tarifa',
+                        money: fo.money != null ? Number(fo.money) : null,
+                        miles: fo.miles != null ? Number(fo.miles) : null,
+                        costTax: fo.costTax != null ? Number(fo.costTax) : null,
+                    });
+                }
+                let fos = allFo.filter(f => f.type === 'SMILES' || f.type === 'SMILES_CLUB');
+                if (fos.length > 0) {
+                    flights.push({
+                        id: `smiles-cheapest-${o.uid||Math.random().toString(36).slice(2,8)}`,
+                        sourceAirline: cfg.label,
+                        sourceColor: cfg.color,
+                        operatingAirline: 'GOL',
+                        operatingCode: 'G3',
+                        operatingColor: '#FF6600',
+                        from: o.departureAirport,
+                        to: o.arrivalAirport,
+                        dep: fmtTimeFromISO(o.departureTime),
+                        arr: fmtTimeFromISO(o.arrivalTime),
+                        durationStr: '—',
+                        stops: o.stops || 0,
+                        flightNumbers: [],
+                        aircraft: null,
+                        fareOptions: filterFareOptionsBySearchType(fos),
+                    });
+                }
+            }
+
+            return flights;
+        }
+
+        // ╔══════════════════════════════════════════════════════════╗
+        // ║  PARSER: GOL                                           ║
+        // ║  data.itineraries[] com segments[], offers[],           ║
+        // ║  cheapestOffer                                         ║
+        // ╚══════════════════════════════════════════════════════════╝
+        function parseGol(data, cfg) {
+            const flights = [];
+            const itineraries = data.itineraries || [];
+
+            for (const it of itineraries) {
+                if (!it || typeof it !== 'object') continue;
+                const segments = it.segments || [];
+                if (segments.length === 0) continue;
+
+                const first = segments[0];
+                const last = segments[segments.length - 1];
+
+                const opCarrier = extractOperatingAirline(segments) || 'G3';
+                const flightNums = segments.map(s =>
+                    s.flightNumber || s.flight || s.number || s.code || null
+                ).filter(Boolean);
+                const aircraft = first.equipment || first.equipmentName || first.aircraft || null;
+
+                // Preço principal + offers
+                const fareOptions = [];
+                const price = it.price || it.total || it.amount;
+
+                // offers[]
+                if (Array.isArray(it.offers)) {
+                    for (const o of it.offers) {
+                        if (o.price || o.amount || o.total) {
+                            fareOptions.push({
+                                type: o.name || o.brand || o.fareClass || 'Tarifa',
+                                money: o.price ?? o.amount ?? o.total ?? null,
+                                miles: o.miles ?? o.points ?? null,
+                                costTax: o.taxes ?? o.tax ?? null,
+                                cabin: o.cabin || null,
+                            });
+                        }
+                    }
+                }
+
+                if (fareOptions.length === 0 && price) {
+                    fareOptions.push({
+                        type: 'Tarifa',
+                        money: Number(price),
+                        miles: null,
+                        costTax: null,
+                    });
+                }
+
+                // cheapestOffer se existir
+                if (fareOptions.length === 0 && data.cheapestOffer) {
+                    const co = data.cheapestOffer;
+                    if (co.price || co.amount) {
+                        fareOptions.push({
+                            type: 'Menor Tarifa',
+                            money: Number(co.price || co.amount),
+                            miles: null,
+                            costTax: co.taxes || null,
+                        });
+                    }
+                }
+
+                if (fareOptions.length === 0) continue;
+
+                flights.push({
+                    id: `gol-${flightNums[0]||Math.random().toString(36).slice(2,8)}`,
+                    sourceAirline: cfg.label,
+                    sourceColor: cfg.color,
+                    operatingAirline: airlineName(opCarrier),
+                    operatingCode: opCarrier,
+                    operatingColor: airlineColor(opCarrier),
+                    from: it.origin || it.from || first.origin || first.from || first.departureAirport || '?',
+                    to: it.destination || it.to || last.destination || last.to || last.arrivalAirport || '?',
+                    dep: fmtTimeFromISO(first.departure || first.departureTime || first.depTime),
+                    arr: fmtTimeFromISO(last.arrival || last.arrivalTime || last.arrTime),
+                    durationStr: formatDuration(it.duration),
+                    stops: it.stops ?? it.stopsCount ?? Math.max(0, segments.length - 1),
+                    flightNumbers: flightNums,
+                    aircraft,
+                    fareOptions: filterFareOptionsBySearchType(fareOptions),
+                });
+            }
+
+            return flights;
+        }
+
+        // ╔══════════════════════════════════════════════════════════╗
+        // ║  PARSER: GENÉRICO (fallback)                           ║
         // ╚══════════════════════════════════════════════════════════╝
         function parseGeneric(raw, cfg) {
             const flights = [];
@@ -1813,7 +2091,6 @@
                         'availability'
                     ]) {
                     if (Array.isArray(data[key])) { items = data[key]; break; }
-                    // availability.flights
                     if (data[key] && Array.isArray(data[key].flights)) { items = data[key].flights; break; }
                 }
                 if (!items) {
@@ -1853,76 +2130,37 @@
                         });
                     }
                 }
-                // fallback
                 if (fos.length === 0) {
                     const m = item.total?.amount ?? item.price ?? item.amount ?? item.priceHint;
                     const p = item.miles ?? item.points ?? item.pointsRequired;
-                    if (m || p) fos.push({ type: 'Tarifa', money: m ? Number(m) : null, miles: p ? Number(p) :
-                            null, costTax: null });
+                    if (m || p) fos.push({ type: 'Tarifa', money: m ? Number(m) : null, miles: p ? Number(p) : null,
+                        costTax: null });
                 }
                 if (fos.length === 0) continue;
 
-                const seg = item.segments?.[0] || item;
+                const segments = item.segments || [];
+                const opCarrier = extractOperatingAirline(segments);
+                const seg = segments[0] || item;
+
                 flights.push({
                     id: `gen-${Math.random().toString(36).slice(2,8)}`,
-                    airline: cfg.label,
-                    airlineColor: cfg.color,
+                    sourceAirline: cfg.label,
+                    sourceColor: cfg.color,
+                    operatingAirline: airlineName(opCarrier) || cfg.label,
+                    operatingCode: opCarrier || cfg.id,
+                    operatingColor: airlineColor(opCarrier) || cfg.color,
                     from: item.origin || item.from || item.departureAirport || seg.origin || seg.from || '?',
                     to: item.destination || item.to || item.arrivalAirport || seg.destination || seg.to || '?',
-                    dep: fmtTimeFromISO(item.departure || item.departureTime || seg.departure || seg
-                    .departureTime),
+                    dep: fmtTimeFromISO(item.departure || item.departureTime || seg.departure || seg.departureTime),
                     arr: fmtTimeFromISO(item.arrival || item.arrivalTime || seg.arrival || seg.arrivalTime),
                     durationStr: formatDuration(item.duration || seg.duration),
                     stops: item.stopsCount ?? item.stops ?? seg.stopsCount ?? 0,
                     flightNumbers: [],
+                    aircraft: null,
                     fareOptions: filterFareOptionsBySearchType(fos),
                 });
             }
             return flights;
-        }
-
-        // ╔══════════════════════════════════════════════════════════╗
-        // ║  FILTRO POR SEARCH TYPE                                ║
-        // ╚══════════════════════════════════════════════════════════╝
-        function filterFareOptionsBySearchType(fareOptions) {
-            if (searchType === 'both') return fareOptions;
-            if (searchType === 'money') {
-                // Apenas opções com valor em dinheiro
-                return fareOptions.filter(fo => fo.money != null);
-            }
-            if (searchType === 'points') {
-                // Apenas opções com milhas/pontos
-                return fareOptions.filter(fo => fo.miles != null);
-            }
-            return fareOptions;
-        }
-
-        // ═══════════════════════════════════════════════════════════
-        //  HELPERS
-        // ═══════════════════════════════════════════════════════════
-        function fmtTimeFromISO(t) {
-            if (!t) return null;
-            const s = String(t).trim();
-            const isoMatch = s.match(/T(\d{2}:\d{2})/);
-            if (isoMatch) return isoMatch[1];
-            const hm = s.match(/(\d{1,2}:\d{2})/);
-            if (hm) return hm[1];
-            return null;
-        }
-
-        function formatDuration(d) {
-            if (!d) return '—';
-            const s = String(d).trim();
-            const isoH = s.match(/(\d+)H/);
-            const isoM = s.match(/(\d+)M/);
-            if (isoH || isoM) {
-                const h = isoH ? parseInt(isoH[1]) : 0;
-                const m = isoM ? parseInt(isoM[1]) : 0;
-                return `${h}h${String(m).padStart(2,'0')}m`;
-            }
-            const hm = s.match(/(\d+):(\d+)/);
-            if (hm) return `${parseInt(hm[1])}h${String(parseInt(hm[2])).padStart(2,'0')}m`;
-            return s;
         }
 
         // ═══════════════════════════════════════════════════════════
@@ -1954,92 +2192,14 @@
             if (!flights.length) {
                 body = '<div class="empty">Nenhum voo encontrado</div>';
                 if (errors && errors.length > 0) {
-                    body +=
-                        `<div style="padding:8px;background:#fffbe6;margin:8px;border-radius:6px;font-size:0.72rem;color:#795548;white-space:pre-wrap;">`;
                     for (const e of errors) {
-                        body += `⚠️ ${e.label}: ${e.reason}\n`;
+                        body +=
+                        `<div class="error-detail">⚠️ ${e.label}: ${e.reason}</div>`;
                     }
-                    body += `</div>`;
                 }
             } else {
                 for (const f of flights) {
-                    const isDirect = f.stops === 0;
-                    const sBadge = isDirect ?
-                        '<span class="badge badge-direct">Direto</span>' :
-                        `<span class="badge badge-stops">${f.stops} parada(s)</span>`;
-                    const fnBadge = f.flightNumbers.length ?
-                        `<span class="badge badge-flight">✈️ ${f.flightNumbers.join(', ')}</span>` : '';
-                    const acBadge = f.aircraft ? `<span class="badge badge-fare">${f.aircraft}</span>` : '';
-
-                    // Tabela de fare options
-                    let fareTable = '';
-                    if (f.fareOptions.length > 0) {
-                        // Destaque na primeira (menor preço — já ordenado)
-                        const hasClub = f.fareOptions.some(fo => fo.type === 'SMILES_CLUB');
-                        const showCols = {
-                            money: f.fareOptions.some(fo => fo.money != null),
-                            miles: f.fareOptions.some(fo => fo.miles != null),
-                            tax: f.fareOptions.some(fo => fo.costTax != null),
-                        };
-                        // Só mostra tabela se tiver mais de 1 opção OU se for Smiles (SMILES + SMILES_CLUB)
-                        const showTable = f.fareOptions.length > 1;
-
-                        if (showTable) {
-                            let thHtml = '<tr><th>Tipo</th>';
-                            if (showCols.money) thHtml += '<th>💰 Valor</th>';
-                            if (showCols.miles) thHtml += '<th>🎯 Pontos</th>';
-                            if (showCols.tax) thHtml += '<th>🧾 Taxas</th>';
-                            thHtml += '</tr>';
-
-                            let tbHtml = '';
-                            for (let i = 0; i < f.fareOptions.length; i++) {
-                                const fo = f.fareOptions[i];
-                                const isLowest = i === 0;
-                                const typeLabel = formatFareType(fo.type);
-                                tbHtml += `<tr class="fare-row${isLowest?' selected-fare':''}">`;
-                                tbHtml += `<td><span class="fare-type">${typeLabel}</span></td>`;
-                                if (showCols.money) tbHtml +=
-                                    `<td>${fo.money!=null?'<strong>R$ '+fo.money.toLocaleString('pt-BR',{minimumFractionDigits:2})+ '</strong>':'—'}</td>`;
-                                if (showCols.miles) tbHtml +=
-                                    `<td>${fo.miles!=null?'<strong>'+fo.miles.toLocaleString('pt-BR')+'</strong>':'—'}</td>`;
-                                if (showCols.tax) tbHtml +=
-                                    `<td>${fo.costTax!=null?'<span class="badge badge-tax">+R$ '+Number(fo.costTax).toFixed(2)+'</span>':'—'}</td>`;
-                                tbHtml += '</tr>';
-                            }
-                            fareTable =
-                                `<table class="fare-options-table"><thead>${thHtml}</thead><tbody>${tbHtml}</tbody></table>`;
-                        }
-                    }
-
-                    // Preço principal (primeira fare option)
-                    const bestFo = f.fareOptions[0] || {};
-                    let priceHtml = '';
-                    if (bestFo.money != null) {
-                        priceHtml +=
-                            `<span class="price-money">R$ ${bestFo.money.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2})}</span>`;
-                    }
-                    if (bestFo.miles != null) {
-                        priceHtml +=
-                            `<span class="price-points">${bestFo.miles.toLocaleString('pt-BR')} pts</span>`;
-                    }
-                    if (bestFo.costTax != null) {
-                        priceHtml +=
-                            `<span class="price-tax">+ taxas R$ ${Number(bestFo.costTax).toFixed(2)}</span>`;
-                    }
-                    if (!bestFo.money && !bestFo.miles) {
-                        priceHtml += '<span style="color:#999;font-size:0.78rem;">Ver opções abaixo</span>';
-                    }
-
-                    body += `
-                <div class="flight-card" data-direction="${dir}" data-flight-id="${f.id}">
-                  <div class="select-indicator">✓</div>
-                  <span class="airline-tag" style="background:${f.airlineColor}">${f.airline}</span>
-                  <div class="route-line">${f.from} → ${f.to}</div>
-                  <div class="time-line">🕐 ${f.dep||'--:--'} → ${f.arr||'--:--'} &nbsp;|&nbsp; ⏱ ${f.durationStr}</div>
-                  <div class="flight-meta">${sBadge}${fnBadge}${acBadge}</div>
-                  <div class="price-area">${priceHtml}</div>
-                  ${fareTable}
-                </div>`;
+                    body += buildFlightCard(f, dir);
                 }
             }
 
@@ -2049,18 +2209,96 @@
           </div>`;
         }
 
+        function buildFlightCard(f, dir) {
+            const isDirect = f.stops === 0;
+            const sBadge = isDirect ?
+                '<span class="badge badge-direct">Direto</span>' :
+                `<span class="badge badge-stops">${f.stops} parada(s)</span>`;
+            const fnBadge = f.flightNumbers.length ?
+                `<span class="badge badge-flight">✈️ ${f.flightNumbers.join(', ')}</span>` : '';
+            const acBadge = f.aircraft ? `<span class="badge badge-fare">${f.aircraft}</span>` : '';
+
+            // Tabela de fare options (só se mais de 1)
+            let fareTable = '';
+            const showTable = f.fareOptions.length > 1;
+            if (showTable) {
+                const showMoney = f.fareOptions.some(fo => fo.money != null);
+                const showMiles = f.fareOptions.some(fo => fo.miles != null);
+                const showTax = f.fareOptions.some(fo => fo.costTax != null);
+
+                let thHtml = '<tr><th>Tipo</th>';
+                if (showMoney) thHtml += '<th>💰 Valor</th>';
+                if (showMiles) thHtml += '<th>🎯 Pontos</th>';
+                if (showTax) thHtml += '<th>🧾 Taxas</th>';
+                thHtml += '</tr>';
+
+                let tbHtml = '';
+                for (let i = 0; i < f.fareOptions.length; i++) {
+                    const fo = f.fareOptions[i];
+                    const isLowest = i === 0;
+                    const typeLabel = formatFareType(fo.type);
+                    const typeClass = fo.type === 'SMILES_CLUB' ? 'badge-club' : '';
+                    tbHtml += `<tr class="fare-row${isLowest?' selected-fare':''}">`;
+                    tbHtml +=
+                        `<td><span class="${typeClass}">${typeLabel}</span></td>`;
+                    if (showMoney) tbHtml +=
+                        `<td>${fo.money!=null?'<strong>R$ '+fo.money.toLocaleString('pt-BR',{minimumFractionDigits:2})+'</strong>':'—'}</td>`;
+                    if (showMiles) tbHtml +=
+                        `<td>${fo.miles!=null?'<strong>'+fo.miles.toLocaleString('pt-BR')+'</strong>':'—'}</td>`;
+                    if (showTax) tbHtml +=
+                        `<td>${fo.costTax!=null?'<span class="badge badge-tax">+R$ '+Number(fo.costTax).toFixed(2)+'</span>':'—'}</td>`;
+                    tbHtml += '</tr>';
+                }
+                fareTable =
+                    `<table class="fare-options-table"><thead>${thHtml}</thead><tbody>${tbHtml}</tbody></table>`;
+            }
+
+            // Preço principal
+            const bestFo = f.fareOptions[0] || {};
+            let priceHtml = '';
+            if (bestFo.money != null) {
+                priceHtml +=
+                    `<span class="price-money">R$ ${bestFo.money.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2})}</span>`;
+            }
+            if (bestFo.miles != null) {
+                priceHtml += `<span class="price-points">${bestFo.miles.toLocaleString('pt-BR')} pts</span>`;
+            }
+            if (bestFo.costTax != null) {
+                priceHtml +=
+                `<span class="price-tax">+ taxas R$ ${Number(bestFo.costTax).toFixed(2)}</span>`;
+            }
+            if (!bestFo.money && !bestFo.miles) {
+                priceHtml += '<span style="color:#999;font-size:0.78rem;">Ver opções</span>';
+            }
+
+            // Cia operadora + fonte
+            const opLabel = f.operatingAirline || f.sourceAirline;
+            const opColor = f.operatingColor || f.sourceColor;
+            const isDifferentSource = f.operatingAirline && f.operatingAirline !== f.sourceAirline;
+
+            return `
+        <div class="flight-card" data-direction="${dir}" data-flight-id="${f.id}">
+          <div class="select-indicator">✓</div>
+          <div class="airline-row">
+            <span class="operating-airline" style="background:${opColor}">✈️ ${opLabel}</span>
+            ${isDifferentSource ? `<span class="source-badge">via ${f.sourceAirline}</span>` : `<span class="source-badge" style="background:${f.sourceColor};color:#fff;">${f.sourceAirline}</span>`}
+          </div>
+          <div class="route-line">${f.from} → ${f.to}</div>
+          <div class="time-line">🕐 ${f.dep||'--:--'} → ${f.arr||'--:--'} &nbsp;|&nbsp; ⏱ ${f.durationStr}</div>
+          <div class="flight-meta">${sBadge}${fnBadge}${acBadge}</div>
+          <div class="price-area">${priceHtml}</div>
+          ${fareTable}
+        </div>`;
+        }
+
         function formatFareType(type) {
             if (!type) return 'Tarifa';
             const map = {
                 'SMILES': '🎯 Smiles',
                 'SMILES_CLUB': '⭐ Smiles Club',
-                'SMILES_TIER': '👑 Smiles Elite',
-                'SMILES_MONEY': '💳 Smiles + $',
-                'SMILES_MONEY_CLUB': '⭐ Club + $',
-                'Azul': '💺 Azul',
                 'Pontos': '🎯 Pontos',
-                'LATAM': '💺 LATAM',
-                'GOL': '💺 GOL',
+                'Tarifa': '💺 Tarifa',
+                'Menor Tarifa': '💰 Menor Tarifa',
             };
             return map[type] || type.replace(/_/g, ' ');
         }
@@ -2116,7 +2354,8 @@
 
         function fmtSummary(f) {
             const fo = f.fareOptions[0] || {};
-            const parts = [`${f.airline}`, `${f.from}→${f.to}`, `${f.dep||'--:--'}`];
+            const op = f.operatingAirline || f.sourceAirline;
+            const parts = [`${op}`, `${f.from}→${f.to}`, `${f.dep||'--:--'}`];
             if (fo.money) parts.push(`R$ ${fo.money.toFixed(2)}`);
             if (fo.miles) parts.push(`${fo.miles.toLocaleString('pt-BR')} pts`);
             return parts.join(' | ');
@@ -2132,10 +2371,10 @@
             function addFlight(label, f, dateStr) {
                 if (!f) return;
                 const fo = f.fareOptions[0] || {};
+                const op = f.operatingAirline || f.sourceAirline;
                 m += `${label}: ${f.from} → ${f.to}\n`;
-                m +=
-                    `   📅 ${dateStr} | 🕐 ${f.dep||'--:--'} → ${f.arr||'--:--'} | ${f.durationStr}\n`;
-                m += `   ✈️ ${f.airline} | ${f.stops===0?'Direto':f.stops+' parada(s)'}\n`;
+                m += `   📅 ${dateStr} | 🕐 ${f.dep||'--:--'} → ${f.arr||'--:--'} | ${f.durationStr}\n`;
+                m += `   ✈️ Operado por: ${op} | ${f.stops===0?'Direto':f.stops+' parada(s)'}\n`;
                 if (fo.money) m += `   💰 R$ ${fo.money.toFixed(2)}\n`;
                 if (fo.miles) m += `   🎯 ${fo.miles.toLocaleString('pt-BR')} pts\n`;
                 if (fo.costTax) m += `   🧾 Taxas: R$ ${Number(fo.costTax).toFixed(2)}\n`;
@@ -2169,8 +2408,7 @@
         function openWhatsappModal() {
             const msg = buildMessage();
             document.getElementById('msgPreview').textContent = msg;
-            document.getElementById('btnSendWa').href =
-                `https://wa.me/?text=${encodeURIComponent(msg)}`;
+            document.getElementById('btnSendWa').href = `https://wa.me/?text=${encodeURIComponent(msg)}`;
             document.getElementById('whatsappModal').classList.add('show');
             document.getElementById('btnCopy').textContent = '📋 Copiar';
             document.getElementById('btnCopy').classList.remove('copied');
