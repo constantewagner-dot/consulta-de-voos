@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>✈️ Consulta de Voos</title>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  CSS — Design System                                      -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
     <style>
         :root {
             --bg: #f0f2f5;
@@ -12,14 +16,10 @@
             --text: #1a1a2e;
             --sub: #666;
             --primary: #1a73e8;
-            --primary-hover: #1557b0;
             --success: #0d8a3e;
             --danger: #d93025;
             --warning: #e67e22;
             --purple: #6B2D8B;
-            --orange: #FF6600;
-            --blue: #0033A0;
-            --red: #E30613;
             --radius: 12px;
             --shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
         }
@@ -35,8 +35,9 @@
             min-height: 100vh;
         }
 
+        /* Header */
         .header {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
             color: #fff;
             padding: 14px 22px;
             display: flex;
@@ -50,19 +51,19 @@
             z-index: 100;
         }
         .header-logo {
-            font-size: 1.35rem;
+            font-size: 1.3rem;
             font-weight: 700;
-            letter-spacing: -0.3px;
         }
         .header-logo span {
             color: #4fc3f7;
         }
         .header-badge {
             background: #ffffff22;
-            padding: 4px 12px;
+            padding: 4px 14px;
             border-radius: 20px;
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             letter-spacing: 0.5px;
+            transition: all 0.3s;
         }
         .api-key-wrap {
             display: flex;
@@ -76,11 +77,12 @@
             background: #ffffff11;
             color: #fff;
             font-size: 0.78rem;
-            width: 230px;
+            width: 220px;
             outline: none;
+            font-family: monospace;
         }
         .api-key-wrap input::placeholder {
-            color: #ffffff88;
+            color: #ffffff66;
         }
         .api-key-wrap input:focus {
             border-color: #4fc3f7;
@@ -93,27 +95,30 @@
             font-size: 0.72rem;
             font-weight: 600;
             white-space: nowrap;
+            transition: all 0.2s;
         }
         .btn-sm.ghost {
             background: #ffffff22;
             color: #fff;
         }
         .btn-sm.ghost:hover {
-            background: #ffffff33;
+            background: #ffffff44;
         }
 
+        /* Main Container */
         .main-container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 18px 16px;
         }
 
+        /* Toggle Bars */
         .toggles-row {
             display: flex;
             justify-content: center;
-            gap: 16px;
+            gap: 12px;
             flex-wrap: wrap;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
         .toggle-bar {
             display: flex;
@@ -122,35 +127,35 @@
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             overflow: hidden;
-            width: fit-content;
         }
         .toggle-btn {
-            padding: 10px 24px;
+            padding: 9px 20px;
             border: none;
             background: transparent;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 600;
             color: var(--sub);
-            transition: all 0.25s;
+            transition: all 0.2s;
             white-space: nowrap;
         }
         .toggle-btn.active {
             background: var(--primary);
             color: #fff;
-            box-shadow: 0 2px 8px rgba(26, 115, 232, 0.35);
+            box-shadow: 0 2px 6px rgba(26, 115, 232, 0.3);
         }
         .toggle-btn:hover:not(.active) {
             background: #f5f7fa;
             color: var(--text);
         }
 
+        /* Search Card */
         .search-card {
             background: var(--card);
             border-radius: var(--radius);
-            padding: 22px;
+            padding: 20px;
             box-shadow: var(--shadow);
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
         .search-row {
             display: flex;
@@ -163,44 +168,46 @@
             flex-direction: column;
             gap: 4px;
             flex: 1;
-            min-width: 135px;
+            min-width: 130px;
         }
         .search-field label {
-            font-size: 0.72rem;
-            font-weight: 600;
+            font-size: 0.7rem;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: var(--sub);
         }
-        .search-field select,
-        .search-field input[type="date"] {
-            padding: 10px 12px;
+        .search-field input,
+        .search-field select {
+            padding: 9px 11px;
             border: 2px solid var(--border);
             border-radius: 8px;
-            font-size: 0.92rem;
+            font-size: 0.9rem;
             outline: none;
             transition: border-color 0.2s;
             background: #fafafa;
+            font-family: inherit;
         }
-        .search-field select:focus,
-        .search-field input[type="date"]:focus {
+        .search-field input:focus,
+        .search-field select:focus {
             border-color: var(--primary);
             background: #fff;
         }
         .btn-search {
-            padding: 11px 28px;
+            padding: 10px 26px;
             background: var(--success);
             color: #fff;
             border: none;
             border-radius: 8px;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
             white-space: nowrap;
             align-self: flex-end;
+            min-height: 42px;
         }
-        .btn-search:hover {
+        .btn-search:hover:not(:disabled) {
             background: #0b7532;
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(13, 138, 62, 0.3);
@@ -212,40 +219,22 @@
             box-shadow: none;
         }
 
+        /* Airport Selector */
         .airport-selector {
             position: relative;
         }
         .airport-input-wrap {
             position: relative;
-            display: flex;
-            align-items: center;
         }
         .airport-input-wrap input {
             width: 100%;
-            padding: 10px 30px 10px 36px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 0.92rem;
-            font-weight: 600;
-            outline: none;
-            transition: all 0.2s;
-            background: #fafafa;
-            text-transform: uppercase;
-        }
-        .airport-input-wrap input:focus {
-            border-color: var(--primary);
-            background: #fff;
-        }
-        .airport-input-wrap .search-icon {
-            position: absolute;
-            left: 11px;
-            font-size: 0.95rem;
-            color: #999;
-            pointer-events: none;
+            padding-right: 28px;
         }
         .airport-input-wrap .clear-btn {
             position: absolute;
             right: 6px;
+            top: 50%;
+            transform: translateY(-50%);
             background: none;
             border: none;
             font-size: 1.2rem;
@@ -255,11 +244,11 @@
             display: none;
             line-height: 1;
         }
-        .airport-input-wrap .clear-btn:hover {
-            color: #555;
-        }
         .airport-input-wrap.has-value .clear-btn {
             display: block;
+        }
+        .airport-input-wrap .clear-btn:hover {
+            color: #555;
         }
         .airport-dropdown {
             position: absolute;
@@ -270,7 +259,7 @@
             border: 2px solid #ddd;
             border-radius: 10px;
             box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
-            max-height: 340px;
+            max-height: 320px;
             overflow-y: auto;
             z-index: 50;
             display: none;
@@ -279,8 +268,8 @@
             display: block;
         }
         .airport-dropdown-header {
-            padding: 10px 14px;
-            font-size: 0.7rem;
+            padding: 9px 14px;
+            font-size: 0.68rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.6px;
@@ -289,35 +278,34 @@
             background: #fafafa;
             position: sticky;
             top: 0;
-            z-index: 1;
         }
         .airport-item {
-            padding: 10px 14px;
+            padding: 9px 14px;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 10px;
-            transition: background 0.12s;
+            transition: background 0.1s;
         }
         .airport-item:hover {
-            background: #f0f4ff;
+            background: #eef2ff;
         }
-        .airport-item .iata-code {
+        .airport-item .iata {
             font-weight: 800;
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--primary);
-            min-width: 42px;
+            min-width: 40px;
         }
-        .airport-item .airport-info {
+        .airport-item .info {
             flex: 1;
             min-width: 0;
         }
-        .airport-item .city-name {
+        .airport-item .city {
             font-weight: 600;
-            font-size: 0.88rem;
+            font-size: 0.85rem;
         }
-        .airport-item .airport-name {
-            font-size: 0.73rem;
+        .airport-item .name {
+            font-size: 0.7rem;
             color: var(--sub);
             white-space: nowrap;
             overflow: hidden;
@@ -327,18 +315,19 @@
             padding: 22px;
             text-align: center;
             color: #aaa;
-            font-size: 0.82rem;
+            font-size: 0.8rem;
         }
 
+        /* Filters Row */
         .filters-row {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
             align-items: center;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             justify-content: center;
         }
-        .search-type-toggles {
+        .filter-group {
             display: flex;
             gap: 0;
             background: var(--card);
@@ -346,22 +335,22 @@
             box-shadow: var(--shadow);
             overflow: hidden;
         }
-        .search-type-btn {
-            padding: 8px 18px;
+        .filter-btn {
+            padding: 8px 16px;
             border: none;
             background: transparent;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 600;
             color: var(--sub);
             transition: all 0.2s;
             white-space: nowrap;
         }
-        .search-type-btn.active {
+        .filter-btn.active {
             background: var(--purple);
             color: #fff;
         }
-        .search-type-btn:hover:not(.active) {
+        .filter-btn:hover:not(.active) {
             background: #f5f0fa;
         }
         .airline-toggles {
@@ -369,13 +358,13 @@
             gap: 6px;
             flex-wrap: wrap;
         }
-        .airline-toggle {
+        .airline-chip {
             padding: 6px 14px;
             border: 2px solid var(--border);
             border-radius: 20px;
             background: var(--card);
             cursor: pointer;
-            font-size: 0.78rem;
+            font-size: 0.76rem;
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -383,37 +372,40 @@
             transition: all 0.2s;
             white-space: nowrap;
         }
-        .airline-toggle.active {
+        .airline-chip.active {
             border-color: #333;
             background: #fff;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
         }
-        .airline-toggle.incompatible {
-            opacity: 0.35;
+        .airline-chip.incompatible {
+            opacity: 0.3;
             cursor: not-allowed;
             text-decoration: line-through;
         }
-        .airline-toggle .dot {
+        .airline-chip .dot {
             width: 10px;
             height: 10px;
             border-radius: 50%;
             display: inline-block;
         }
 
+        /* Status Bar */
         .status-bar {
             text-align: center;
-            font-size: 0.78rem;
+            font-size: 0.76rem;
             padding: 6px;
             color: var(--sub);
-            min-height: 24px;
+            min-height: 26px;
         }
         .status-bar.warning {
             color: var(--danger);
+            font-weight: 600;
         }
         .status-bar.ok {
             color: var(--success);
         }
 
+        /* Loading */
         .loading-overlay {
             display: none;
             text-align: center;
@@ -423,20 +415,25 @@
             display: block;
         }
         .spinner {
-            width: 46px;
-            height: 46px;
+            width: 42px;
+            height: 42px;
             border: 4px solid #e0e0e0;
             border-top-color: var(--primary);
             border-radius: 50%;
             animation: spin 0.7s linear infinite;
-            margin: 0 auto 14px;
+            margin: 0 auto 12px;
         }
         @keyframes spin {
             to {
                 transform: rotate(360deg);
             }
         }
+        #loadingText {
+            color: #666;
+            font-size: 0.85rem;
+        }
 
+        /* Results */
         .results-section {
             display: none;
         }
@@ -446,16 +443,19 @@
         .trip-columns {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 18px;
+            gap: 16px;
         }
         .trip-columns.single {
             grid-template-columns: 1fr;
-            max-width: 680px;
+            max-width: 650px;
             margin: 0 auto;
         }
         @media (max-width: 768px) {
             .trip-columns {
                 grid-template-columns: 1fr;
+            }
+            .trip-columns.single {
+                max-width: 100%;
             }
         }
         .trip-column {
@@ -465,9 +465,9 @@
             overflow: hidden;
         }
         .trip-column-header {
-            padding: 12px 16px;
+            padding: 11px 16px;
             font-weight: 700;
-            font-size: 0.92rem;
+            font-size: 0.88rem;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -482,22 +482,32 @@
             color: #c62828;
         }
         .trip-column-body {
-            max-height: 600px;
+            max-height: 580px;
             overflow-y: auto;
-            padding: 8px;
+            padding: 6px;
         }
-        .trip-column-body .empty {
+        .empty-state {
             text-align: center;
-            padding: 36px 20px;
+            padding: 40px 20px;
             color: #999;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
+        }
+        .error-card {
+            background: #fffbe6;
+            margin: 6px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            color: #795548;
+            border-left: 3px solid var(--warning);
         }
 
+        /* Flight Card */
         .flight-card {
             border: 2px solid #f0f0f0;
             border-radius: 10px;
-            padding: 14px;
-            margin: 6px;
+            padding: 13px 15px;
+            margin: 5px;
             cursor: pointer;
             transition: all 0.2s;
             position: relative;
@@ -510,9 +520,9 @@
         .flight-card.selected {
             border-color: var(--success);
             background: #f6fff6;
-            box-shadow: 0 0 0 2px rgba(13, 138, 62, 0.15);
+            box-shadow: 0 0 0 2px rgba(13, 138, 62, 0.12);
         }
-        .flight-card .select-indicator {
+        .flight-card .check {
             position: absolute;
             top: 10px;
             right: 12px;
@@ -524,60 +534,58 @@
             align-items: center;
             justify-content: center;
             font-size: 12px;
-            transition: all 0.2s;
             color: transparent;
+            transition: all 0.2s;
         }
-        .flight-card.selected .select-indicator {
+        .flight-card.selected .check {
             background: var(--success);
             border-color: var(--success);
             color: #fff;
         }
-        .flight-card .airline-row {
+        .flight-card .top-row {
             display: flex;
             align-items: center;
-            gap: 6px;
-            margin-bottom: 8px;
+            gap: 7px;
+            margin-bottom: 7px;
             flex-wrap: wrap;
         }
-        .flight-card .operating-airline {
+        .flight-card .op-airline-tag {
             display: inline-block;
-            padding: 3px 12px;
+            padding: 3px 11px;
             border-radius: 14px;
-            font-size: 0.73rem;
+            font-size: 0.7rem;
             font-weight: 700;
             color: #fff;
-            background: #333;
         }
-        .flight-card .source-badge {
+        .flight-card .src-badge {
             display: inline-block;
             padding: 2px 8px;
             border-radius: 10px;
-            font-size: 0.6rem;
+            font-size: 0.58rem;
             font-weight: 600;
             background: #f0f0f0;
             color: #777;
         }
-        .flight-card .route-line {
+        .flight-card .route {
             font-weight: 700;
-            font-size: 1rem;
-            margin-bottom: 4px;
-            letter-spacing: 0.3px;
+            font-size: 0.95rem;
+            margin-bottom: 3px;
         }
-        .flight-card .time-line {
+        .flight-card .times {
             color: var(--sub);
-            font-size: 0.84rem;
+            font-size: 0.82rem;
             margin-bottom: 5px;
         }
-        .flight-card .flight-meta {
+        .flight-card .meta {
             display: flex;
-            gap: 6px;
+            gap: 5px;
             flex-wrap: wrap;
             margin-top: 4px;
         }
-        .flight-card .flight-meta .badge {
-            padding: 3px 10px;
+        .badge {
+            padding: 2px 9px;
             border-radius: 10px;
-            font-size: 0.7rem;
+            font-size: 0.66rem;
             font-weight: 600;
         }
         .badge-direct {
@@ -588,121 +596,116 @@
             background: #fff3e0;
             color: #e67e22;
         }
-        .badge-fare {
-            background: #ede7f6;
-            color: #6B2D8B;
-        }
         .badge-flight {
             background: #e3f2fd;
             color: #1565c0;
         }
+        .badge-fare {
+            background: #ede7f6;
+            color: #6B2D8B;
+        }
         .badge-tax {
             background: #fce4ec;
             color: #c62828;
+            font-size: 0.7rem;
         }
-        .badge-club {
-            background: #fff8e1;
-            color: #f57f17;
-        }
-        .flight-card .price-area {
+        .flight-card .prices {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-top: 10px;
+            margin-top: 9px;
             flex-wrap: wrap;
         }
-        .flight-card .price-money {
-            font-size: 1.35rem;
+        .price-money {
+            font-size: 1.3rem;
             font-weight: 800;
             color: #0d8a3e;
         }
-        .flight-card .price-points {
-            font-size: 0.9rem;
+        .price-points {
+            font-size: 0.88rem;
             font-weight: 700;
             color: #6B2D8B;
         }
-        .flight-card .price-tax {
-            font-size: 0.7rem;
+        .price-tax {
+            font-size: 0.68rem;
             color: #c62828;
             font-weight: 600;
         }
 
-        .fare-options-table {
+        /* Fare Table */
+        .fare-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 8px;
-            font-size: 0.75rem;
+            margin-top: 7px;
+            font-size: 0.73rem;
         }
-        .fare-options-table th {
-            font-size: 0.65rem;
+        .fare-table th {
+            font-size: 0.62rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.3px;
             color: #888;
-            padding: 4px 8px;
+            padding: 3px 7px;
             text-align: left;
             border-bottom: 1px solid #eee;
             background: #fafafa;
         }
-        .fare-options-table td {
-            padding: 5px 8px;
+        .fare-table td {
+            padding: 4px 7px;
             border-bottom: 1px solid #f5f5f5;
-            font-size: 0.78rem;
+            font-size: 0.76rem;
         }
-        .fare-row.selected-fare {
+        .fare-table .best-fare {
             background: #e8f5e9;
-            outline: 2px solid var(--success);
-            border-radius: 4px;
+            font-weight: 700;
         }
 
+        /* Summary Bar */
         .summary-bar {
             display: none;
             background: var(--card);
             border-radius: var(--radius);
-            padding: 16px 20px;
-            margin-top: 16px;
+            padding: 15px 20px;
+            margin-top: 14px;
             box-shadow: var(--shadow);
             align-items: center;
-            gap: 16px;
+            gap: 14px;
             flex-wrap: wrap;
             justify-content: space-between;
         }
         .summary-bar.show {
             display: flex;
         }
-        .summary-bar .summary-info {
+        .summary-info {
             display: flex;
-            gap: 18px;
+            gap: 16px;
             flex-wrap: wrap;
             align-items: center;
         }
-        .summary-bar .summary-info .item {
-            font-size: 0.82rem;
-        }
-        .summary-bar .summary-info .item strong {
-            font-size: 0.95rem;
+        .summary-info .item {
+            font-size: 0.8rem;
         }
         .summary-total {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 800;
             color: #0d8a3e;
         }
         .btn-whatsapp {
-            padding: 11px 22px;
+            padding: 10px 22px;
             background: #25D366;
             color: #fff;
             border: none;
             border-radius: 8px;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
             white-space: nowrap;
         }
-        .btn-whatsapp:hover {
+        .btn-whatsapp:hover:not(:disabled) {
             background: #1ebe5b;
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
         }
         .btn-whatsapp:disabled {
             background: #bbb;
@@ -711,11 +714,12 @@
             box-shadow: none;
         }
 
+        /* Modal */
         .modal-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.55);
+            background: rgba(0, 0, 0, 0.5);
             z-index: 200;
             align-items: center;
             justify-content: center;
@@ -726,28 +730,28 @@
         .modal {
             background: #fff;
             border-radius: var(--radius);
-            padding: 26px;
-            max-width: 500px;
-            width: 90%;
+            padding: 24px;
+            max-width: 480px;
+            width: 92%;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
             max-height: 90vh;
             overflow-y: auto;
         }
         .modal h3 {
-            margin-bottom: 10px;
-            font-size: 1.15rem;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
         }
         .modal .msg-preview {
             background: #f5f5f5;
             border-radius: 8px;
-            padding: 14px;
-            font-size: 0.82rem;
+            padding: 12px;
+            font-size: 0.8rem;
             line-height: 1.6;
             white-space: pre-wrap;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            max-height: 280px;
+            font-family: inherit;
+            max-height: 260px;
             overflow-y: auto;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             border: 1px solid #e0e0e0;
         }
         .modal .btn-row {
@@ -755,15 +759,17 @@
             gap: 8px;
             flex-wrap: wrap;
         }
-        .btn-copy,
-        .btn-send-wa,
-        .btn-close-modal {
-            padding: 10px 18px;
+        .modal .btn-row button,
+        .modal .btn-row a {
+            padding: 9px 16px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 0.82rem;
+            font-size: 0.8rem;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
         }
         .btn-copy {
             background: #333;
@@ -772,26 +778,22 @@
         .btn-copy:hover {
             background: #555;
         }
-        .btn-copy.copied {
-            background: var(--success);
-        }
         .btn-send-wa {
             background: #25D366;
             color: #fff;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
         }
         .btn-send-wa:hover {
             background: #1ebe5b;
         }
         .btn-close-modal {
             background: #eee;
+            color: #333;
         }
         .btn-close-modal:hover {
             background: #ddd;
         }
 
+        /* Toast */
         .toast {
             position: fixed;
             bottom: 24px;
@@ -799,10 +801,10 @@
             transform: translateX(-50%);
             background: #333;
             color: #fff;
-            padding: 11px 22px;
+            padding: 10px 22px;
             border-radius: 8px;
             font-weight: 600;
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             z-index: 300;
             opacity: 0;
             transition: opacity 0.3s;
@@ -812,13 +814,37 @@
             opacity: 1;
         }
 
-        .error-detail {
-            background: #fffbe6;
-            margin: 8px;
-            padding: 8px 12px;
+        /* Debug Panel */
+        .debug-panel {
+            background: #1a1a2e;
+            color: #4fc3f7;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.7rem;
+            padding: 10px 16px;
+            border-radius: 8px;
+            margin-top: 12px;
+            max-height: 160px;
+            overflow-y: auto;
+            display: none;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        .debug-panel.show {
+            display: block;
+        }
+        .debug-toggle {
+            background: none;
+            border: 1px dashed #ccc;
+            color: #999;
+            padding: 4px 12px;
             border-radius: 6px;
-            font-size: 0.72rem;
-            color: #795548;
+            font-size: 0.65rem;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        .debug-toggle:hover {
+            border-color: #888;
+            color: #666;
         }
 
         @media (max-width: 600px) {
@@ -827,10 +853,6 @@
             }
             .search-field {
                 min-width: 100%;
-            }
-            .filters-row {
-                flex-direction: column;
-                align-items: stretch;
             }
             .header {
                 flex-direction: column;
@@ -844,10 +866,14 @@
                 align-items: center;
                 gap: 8px;
             }
-            .flight-card .price-area {
+            .flight-card .prices {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 4px;
+                gap: 3px;
+            }
+            .summary-bar {
+                flex-direction: column;
+                align-items: stretch;
             }
         }
     </style>
@@ -858,36 +884,36 @@
         <div class="header-logo">✈️ Consulta de <span>Voos</span></div>
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
             <div class="api-key-wrap">
-                <input type="password" id="apiKeyInput" placeholder="Chave da GeckoAPI" />
-                <button class="btn-sm ghost" onclick="saveApiKey()" title="Salvar chave">💾</button>
-                <button class="btn-sm ghost" onclick="testConnection()" title="Testar conexão">🔌</button>
+                <input type="password" id="apiKeyInput" placeholder="Chave GeckoAPI (ex: gck_...)" />
+                <button class="btn-sm ghost" onclick="App.saveApiKey()" title="Salvar chave">💾</button>
+                <button class="btn-sm ghost" onclick="App.testApi()" title="Testar conexão">🔌</button>
             </div>
             <span class="header-badge" id="apiStatus">⚪ Não configurada</span>
         </div>
     </header>
 
     <div class="main-container">
-
+        <!-- Toggles -->
         <div class="toggles-row">
             <div class="toggle-bar" id="tripTypeBar">
-                <button class="toggle-btn active" onclick="setTripType('roundtrip')" data-type="roundtrip">🔄 Ida e Volta</button>
-                <button class="toggle-btn" onclick="setTripType('oneway')" data-type="oneway">➡️ Apenas Ida</button>
+                <button class="toggle-btn active" data-type="roundtrip">🔄 Ida e Volta</button>
+                <button class="toggle-btn" data-type="oneway">➡️ Apenas Ida</button>
             </div>
-            <div class="toggle-bar" id="regionToggleBar">
-                <button class="toggle-btn active" onclick="setRegion('nacional')" data-region="nacional">🇧🇷 Nacional</button>
-                <button class="toggle-btn" onclick="setRegion('internacional')" data-region="internacional">🌎 Internacional</button>
+            <div class="toggle-bar" id="regionBar">
+                <button class="toggle-btn active" data-region="nacional">🇧🇷 Nacional</button>
+                <button class="toggle-btn" data-region="internacional">🌎 Internacional</button>
             </div>
         </div>
 
-        <div class="search-card" id="searchForm">
+        <!-- Search Form -->
+        <div class="search-card">
             <div class="search-row">
                 <div class="search-field">
                     <label>🔵 Origem</label>
                     <div class="airport-selector" id="fromSelector">
                         <div class="airport-input-wrap">
-                            <span class="search-icon">🔍</span>
-                            <input type="text" id="fromAirport" placeholder="IATA ou cidade..." autocomplete="off" />
-                            <button class="clear-btn" onclick="clearAirport('from')" type="button">×</button>
+                            <input type="text" id="fromAirport" placeholder="Código IATA ou cidade..." autocomplete="off" />
+                            <button class="clear-btn" type="button">×</button>
                         </div>
                         <div class="airport-dropdown" id="fromDropdown"></div>
                     </div>
@@ -896,721 +922,189 @@
                     <label>🔴 Destino</label>
                     <div class="airport-selector" id="toSelector">
                         <div class="airport-input-wrap">
-                            <span class="search-icon">🔍</span>
-                            <input type="text" id="toAirport" placeholder="IATA ou cidade..." autocomplete="off" />
-                            <button class="clear-btn" onclick="clearAirport('to')" type="button">×</button>
+                            <input type="text" id="toAirport" placeholder="Código IATA ou cidade..." autocomplete="off" />
+                            <button class="clear-btn" type="button">×</button>
                         </div>
                         <div class="airport-dropdown" id="toDropdown"></div>
                     </div>
                 </div>
                 <div class="search-field">
-                    <label>📅 Data de Ida</label>
+                    <label>📅 Ida</label>
                     <input type="date" id="depDate" />
                 </div>
-                <div class="search-field" id="returnDateField">
-                    <label>📅 Data de Volta</label>
+                <div class="search-field" id="retDateField">
+                    <label>📅 Volta</label>
                     <input type="date" id="retDate" />
                 </div>
-                <div class="search-field" style="flex:0.45;min-width:75px;">
+                <div class="search-field" style="flex:0.4;min-width:70px;">
                     <label>👥 Adultos</label>
                     <select id="numAdults">
-                        <option value="1">1</option>
-                        <option value="2" selected>2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
+                        <option value="1">1</option><option value="2" selected>2</option>
+                        <option value="3">3</option><option value="4">4</option>
                     </select>
                 </div>
-                <button class="btn-search" id="btnSearch" onclick="doSearch()">🔍 Buscar</button>
+                <button class="btn-search" id="btnSearch">🔍 Buscar Voos</button>
             </div>
         </div>
 
+        <!-- Filters -->
         <div class="filters-row">
-            <div class="search-type-toggles" id="searchTypeToggles">
-                <button class="search-type-btn active" onclick="setSearchType('both')" data-type="both">🔄 Ambos</button>
-                <button class="search-type-btn" onclick="setSearchType('money')" data-type="money">💰 Dinheiro</button>
-                <button class="search-type-btn" onclick="setSearchType('points')" data-type="points">🎯 Pontos</button>
+            <div class="filter-group" id="searchTypeGroup">
+                <button class="filter-btn active" data-type="both">🔄 Ambos</button>
+                <button class="filter-btn" data-type="money">💰 Dinheiro</button>
+                <button class="filter-btn" data-type="points">🎯 Pontos</button>
             </div>
             <div class="airline-toggles" id="airlineToggles"></div>
         </div>
 
         <div class="status-bar" id="statusBar"></div>
 
+        <!-- Loading -->
         <div class="loading-overlay" id="loadingOverlay">
             <div class="spinner"></div>
-            <p id="loadingText" style="color:#666;">Buscando voos...</p>
+            <p id="loadingText">Buscando voos...</p>
         </div>
 
+        <!-- Results -->
         <div class="results-section" id="resultsSection">
             <div class="trip-columns" id="tripColumns"></div>
             <div class="summary-bar" id="summaryBar">
                 <div class="summary-info">
-                    <div class="item" id="summaryIdaItem" style="display:none;">🟢 <strong>Ida:</strong> <span id="summaryIda">—</span></div>
-                    <div class="item" id="summaryVoltaItem" style="display:none;">🔴 <strong>Volta:</strong> <span id="summaryVolta">—</span></div>
-                    <div class="summary-total" id="summaryTotal">R$ 0,00</div>
+                    <span class="item" id="sumIdaItem" style="display:none;">🟢 <strong>Ida:</strong> <span id="sumIda"></span></span>
+                    <span class="item" id="sumVoltaItem" style="display:none;">🔴 <strong>Volta:</strong> <span id="sumVolta"></span></span>
+                    <span class="summary-total" id="sumTotal">R$ 0,00</span>
                 </div>
-                <button class="btn-whatsapp" id="btnWhatsapp" onclick="openWhatsappModal()" disabled>💬 WhatsApp</button>
+                <button class="btn-whatsapp" id="btnWhatsapp" disabled>💬 WhatsApp</button>
             </div>
+
+            <!-- Debug -->
+            <button class="debug-toggle" id="debugToggle" onclick="App.toggleDebug()">🐛 Debug</button>
+            <div class="debug-panel" id="debugPanel"></div>
         </div>
     </div>
 
+    <!-- WhatsApp Modal -->
     <div class="modal-overlay" id="whatsappModal">
         <div class="modal">
             <h3>💬 Compartilhar Cotação</h3>
-            <p style="font-size:0.82rem;color:#666;margin-bottom:10px;">Mensagem pronta para enviar:</p>
+            <p style="font-size:0.78rem;color:#666;margin-bottom:8px;">Mensagem:</p>
             <div class="msg-preview" id="msgPreview"></div>
             <div class="btn-row">
-                <button class="btn-copy" id="btnCopy" onclick="copyMessage()">📋 Copiar</button>
+                <button class="btn-copy" id="btnCopy">📋 Copiar</button>
                 <a class="btn-send-wa" id="btnSendWa" href="#" target="_blank">📱 Enviar WhatsApp</a>
-                <button class="btn-close-modal" onclick="closeWhatsappModal()">Fechar</button>
+                <button class="btn-close-modal">Fechar</button>
             </div>
         </div>
     </div>
 
     <div class="toast" id="toast"></div>
 
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  JAVASCRIPT — Application                                  -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
     <script>
-        // ═══════════════════════════════════════════════════════════
-        //  AIRPORTS DATABASE
-        // ═══════════════════════════════════════════════════════════
-        const AIRPORTS_NACIONAL = [
-            { iata: 'GRU', city: 'São Paulo', name: 'Guarulhos (GRU)', country: 'BR' },
-            { iata: 'CGH', city: 'São Paulo', name: 'Congonhas (CGH)', country: 'BR' },
-            { iata: 'VCP', city: 'Campinas', name: 'Viracopos (VCP)', country: 'BR' },
-            { iata: 'GIG', city: 'Rio de Janeiro', name: 'Galeão (GIG)', country: 'BR' },
-            { iata: 'SDU', city: 'Rio de Janeiro', name: 'Santos Dumont (SDU)', country: 'BR' },
-            { iata: 'BSB', city: 'Brasília', name: 'Juscelino Kubitschek (BSB)', country: 'BR' },
-            { iata: 'CNF', city: 'Belo Horizonte', name: 'Confins (CNF)', country: 'BR' },
-            { iata: 'SSA', city: 'Salvador', name: 'L.E. Magalhães (SSA)', country: 'BR' },
-            { iata: 'REC', city: 'Recife', name: 'Guararapes (REC)', country: 'BR' },
-            { iata: 'FOR', city: 'Fortaleza', name: 'Pinto Martins (FOR)', country: 'BR' },
-            { iata: 'POA', city: 'Porto Alegre', name: 'Salgado Filho (POA)', country: 'BR' },
-            { iata: 'CWB', city: 'Curitiba', name: 'Afonso Pena (CWB)', country: 'BR' },
-            { iata: 'FLN', city: 'Florianópolis', name: 'Hercílio Luz (FLN)', country: 'BR' },
-            { iata: 'MAO', city: 'Manaus', name: 'Eduardo Gomes (MAO)', country: 'BR' },
-            { iata: 'BEL', city: 'Belém', name: 'Val de Cans (BEL)', country: 'BR' },
-            { iata: 'MCZ', city: 'Maceió', name: 'Zumbi dos Palmares (MCZ)', country: 'BR' },
-            { iata: 'NAT', city: 'Natal', name: 'S.G. do Amarante (NAT)', country: 'BR' },
-            { iata: 'VIX', city: 'Vitória', name: 'Eurico Salles (VIX)', country: 'BR' },
-            { iata: 'GYN', city: 'Goiânia', name: 'Santa Genoveva (GYN)', country: 'BR' },
-            { iata: 'CGB', city: 'Cuiabá', name: 'Marechal Rondon (CGB)', country: 'BR' },
-            { iata: 'CGR', city: 'Campo Grande', name: 'Internacional (CGR)', country: 'BR' },
-            { iata: 'PVH', city: 'Porto Velho', name: 'Jorge Teixeira (PVH)', country: 'BR' },
-            { iata: 'SLZ', city: 'São Luís', name: 'Cunha Machado (SLZ)', country: 'BR' },
-            { iata: 'THE', city: 'Teresina', name: 'Petrônio Portella (THE)', country: 'BR' },
-            { iata: 'JPA', city: 'João Pessoa', name: 'Castro Pinto (JPA)', country: 'BR' },
-            { iata: 'AJU', city: 'Aracaju', name: 'Santa Maria (AJU)', country: 'BR' },
-            { iata: 'BPS', city: 'Porto Seguro', name: 'Jorge Amado (BPS)', country: 'BR' },
-            { iata: 'UDI', city: 'Uberlândia', name: 'César Bombonato (UDI)', country: 'BR' },
-            { iata: 'RAO', city: 'Ribeirão Preto', name: 'Leite Lopes (RAO)', country: 'BR' },
-        ];
+        /**
+         * ✈️ Consulta de Voos — v2.0
+         * 
+         * Módulos:
+         *   Config  → constantes, aeroportos, configuração de CIAs
+         *   State   → gerenciamento de estado reativo
+         *   API     → chamadas à GeckoAPI
+         *   Parsers → extratores de dados por cia aérea
+         *   UI      → renderização e eventos de interface
+         *   App     → inicialização e controle central
+         */
 
-        const AIRPORTS_INTERNACIONAL = [
-            { iata: 'EZE', city: 'Buenos Aires', name: 'Ezeiza (EZE)', country: 'AR' },
-            { iata: 'AEP', city: 'Buenos Aires', name: 'Aeroparque (AEP)', country: 'AR' },
-            { iata: 'SCL', city: 'Santiago', name: 'Arturo Merino (SCL)', country: 'CL' },
-            { iata: 'LIM', city: 'Lima', name: 'Jorge Chávez (LIM)', country: 'PE' },
-            { iata: 'BOG', city: 'Bogotá', name: 'El Dorado (BOG)', country: 'CO' },
-            { iata: 'MIA', city: 'Miami', name: 'International (MIA)', country: 'US' },
-            { iata: 'MCO', city: 'Orlando', name: 'International (MCO)', country: 'US' },
-            { iata: 'JFK', city: 'Nova York', name: 'J.F. Kennedy (JFK)', country: 'US' },
-            { iata: 'LAX', city: 'Los Angeles', name: 'International (LAX)', country: 'US' },
-            { iata: 'LIS', city: 'Lisboa', name: 'Portela (LIS)', country: 'PT' },
-            { iata: 'OPO', city: 'Porto', name: 'F. Sá Carneiro (OPO)', country: 'PT' },
-            { iata: 'MAD', city: 'Madrid', name: 'Barajas (MAD)', country: 'ES' },
-            { iata: 'BCN', city: 'Barcelona', name: 'El Prat (BCN)', country: 'ES' },
-            { iata: 'CDG', city: 'Paris', name: 'Charles de Gaulle (CDG)', country: 'FR' },
-            { iata: 'ORY', city: 'Paris', name: 'Orly (ORY)', country: 'FR' },
-            { iata: 'LHR', city: 'Londres', name: 'Heathrow (LHR)', country: 'GB' },
-            { iata: 'FCO', city: 'Roma', name: 'Fiumicino (FCO)', country: 'IT' },
-            { iata: 'MXP', city: 'Milão', name: 'Malpensa (MXP)', country: 'IT' },
-            { iata: 'MEX', city: 'Cid. do México', name: 'Benito Juárez (MEX)', country: 'MX' },
-            { iata: 'CUN', city: 'Cancún', name: 'International (CUN)', country: 'MX' },
-            { iata: 'PTY', city: 'Panamá', name: 'Tocumen (PTY)', country: 'PA' },
-            { iata: 'MVD', city: 'Montevidéu', name: 'Carrasco (MVD)', country: 'UY' },
-            { iata: 'ASU', city: 'Assunção', name: 'Silvio Pettirossi (ASU)', country: 'PY' },
-        ];
+        // ╔══════════════════════════════════════════════════════════════╗
+        // ║  CONFIG — Constantes, Aeroportos, Config de CIAs            ║
+        // ╚══════════════════════════════════════════════════════════════╝
+        const CONFIG = {
+            GECKO_API: 'https://api.geckoapi.com.br/v1/extract',
+            DEBUG: false,
 
-        // ═══════════════════════════════════════════════════════════
-        //  AIRLINE CONFIG — com parâmetros específicos por API
-        // ═══════════════════════════════════════════════════════════
-        const GECKO_API = 'https://api.geckoapi.com.br/v1/extract';
-
-        const AIRLINES = {
-            'LATAM': {
-                id: 'LATAM',
-                label: 'LATAM',
-                target: 'latamairlines.com',
-                type: 'plp',
-                capabilities: { money: true, points: true },
-                color: '#E30613',
-                parser: 'latam',
-                // Parâmetros extras por searchType
-                extraParams: function(st) {
-                    // LATAM precisa de points:true para buscar em pontos
-                    if (st === 'points' || st === 'both') return { points: true };
-                    return {};
-                }
+            AIRLINES: {
+                LATAM: {
+                    id: 'LATAM',
+                    label: 'LATAM',
+                    target: 'latamairlines.com',
+                    parser: 'latam',
+                    color: '#E30613',
+                    canMoney: true,
+                    canPoints: true,
+                    buildPayload: (from, to, date, adults, searchType) => {
+                        const p = { target: 'latamairlines.com', type: 'plp', from, to, departureDate: date,
+                            numAdults: adults, numChildren: 0, numInfants: 0 };
+                        if (searchType === 'points' || searchType === 'both') p.points = true;
+                        return p;
+                    },
+                },
+                AZUL: {
+                    id: 'AZUL',
+                    label: 'Azul',
+                    target: 'voeazul.com.br',
+                    parser: 'azul',
+                    color: '#0033A0',
+                    canMoney: true,
+                    canPoints: true,
+                    buildPayload: (from, to, date, adults) => ({
+                        target: 'voeazul.com.br',
+                        type: 'plp',
+                        from,
+                        to,
+                        departureDate: date,
+                        numAdults: adults,
+                        numChildren: 0,
+                        numInfants: 0,
+                        currency: 'BRL'
+                    }),
+                },
+                SMILES: {
+                    id: 'SMILES',
+                    label: 'Smiles',
+                    target: 'smiles.com.br',
+                    parser: 'smiles',
+                    color: '#6B2D8B',
+                    canMoney: false,
+                    canPoints: true,
+                    buildPayload: (from, to, date, adults) => ({
+                        target: 'smiles.com.br',
+                        type: 'plp',
+                        from,
+                        to,
+                        departureDate: date,
+                        numAdults: adults,
+                        numChildren: 0,
+                        numInfants: 0
+                    }),
+                },
+                GOL: {
+                    id: 'GOL',
+                    label: 'GOL',
+                    target: 'voegol.com.br',
+                    parser: 'gol',
+                    color: '#FF6600',
+                    canMoney: true,
+                    canPoints: false,
+                    buildPayload: (from, to, date, adults) => ({
+                        target: 'voegol.com.br',
+                        type: 'plp',
+                        from,
+                        to,
+                        departureDate: date,
+                        numAdults: adults,
+                        numChildren: 0,
+                        numInfants: 0
+                    }),
+                },
             },
-            'AZUL': {
-                id: 'AZUL',
-                label: 'Azul',
-                target: 'voeazul.com.br',
-                type: 'plp',
-                capabilities: { money: true, points: true },
-                color: '#0033A0',
-                parser: 'azul',
-                extraParams: function(st) {
-                    return { currency: 'BRL' };
-                }
-            },
-            'SMILES': {
-                id: 'SMILES',
-                label: 'Smiles',
-                target: 'smiles.com.br',
-                type: 'plp',
-                capabilities: { money: false, points: true },
-                color: '#6B2D8B',
-                parser: 'smiles',
-                extraParams: function(st) { return {}; }
-            },
-            'GOL': {
-                id: 'GOL',
-                label: 'GOL',
-                target: 'voegol.com.br',
-                type: 'plp',
-                capabilities: { money: true, points: false },
-                color: '#FF6600',
-                parser: 'gol',
-                extraParams: function(st) { return {}; }
-            },
-        };
 
-        // Cores por código IATA de cia aérea
-        const AIRLINE_COLORS = {
-            'LA': '#E30613',
-            'JJ': '#E30613',
-            'AD': '#0033A0',
-            'G3': '#FF6600',
-            'GOL': '#FF6600',
-            'AZUL': '#0033A0',
-            'LATAM': '#E30613',
-            'SMILES': '#6B2D8B',
-        };
-
-        // ═══════════════════════════════════════════════════════════
-        //  STATE
-        // ═══════════════════════════════════════════════════════════
-        let region = 'nacional';
-        let tripType = 'roundtrip';
-        let searchType = 'both';
-        let selectedAirlines = new Set(['LATAM', 'AZUL', 'SMILES', 'GOL']);
-        let apiKey = localStorage.getItem('geckoApiKey') || '';
-        let allFlights = { ida: [], volta: [] };
-        let selectedIda = null;
-        let selectedVolta = null;
-        let fromAirportData = null;
-        let toAirportData = null;
-
-        // ═══════════════════════════════════════════════════════════
-        //  INIT
-        // ═══════════════════════════════════════════════════════════
-        document.addEventListener('DOMContentLoaded', () => {
-            if (apiKey) {
-                document.getElementById('apiKeyInput').value = apiKey;
-                updateApiStatus('configured');
-            }
-            setDefaultDates();
-            renderAirlineToggles();
-            updateStatusBar();
-            initAirportSelectors();
-            applyTripTypeUI();
-        });
-
-        function setDefaultDates() {
-            const now = new Date();
-            const ida = new Date(now);
-            ida.setDate(ida.getDate() + 14);
-            const volta = new Date(ida);
-            volta.setDate(volta.getDate() + 7);
-            document.getElementById('depDate').value = ida.toISOString().split('T')[0];
-            document.getElementById('retDate').value = volta.toISOString().split('T')[0];
-        }
-
-        // ═══════════════════════════════════════════════════════════
-        //  TRIP TYPE
-        // ═══════════════════════════════════════════════════════════
-        function setTripType(type) {
-            tripType = type;
-            document.querySelectorAll('#tripTypeBar .toggle-btn').forEach(b =>
-                b.classList.toggle('active', b.dataset.type === type));
-            applyTripTypeUI();
-        }
-
-        function applyTripTypeUI() {
-            const returnField = document.getElementById('returnDateField');
-            returnField.style.display = tripType === 'oneway' ? 'none' : '';
-            if (tripType === 'oneway') {
-                selectedVolta = null;
-                allFlights.volta = [];
-            }
-        }
-
-        function setRegion(r) {
-            region = r;
-            document.querySelectorAll('#regionToggleBar .toggle-btn').forEach(b =>
-                b.classList.toggle('active', b.dataset.region === r));
-            clearAirport('from');
-            clearAirport('to');
-            updateStatusBar();
-        }
-
-        function setSearchType(type) {
-            searchType = type;
-            document.querySelectorAll('#searchTypeToggles .search-type-btn').forEach(b =>
-                b.classList.toggle('active', b.dataset.type === type));
-            renderAirlineToggles();
-            updateStatusBar();
-        }
-
-        function isCompatible(airlineId) {
-            const c = AIRLINES[airlineId];
-            if (!c) return false;
-            if (searchType === 'money') return c.capabilities.money;
-            if (searchType === 'points') return c.capabilities.points;
-            return true;
-        }
-
-        function renderAirlineToggles() {
-            const container = document.getElementById('airlineToggles');
-            container.innerHTML = '';
-            for (const [id, cfg] of Object.entries(AIRLINES)) {
-                const sel = selectedAirlines.has(id);
-                const compat = isCompatible(id);
-                const btn = document.createElement('button');
-                btn.className = ['airline-toggle', sel ? 'active' : '', compat ? '' : 'incompatible'].join(' ').trim();
-                btn.onclick = () => toggleAirline(id);
-                btn.innerHTML = `<span class="dot" style="background:${cfg.color}"></span> ${cfg.label}`;
-                container.appendChild(btn);
-            }
-        }
-
-        function toggleAirline(id) {
-            if (selectedAirlines.has(id)) selectedAirlines.delete(id);
-            else selectedAirlines.add(id);
-            renderAirlineToggles();
-            updateStatusBar();
-        }
-
-        function getActiveTargets() {
-            const t = [];
-            for (const id of selectedAirlines) {
-                const c = AIRLINES[id];
-                if (c && isCompatible(id)) t.push(c);
-            }
-            return t;
-        }
-
-        function updateStatusBar() {
-            const bar = document.getElementById('statusBar');
-            const targets = getActiveTargets();
-            bar.className = 'status-bar';
-            if (targets.length === 0) {
-                bar.textContent = '⚠️ Nenhuma cia aérea compatível selecionada';
-                bar.classList.add('warning');
-            } else {
-                const tipoViagem = tripType === 'oneway' ? '➡️ Apenas Ida' : '🔄 Ida e Volta';
-                const reg = region === 'nacional' ? '🇧🇷 Nacional' : '🌎 Internacional';
-                const tipoBusca = searchType === 'money' ? '💰 Dinheiro' : searchType === 'points' ? '🎯 Pontos' : '🔄 Ambos';
-                bar.textContent =
-                    `${tipoViagem} | ${reg} | ${tipoBusca} | 🔍 ${targets.length} cia(s): ${targets.map(t=>t.label).join(', ')}`;
-                bar.classList.add('ok');
-            }
-        }
-
-        // ═══════════════════════════════════════════════════════════
-        //  AIRPORT SELECTORS
-        // ═══════════════════════════════════════════════════════════
-        function initAirportSelectors() {
-            ['from', 'to'].forEach(type => {
-                const input = document.getElementById(`${type}Airport`);
-                const dropdown = document.getElementById(`${type}Dropdown`);
-                input.addEventListener('input', () => handleAirportInput(type));
-                input.addEventListener('focus', () => {
-                    handleAirportInput(type);
-                    setTimeout(() => { if (document.activeElement === input) dropdown.classList.add('show'); },
-                    50);
-                });
-                input.addEventListener('blur', () => {
-                    setTimeout(() => dropdown.classList.remove('show'), 180);
-                });
-            });
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('.airport-selector')) {
-                    document.getElementById('fromDropdown').classList.remove('show');
-                    document.getElementById('toDropdown').classList.remove('show');
-                }
-            });
-        }
-
-        function getAirportsForField(type) {
-            if (type === 'from' && region === 'internacional') {
-                return [...AIRPORTS_NACIONAL, ...AIRPORTS_INTERNACIONAL];
-            }
-            return region === 'nacional' ? AIRPORTS_NACIONAL : AIRPORTS_INTERNACIONAL;
-        }
-
-        function handleAirportInput(type) {
-            const input = document.getElementById(`${type}Airport`);
-            const wrap = input.parentElement;
-            const dropdown = document.getElementById(`${type}Dropdown`);
-            const value = input.value;
-            wrap.classList.toggle('has-value', !!value.trim());
-            const airports = getAirportsForField(type);
-            const filtered = filterAirports(airports, value);
-            if (filtered.length === 0) {
-                dropdown.innerHTML = '<div class="no-results">Nenhum aeroporto encontrado</div>';
-            } else {
-                let html = `<div class="airport-dropdown-header">${filtered.length} opções</div>`;
-                for (const ap of filtered.slice(0, 24)) {
-                    const escName = ap.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                    html += `
-                    <div class="airport-item" onmousedown="event.preventDefault();selectAirport('${type}','${ap.iata}','${ap.city}','${escName}')">
-                      <span class="iata-code">${ap.iata}</span>
-                      <div class="airport-info"><div class="city-name">${ap.city}</div><div class="airport-name">${ap.name}</div></div>
-                    </div>`;
-                }
-                dropdown.innerHTML = html;
-            }
-            dropdown.classList.add('show');
-        }
-
-        function selectAirport(type, iata, city, name) {
-            const input = document.getElementById(`${type}Airport`);
-            const wrap = input.parentElement;
-            document.getElementById(`${type}Dropdown`).classList.remove('show');
-            input.value = `${iata} - ${city}`;
-            wrap.classList.add('has-value');
-            const data = { iata, city, name };
-            if (type === 'from') fromAirportData = data;
-            else toAirportData = data;
-        }
-
-        function clearAirport(type) {
-            const input = document.getElementById(`${type}Airport`);
-            const wrap = input.parentElement;
-            document.getElementById(`${type}Dropdown`).classList.remove('show');
-            input.value = '';
-            wrap.classList.remove('has-value');
-            if (type === 'from') fromAirportData = null;
-            else toAirportData = null;
-            input.focus();
-        }
-
-        function filterAirports(airports, query) {
-            if (!query || !query.trim()) return airports;
-            const q = query.toUpperCase().trim();
-            return airports.filter(ap =>
-                ap.iata.includes(q) || ap.city.toUpperCase().includes(q) || ap.name.toUpperCase().includes(q));
-        }
-
-        function extractIata(value) {
-            const m = value.match(/\b([A-Z]{3})\b/i);
-            return m ? m[1].toUpperCase() : value.trim().toUpperCase().replace(/[^A-Z]/g, '').substring(0, 3);
-        }
-
-        // ═══════════════════════════════════════════════════════════
-        //  API KEY
-        // ═══════════════════════════════════════════════════════════
-        function saveApiKey() {
-            const val = document.getElementById('apiKeyInput').value.trim();
-            apiKey = val;
-            localStorage.setItem('geckoApiKey', val);
-            updateApiStatus(val ? 'configured' : 'empty');
-            showToast(val ? '✅ Chave salva!' : '⚠️ Chave removida');
-        }
-
-        function updateApiStatus(status) {
-            const el = document.getElementById('apiStatus');
-            const map = {
-                'configured': ['🟢 Configurada', '#4fc3f7'],
-                'testing': ['🟡 Testando...', '#ffd54f'],
-                'ok': ['🟢 Conectada', '#69f0ae'],
-                'error': ['🔴 Falha', '#ff5252'],
-                'empty': ['⚪ Não configurada', '#ffffff88'],
-            };
-            const [text, color] = map[status] || map['empty'];
-            el.textContent = text;
-            el.style.color = color;
-        }
-
-        async function testConnection() {
-            if (!apiKey) { showToast('⚠️ Insira a chave da GeckoAPI primeiro'); return; }
-            updateApiStatus('testing');
-            try {
-                const payload = { target: 'latamairlines.com', type: 'plp', from: 'GRU', to: 'GIG',
-                    departureDate: getFutureDate(14), numAdults: 1, numChildren: 0, numInfants: 0 };
-                const resp = await fetch(GECKO_API, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
-                    body: JSON.stringify(payload),
-                });
-                if (resp.ok) { updateApiStatus('ok');
-                    showToast('✅ Conexão OK!'); } else {
-                    const t = await resp.text();
-                    updateApiStatus('error');
-                    showToast(`❌ ${resp.status}: ${t.substring(0, 80)}`); }
-            } catch (e) { updateApiStatus('error');
-                showToast(`❌ ${e.message.substring(0, 80)}`); }
-        }
-
-        function getFutureDate(days) {
-            const d = new Date();
-            d.setDate(d.getDate() + days);
-            return d.toISOString().split('T')[0];
-        }
-
-        // ═══════════════════════════════════════════════════════════
-        //  SEARCH ENGINE — payloads adaptados por cia e searchType
-        // ═══════════════════════════════════════════════════════════
-        async function doSearch() {
-            const targets = getActiveTargets();
-            if (targets.length === 0) { showToast('⚠️ Selecione ao menos uma cia aérea compatível'); return; }
-            if (!apiKey) { showToast('⚠️ Configure sua chave da GeckoAPI'); return; }
-
-            const fromVal = document.getElementById('fromAirport').value.trim();
-            const toVal = document.getElementById('toAirport').value.trim();
-            const depDate = document.getElementById('depDate').value;
-            const retDate = document.getElementById('retDate').value;
-            const numAdults = parseInt(document.getElementById('numAdults').value) || 1;
-
-            const from = fromAirportData?.iata || extractIata(fromVal);
-            const to = toAirportData?.iata || extractIata(toVal);
-
-            if (!from || !to || !depDate) { showToast('⚠️ Preencha origem, destino e data de ida'); return; }
-            if (from === to) { showToast('⚠️ Origem e destino não podem ser iguais'); return; }
-
-            const btn = document.getElementById('btnSearch');
-            btn.disabled = true;
-            btn.textContent = '⏳ Buscando...';
-            document.getElementById('loadingOverlay').classList.add('show');
-            document.getElementById('resultsSection').classList.remove('show');
-            document.getElementById('summaryBar').classList.remove('show');
-            allFlights = { ida: [], volta: [] };
-            selectedIda = null;
-            selectedVolta = null;
-
-            const requests = [];
-            for (const tgt of targets) {
-                // Monta payload base + extras por searchType
-                const extra = (typeof tgt.extraParams === 'function') ? tgt.extraParams(searchType) : {};
-                const basePayload = {
-                    target: tgt.target,
-                    type: tgt.type,
-                    from,
-                    to,
-                    departureDate: depDate,
-                    numAdults,
-                    numChildren: 0,
-                    numInfants: 0,
-                    ...extra
-                };
-                console.log(`[API] ${tgt.label}: payload =`, JSON.stringify(basePayload));
-                requests.push({ cfg: tgt, payload: { ...basePayload }, direction: 'ida' });
-
-                if (tripType === 'roundtrip' && retDate) {
-                    const retExtra = (typeof tgt.extraParams === 'function') ? tgt.extraParams(searchType) : {};
-                    requests.push({
-                        cfg: tgt,
-                        payload: {
-                            target: tgt.target,
-                            type: tgt.type,
-                            from: to,
-                            to: from,
-                            departureDate: retDate,
-                            numAdults,
-                            numChildren: 0,
-                            numInfants: 0,
-                            ...retExtra
-                        },
-                        direction: 'volta',
-                    });
-                }
-            }
-
-            document.getElementById('loadingText').textContent =
-                `Consultando ${requests.length} chamada(s) em ${targets.length} cia(s)...`;
-            updateStatusBar();
-
-            const results = await Promise.allSettled(
-                requests.map(async (req) => {
-                    const resp = await fetch(GECKO_API, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
-                        body: JSON.stringify(req.payload),
-                    });
-                    const text = await resp.text();
-                    if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${text.substring(0, 200)}`);
-                    let json;
-                    try { json = JSON.parse(text); } catch (e) { throw new Error(
-                            `JSON inválido: ${text.substring(0, 200)}`); }
-                    // Verifica notFound
-                    if (json.notFound === true || json.data === null) {
-                        console.warn(`[API] ${req.cfg.label} ${req.direction}: notFound`);
-                        return { direction: req.direction, cfg: req.cfg, raw: json, notFound: true };
-                    }
-                    return { direction: req.direction, cfg: req.cfg, raw: json, notFound: false };
-                })
-            );
-
-            let successCount = 0;
-            const errors = [];
-
-            for (const r of results) {
-                if (r.status === 'fulfilled') {
-                    const { direction, cfg, raw, notFound } = r.value;
-                    if (notFound) {
-                        console.warn(`[Parser] ${cfg.label} ${direction}: notFound (rota sem voos)`);
-                        errors.push({ direction, label: cfg.label, reason: 'Rota não disponível (notFound)' });
-                        continue;
-                    }
-                    const flights = parseFlights(raw, cfg);
-                    console.log(`[Parser] ${cfg.label} (${cfg.parser}) ${direction}: ${flights.length} voo(s)`);
-                    for (const f of flights.slice(0, 2)) {
-                        console.log(
-                            `  → ${f.from}→${f.to} ${f.dep}→${f.arr} op:${f.operatingAirline||'?'} stops:${f.stops} ` +
-                            f.fareOptions.map(fo =>
-                                `${fo.type} ${fo.money!=null?'R$'+fo.money:''} ${fo.miles!=null?fo.miles+'pts':''}${fo.costTax!=null?'+R$'+fo.costTax:''}`
-                            ).join(' | ')
-                        );
-                    }
-                    if (flights.length > 0) {
-                        if (direction === 'ida') allFlights.ida.push(...flights);
-                        else allFlights.volta.push(...flights);
-                        successCount++;
-                    } else {
-                        const rawData = raw?.data;
-                        const keys = rawData ? Object.keys(rawData).slice(0, 10).join(', ') : 'null';
-                        console.warn(`[Parser] ${cfg.label} ${direction}: 0 voos. data keys: ${keys}`);
-                        errors.push({ direction, label: cfg.label, reason: `0 voos extraídos (keys: ${keys})` });
-                    }
-                } else {
-                    const reason = r.reason?.message || String(r.reason);
-                    console.error(`[Erro] API: ${reason}`);
-                    errors.push({ direction: '?', label: 'API', reason });
-                }
-            }
-
-            console.log(`[Resultado] ${successCount} sucesso(s), ${errors.length} erro(s)`);
-            if (errors.length > 0) console.table(errors);
-
-            allFlights.ida.sort((a, b) => sortScore(a) - sortScore(b));
-            allFlights.volta.sort((a, b) => sortScore(a) - sortScore(b));
-
-            btn.disabled = false;
-            btn.textContent = '🔍 Buscar';
-            document.getElementById('loadingOverlay').classList.remove('show');
-            document.getElementById('resultsSection').classList.add('show');
-            renderResults(errors);
-            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function sortScore(f) {
-            const fo = f.fareOptions[0];
-            if (!fo) return Infinity;
-            if (searchType === 'points') return fo.miles ?? Infinity;
-            if (searchType === 'money') return fo.money ?? Infinity;
-            return fo.money ?? fo.miles ?? Infinity;
-        }
-
-        // ╔══════════════════════════════════════════════════════════╗
-        // ║  DISPATCHER                                            ║
-        // ╚══════════════════════════════════════════════════════════╝
-        function parseFlights(raw, cfg) {
-            const data = raw?.data;
-            if (!data) return [];
-
-            switch (cfg.parser) {
-                case 'azul':
-                    return parseAzul(data, cfg);
-                case 'latam':
-                    return parseLatam(data, cfg);
-                case 'smiles':
-                    return parseSmiles(data, cfg);
-                case 'gol':
-                    return parseGol(data, cfg);
-                default:
-                    return parseGeneric(raw, cfg);
-            }
-        }
-
-        // ═══════════════════════════════════════════════════════════
-        //  HELPERS
-        // ═══════════════════════════════════════════════════════════
-        function fmtTimeFromISO(t) {
-            if (!t) return null;
-            const s = String(t).trim();
-            const isoMatch = s.match(/T(\d{2}:\d{2})/);
-            if (isoMatch) return isoMatch[1];
-            const hm = s.match(/(\d{1,2}:\d{2})/);
-            if (hm) return hm[1];
-            return null;
-        }
-
-        function formatDuration(d) {
-            if (!d) return '—';
-            const s = String(d).trim();
-            const isoH = s.match(/(\d+)H/);
-            const isoM = s.match(/(\d+)M/);
-            if (isoH || isoM) {
-                const h = isoH ? parseInt(isoH[1]) : 0;
-                const m = isoM ? parseInt(isoM[1]) : 0;
-                return `${h}h${String(m).padStart(2,'0')}m`;
-            }
-            const hm = s.match(/(\d+):(\d+)/);
-            if (hm) return `${parseInt(hm[1])}h${String(parseInt(hm[2])).padStart(2,'0')}m`;
-            return s;
-        }
-
-        // Extrai a cia aérea operadora dos segmentos
-        function extractOperatingAirline(segments) {
-            if (!segments || !segments.length) return null;
-            const first = segments[0];
-            // Tenta múltiplos caminhos comuns
-            for (const path of [
-                    ['flight', 'carrierCode'],
-                    ['flight', 'operatingCarrier'],
-                    ['flight', 'airlineCode'],
-                    ['operatingCarrier', 'code'],
-                    ['operatingCarrier'],
-                    ['carrier', 'code'],
-                    ['carrier'],
-                    ['airline', 'code'],
-                    ['airline'],
-                    ['marketingCarrier'],
-                    ['marketingCarrier', 'code'],
-                ]) {
-                let val = first;
-                for (const k of path) {
-                    if (val && typeof val === 'object') val = val[k];
-                    else { val = null; break; }
-                }
-                if (val && typeof val === 'string' && val.length <= 6) return val.toUpperCase();
-                if (val && typeof val === 'string') return val;
-            }
-            return null;
-        }
-
-        // Nome amigável para código IATA de cia aérea
-        function airlineName(code) {
-            if (!code) return null;
-            const map = {
+            AIRLINE_DISPLAY: {
                 'LA': 'LATAM',
                 'JJ': 'LATAM',
                 'AD': 'Azul',
                 'G3': 'GOL',
-                'GOL': 'GOL',
-                'AR': 'Aerolíneas Argentinas',
-                'AA': 'American Airlines',
+                'AR': 'Aerolíneas',
+                'AA': 'American',
                 'DL': 'Delta',
                 'UA': 'United',
                 'BA': 'British Airways',
@@ -1618,829 +1112,1176 @@
                 'LH': 'Lufthansa',
                 'IB': 'Iberia',
                 'TP': 'TAP',
-                'CM': 'Copa Airlines',
+                'CM': 'Copa',
                 'AV': 'Avianca',
                 'AM': 'Aeroméxico',
-            };
-            return map[code] || code;
-        }
+            },
 
-        function airlineColor(code) {
-            if (!code) return '#333';
-            return AIRLINE_COLORS[code] || '#333';
-        }
+            AIRLINE_COLORS: {
+                'LA': '#E30613',
+                'JJ': '#E30613',
+                'AD': '#0033A0',
+                'G3': '#FF6600',
+            },
 
-        function filterFareOptionsBySearchType(fareOptions) {
-            if (searchType === 'both') return fareOptions;
-            if (searchType === 'money') return fareOptions.filter(fo => fo.money != null);
-            if (searchType === 'points') return fareOptions.filter(fo => fo.miles != null);
-            return fareOptions;
-        }
+            AIRPORTS: {
+                nacional: [
+                    { iata: 'GRU', city: 'São Paulo', name: 'Guarulhos' },
+                    { iata: 'CGH', city: 'São Paulo', name: 'Congonhas' },
+                    { iata: 'VCP', city: 'Campinas', name: 'Viracopos' },
+                    { iata: 'GIG', city: 'Rio de Janeiro', name: 'Galeão' },
+                    { iata: 'SDU', city: 'Rio de Janeiro', name: 'Santos Dumont' },
+                    { iata: 'BSB', city: 'Brasília', name: 'J.Kubitschek' },
+                    { iata: 'CNF', city: 'Belo Horizonte', name: 'Confins' },
+                    { iata: 'SSA', city: 'Salvador', name: 'L.E.Magalhães' },
+                    { iata: 'REC', city: 'Recife', name: 'Guararapes' },
+                    { iata: 'FOR', city: 'Fortaleza', name: 'Pinto Martins' },
+                    { iata: 'POA', city: 'Porto Alegre', name: 'Salgado Filho' },
+                    { iata: 'CWB', city: 'Curitiba', name: 'Afonso Pena' },
+                    { iata: 'FLN', city: 'Florianópolis', name: 'Hercílio Luz' },
+                    { iata: 'MAO', city: 'Manaus', name: 'Eduardo Gomes' },
+                    { iata: 'BEL', city: 'Belém', name: 'Val de Cans' },
+                    { iata: 'MCZ', city: 'Maceió', name: 'Zumbi dos Palmares' },
+                    { iata: 'NAT', city: 'Natal', name: 'S.G.Amarante' },
+                    { iata: 'VIX', city: 'Vitória', name: 'Eurico Salles' },
+                    { iata: 'GYN', city: 'Goiânia', name: 'Santa Genoveva' },
+                    { iata: 'CGB', city: 'Cuiabá', name: 'Marechal Rondon' },
+                    { iata: 'CGR', city: 'Campo Grande', name: 'Internacional' },
+                    { iata: 'PVH', city: 'Porto Velho', name: 'Jorge Teixeira' },
+                    { iata: 'SLZ', city: 'São Luís', name: 'Cunha Machado' },
+                    { iata: 'THE', city: 'Teresina', name: 'Petrônio Portella' },
+                    { iata: 'JPA', city: 'João Pessoa', name: 'Castro Pinto' },
+                    { iata: 'AJU', city: 'Aracaju', name: 'Santa Maria' },
+                    { iata: 'BPS', city: 'Porto Seguro', name: 'Jorge Amado' },
+                    { iata: 'UDI', city: 'Uberlândia', name: 'C.Bombonato' },
+                    { iata: 'RAO', city: 'Ribeirão Preto', name: 'Leite Lopes' },
+                ],
+                internacional: [
+                    { iata: 'EZE', city: 'Buenos Aires', name: 'Ezeiza' },
+                    { iata: 'AEP', city: 'Buenos Aires', name: 'Aeroparque' },
+                    { iata: 'SCL', city: 'Santiago', name: 'Arturo Merino' },
+                    { iata: 'LIM', city: 'Lima', name: 'Jorge Chávez' },
+                    { iata: 'BOG', city: 'Bogotá', name: 'El Dorado' },
+                    { iata: 'MIA', city: 'Miami', name: 'International' },
+                    { iata: 'MCO', city: 'Orlando', name: 'International' },
+                    { iata: 'JFK', city: 'Nova York', name: 'JFK' },
+                    { iata: 'LAX', city: 'Los Angeles', name: 'International' },
+                    { iata: 'LIS', city: 'Lisboa', name: 'Portela' },
+                    { iata: 'OPO', city: 'Porto', name: 'Sá Carneiro' },
+                    { iata: 'MAD', city: 'Madrid', name: 'Barajas' },
+                    { iata: 'BCN', city: 'Barcelona', name: 'El Prat' },
+                    { iata: 'CDG', city: 'Paris', name: 'Charles de Gaulle' },
+                    { iata: 'LHR', city: 'Londres', name: 'Heathrow' },
+                    { iata: 'FCO', city: 'Roma', name: 'Fiumicino' },
+                    { iata: 'MXP', city: 'Milão', name: 'Malpensa' },
+                    { iata: 'MEX', city: 'Cid. do México', name: 'Benito Juárez' },
+                    { iata: 'CUN', city: 'Cancún', name: 'International' },
+                    { iata: 'PTY', city: 'Panamá', name: 'Tocumen' },
+                    { iata: 'MVD', city: 'Montevidéu', name: 'Carrasco' },
+                    { iata: 'ASU', city: 'Assunção', name: 'S.Pettirossi' },
+                ],
+            },
+        };
 
-        // ╔══════════════════════════════════════════════════════════╗
-        // ║  PARSER: AZUL                                          ║
-        // ║  data.trips[].journeys[] + fares[] + pointsOptions[]   ║
-        // ╚══════════════════════════════════════════════════════════╝
-        function parseAzul(data, cfg) {
-            const flights = [];
-            for (const trip of data.trips || []) {
-                for (const journey of trip.journeys || []) {
-                    if (!journey.available) continue;
-                    const segments = journey.segments || [];
-                    const seg = segments[0];
-                    const flightNum = seg?.flight?.flightNumber || '';
-                    const opCarrier = extractOperatingAirline(segments) || 'AD';
-                    const aircraft = seg?.flight?.equipmentName || '';
+        // ╔══════════════════════════════════════════════════════════════╗
+        // ║  STATE — Gerenciamento de estado da aplicação              ║
+        // ╚══════════════════════════════════════════════════════════════╝
+        const State = {
+            apiKey: localStorage.getItem('geckoApiKey') || '',
+            region: 'nacional',
+            tripType: 'roundtrip',
+            searchType: 'both',
+            selectedAirlines: new Set(['LATAM', 'AZUL', 'SMILES', 'GOL']),
+            selectedIda: null,
+            selectedVolta: null,
+            fromAirport: null,
+            toAirport: null,
+            allFlights: { ida: [], volta: [] },
+            errors: [],
+            debugLogs: [],
 
-                    const fareOptions = [];
-                    for (const fare of journey.fares || []) {
-                        if (fare.total?.amount != null) {
-                            fareOptions.push({
-                                type: fare.productClass?.name || fare.productClass?.code || 'Tarifa',
-                                money: Number(fare.total.amount),
-                                miles: null,
-                                costTax: null,
-                                cabin: fare.cabin || null,
-                            });
-                        }
-                        for (const po of fare.pointsOptions || []) {
-                            const pts = po.amount ?? po.points ?? po.miles ?? null;
-                            const tax = po.taxes ?? po.tax ?? po.costTax ?? null;
-                            if (pts != null) {
-                                fareOptions.push({
-                                    type: 'Pontos',
-                                    money: null,
-                                    miles: Number(pts),
-                                    costTax: tax != null ? Number(tax) : null,
-                                    cabin: fare.cabin || null,
-                                });
-                            }
-                        }
-                    }
-                    if (fareOptions.length === 0) continue;
-
-                    flights.push({
-                        id: `azul-${flightNum}-${journey.position||Math.random().toString(36).slice(2,8)}`,
-                        sourceAirline: cfg.label,
-                        sourceColor: cfg.color,
-                        operatingAirline: airlineName(opCarrier),
-                        operatingCode: opCarrier,
-                        operatingColor: airlineColor(opCarrier),
-                        from: journey.origin || trip.origin,
-                        to: journey.destination || trip.destination,
-                        dep: fmtTimeFromISO(journey.departure),
-                        arr: fmtTimeFromISO(journey.arrival),
-                        durationStr: formatDuration(journey.duration),
-                        stops: journey.stopsCount || 0,
-                        flightNumbers: [flightNum].filter(Boolean),
-                        aircraft,
-                        fareOptions: filterFareOptionsBySearchType(fareOptions),
-                    });
+            init() {
+                if (this.apiKey) {
+                    document.getElementById('apiKeyInput').value = this.apiKey;
+                    this._updateApiStatus('configured');
                 }
-            }
-            return flights;
-        }
+                this._setDefaultDates();
+                UI.renderAirlineToggles();
+                UI.updateStatusBar();
+                UI.initAirportSelectors();
+                UI.initToggleBars();
+                UI.applyTripTypeUI();
+            },
 
-        // ╔══════════════════════════════════════════════════════════╗
-        // ║  PARSER: LATAM                                         ║
-        // ║  data.items[] com segments, prices, fareOptions         ║
-        // ║  Quando points=true, retorna estrutura de milhas        ║
-        // ╚══════════════════════════════════════════════════════════╝
-        function parseLatam(data, cfg) {
-            const flights = [];
-            let items = null;
+            _setDefaultDates() {
+                const now = new Date();
+                const ida = new Date(now);
+                ida.setDate(ida.getDate() + 14);
+                const volta = new Date(ida);
+                volta.setDate(volta.getDate() + 7);
+                document.getElementById('depDate').value = ida.toISOString().split('T')[0];
+                document.getElementById('retDate').value = volta.toISOString().split('T')[0];
+            },
 
-            // Estrutura principal: data.items[]
-            if (Array.isArray(data.items)) items = data.items;
-            // data.availability.flights[]
-            if (!items && data.availability) {
-                if (Array.isArray(data.availability.flights)) items = data.availability.flights;
-                else if (Array.isArray(data.availability)) items = data.availability;
-            }
-            // data.flights[]
-            if (!items && Array.isArray(data.flights)) items = data.flights;
-            // data.itineraries[]
-            if (!items && Array.isArray(data.itineraries)) items = data.itineraries;
+            getActiveTargets() {
+                const targets = [];
+                for (const id of this.selectedAirlines) {
+                    const cfg = CONFIG.AIRLINES[id];
+                    if (!cfg) continue;
+                    const compat = this.searchType === 'money' ? cfg.canMoney :
+                        this.searchType === 'points' ? cfg.canPoints : true;
+                    if (compat) targets.push(cfg);
+                }
+                return targets;
+            },
 
-            // Scan recursivo
-            if (!items) {
-                const scan = (obj, depth) => {
-                    if (depth > 6 || !obj || typeof obj !== 'object') return null;
-                    if (Array.isArray(obj) && obj.length > 0 && typeof obj[0] === 'object') return obj;
-                    for (const v of Object.values(obj)) {
-                        const r = scan(v, depth + 1);
-                        if (r) return r;
-                    }
-                    return null;
+            isCompatible(airlineId) {
+                const cfg = CONFIG.AIRLINES[airlineId];
+                if (!cfg) return false;
+                if (this.searchType === 'money') return cfg.canMoney;
+                if (this.searchType === 'points') return cfg.canPoints;
+                return true;
+            },
+
+            getIata(field) {
+                const el = document.getElementById(field === 'from' ? 'fromAirport' : 'toAirport');
+                const val = el.value.trim();
+                if (!val) return null;
+                const m = val.match(/^([A-Z]{3})\b/);
+                if (m) return m[1];
+                return val.toUpperCase().replace(/[^A-Z]/g, '').substring(0, 3) || null;
+            },
+
+            log(msg) {
+                const ts = new Date().toLocaleTimeString();
+                const entry = `[${ts}] ${msg}`;
+                this.debugLogs.push(entry);
+                if (CONFIG.DEBUG) console.log(entry);
+                const panel = document.getElementById('debugPanel');
+                if (panel && panel.classList.contains('show')) {
+                    panel.textContent = this.debugLogs.slice(-30).join('\n');
+                }
+            },
+
+            _updateApiStatus(status) {
+                const el = document.getElementById('apiStatus');
+                const map = {
+                    'configured': { t: '🟢 Configurada', c: '#4fc3f7' },
+                    'testing': { t: '🟡 Testando...', c: '#ffd54f' },
+                    'ok': { t: '🟢 Conectada', c: '#69f0ae' },
+                    'error': { t: '🔴 Falha', c: '#ff5252' },
+                    'empty': { t: '⚪ Não configurada', c: '#ffffff88' },
                 };
-                items = scan(data, 0);
-            }
+                const s = map[status] || map['empty'];
+                el.textContent = s.t;
+                el.style.color = s.c;
+            },
+        };
 
-            if (!items || !Array.isArray(items)) {
-                console.warn('[LATAM] Array items não encontrado. Keys:', Object.keys(data).join(', '));
-                return flights;
-            }
-
-            console.log(`[LATAM] ${items.length} items encontrados`);
-
-            for (const item of items) {
-                if (!item || typeof item !== 'object') continue;
-
-                // ── Segmentos ──
-                let segments = [];
-                for (const k of ['segments', 'flights', 'legs', 'itineraries', 'journeys', 'connections', 'bounds']) {
-                    if (Array.isArray(item[k]) && item[k].length > 0) { segments = item[k]; break; }
-                }
-                if (segments.length === 0 && (item.origin || item.from || item.departureAirport)) {
-                    segments = [item]; // item único é o próprio segmento
-                }
-                if (segments.length === 0) continue;
-
-                const first = segments[0];
-                const last = segments[segments.length - 1];
-
-                const pick = (obj, ...keys) => {
-                    for (const k of keys) { if (obj[k] !== undefined && obj[k] !== null) return obj[k]; }
-                    return null;
-                };
-                const pickNested = (obj, prefix, ...keys) => {
-                    if (obj[prefix] && typeof obj[prefix] === 'object')
-                        for (const k of keys) { if (obj[prefix][k] !== undefined && obj[prefix][k] !== null) return obj[
-                                prefix][k]; }
-                    return null;
-                };
-
-                const fromCode = pick(first, 'origin', 'from', 'departureAirport', 'departureAirportCode') ||
-                    pickNested(first, 'departure', 'airport', 'code', 'iata') ||
-                    pickNested(first, 'origin', 'airport', 'code') || '?';
-                const toCode = pick(last, 'destination', 'to', 'arrivalAirport', 'arrivalAirportCode') ||
-                    pickNested(last, 'arrival', 'airport', 'code', 'iata') ||
-                    pickNested(last, 'destination', 'airport', 'code') || '?';
-
-                const depTime = pick(first, 'departureTime', 'departure', 'departureDateTime', 'depTime') ||
-                    pickNested(first, 'departure', 'time', 'dateTime', 'scheduled') || null;
-                const arrTime = pick(last, 'arrivalTime', 'arrival', 'arrivalDateTime', 'arrTime') ||
-                    pickNested(last, 'arrival', 'time', 'dateTime', 'scheduled') || null;
-
-                const flightNumbers = segments.map(s =>
-                    pick(s, 'flightNumber', 'flight', 'number', 'code') || null
-                ).filter(Boolean);
-
-                const stops = Math.max(0, segments.length - 1);
-                const aircraft = pick(first, 'equipmentName', 'aircraft', 'equipment') ||
-                    pickNested(first, 'flight', 'equipmentName', 'equipmentType') || null;
-
-                // ── Cia operadora ──
-                const opCarrier = extractOperatingAirline(segments) || 'LA';
-
-                // ── FARE OPTIONS ──
-                const fareOptions = [];
-
-                // 1) item.fares[]
-                if (Array.isArray(item.fares)) {
-                    for (const f of item.fares) {
-                        const fo = {
-                            type: f.productClass?.name || f.fareClass || f.brand || f.name || 'Tarifa',
-                            money: f.total?.amount ?? f.price?.amount ?? f.amount ?? f.price ?? null,
-                            miles: f.miles ?? f.points ?? f.pointsRequired ?? null,
-                            costTax: f.taxes ?? f.tax ?? f.costTax ?? null,
-                            cabin: f.cabin || item.cabin || null,
-                        };
-                        if (fo.money != null || fo.miles != null) fareOptions.push(fo);
-                    }
-                }
-
-                // 2) item.fareOptions[]
-                if (fareOptions.length === 0 && Array.isArray(item.fareOptions)) {
-                    for (const fo of item.fareOptions) {
-                        fareOptions.push({
-                            type: fo.fareType || fo.type || fo.name || 'Tarifa',
-                            money: fo.money ?? fo.price ?? fo.amount ?? null,
-                            miles: fo.miles ?? fo.points ?? null,
-                            costTax: fo.costTax ?? fo.taxes ?? null,
-                            cabin: item.cabin || fo.cabin || null,
-                        });
-                    }
-                }
-
-                // 3) item.price
-                if (fareOptions.length === 0) {
-                    const m = pick(item, 'total', 'amount') ||
-                        item.price?.amount ?? item.price?.total ?? item.price ?? item.amount ?? item.priceHint;
-                    const p = item.miles ?? item.points ?? item.pointsRequired;
-                    if (m || p) fareOptions.push({
-                        type: 'Tarifa',
-                        money: m ? Number(m) : null,
-                        miles: p ? Number(p) : null,
-                        costTax: item.taxes ?? item.tax ?? null,
-                        cabin: item.cabin || null,
-                    });
-                }
-
-                // 4) scan recursivo
-                if (fareOptions.length === 0) {
-                    const found = {};
-                    const findPrice = (obj, depth) => {
-                        if (!obj || typeof obj !== 'object' || depth > 5) return;
-                        if (Array.isArray(obj)) { for (const v of obj) findPrice(v, depth + 1);
-                            return; }
-                        if ((obj.amount || obj.total || obj.price) && !found.money && typeof(obj.amount || obj.total ||
-                                obj.price) === 'number') {
-                            found.money = obj.amount || obj.total || obj.price;
-                        }
-                        if ((obj.points || obj.miles || obj.pointsRequired) && !found.miles) {
-                            found.miles = obj.points || obj.miles || obj.pointsRequired;
-                        }
-                        for (const v of Object.values(obj)) findPrice(v, depth + 1);
-                    };
-                    findPrice(item, 0);
-                    if (found.money || found.miles) {
-                        fareOptions.push({
-                            type: 'Tarifa',
-                            money: found.money ? Number(found.money) : null,
-                            miles: found.miles ? Number(found.miles) : null,
-                            costTax: null,
-                        });
-                    }
-                }
-
-                if (fareOptions.length === 0) continue;
-
-                flights.push({
-                    id: `latam-${flightNumbers[0]||Math.random().toString(36).slice(2,8)}`,
-                    sourceAirline: cfg.label,
-                    sourceColor: cfg.color,
-                    operatingAirline: airlineName(opCarrier),
-                    operatingCode: opCarrier,
-                    operatingColor: airlineColor(opCarrier),
-                    from: fromCode,
-                    to: toCode,
-                    dep: fmtTimeFromISO(depTime),
-                    arr: fmtTimeFromISO(arrTime),
-                    durationStr: formatDuration(item.duration || first.duration || null),
-                    stops,
-                    flightNumbers,
-                    aircraft,
-                    fareOptions: filterFareOptionsBySearchType(fareOptions),
+        // ╔══════════════════════════════════════════════════════════════╗
+        // ║  API — Chamadas à GeckoAPI                                 ║
+        // ╚══════════════════════════════════════════════════════════════╝
+        const API = {
+            async call(target, payload) {
+                State.log(`API: ${target.label} ← ${JSON.stringify(payload)}`);
+                const resp = await fetch(CONFIG.GECKO_API, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${State.apiKey}`,
+                    },
+                    body: JSON.stringify(payload),
                 });
-            }
 
-            return flights;
-        }
-
-        // ╔══════════════════════════════════════════════════════════╗
-        // ║  PARSER: SMILES                                        ║
-        // ║  data.offers[] com fareOptions[]                        ║
-        // ║  Apenas SMILES e SMILES_CLUB                            ║
-        // ╚══════════════════════════════════════════════════════════╝
-        function parseSmiles(data, cfg) {
-            const flights = [];
-            const offers = data.offers || [];
-
-            for (const offer of offers) {
-                // Extrai cia operadora
-                const segments = offer.segments || [];
-                const opCarrier = extractOperatingAirline(segments) || 'G3';
-                const flightNums = (segments || []).map(s =>
-                    s.flightNumber || s.flight || s.number || s.code || null
-                ).filter(Boolean);
-
-                const allFareOptions = [];
-                for (const fo of offer.fareOptions || []) {
-                    allFareOptions.push({
-                        type: fo.fareType || 'Tarifa',
-                        money: fo.money != null ? Number(fo.money) : null,
-                        miles: fo.miles != null ? Number(fo.miles) : null,
-                        costTax: fo.costTax != null ? Number(fo.costTax) : null,
-                        cabin: offer.cabin || fo.cabin || null,
-                    });
+                const text = await resp.text();
+                if (!resp.ok) {
+                    throw new Error(`HTTP ${resp.status}: ${text.substring(0, 200)}`);
                 }
 
-                // Filtra APENAS SMILES e SMILES_CLUB
-                let fareOptions = allFareOptions.filter(fo =>
-                    fo.type === 'SMILES' || fo.type === 'SMILES_CLUB'
+                let json;
+                try {
+                    json = JSON.parse(text);
+                } catch (e) {
+                    throw new Error(`JSON inválido: ${text.substring(0, 200)}`);
+                }
+
+                if (json.notFound === true || json.data === null) {
+                    State.log(`API: ${target.label} → notFound`);
+                    return { notFound: true, data: null };
+                }
+
+                State.log(`API: ${target.label} → OK. data keys: ${json.data ? Object.keys(json.data).slice(0,8).join(', ') : 'null'}`);
+                return { notFound: false, data: json.data };
+            },
+
+            async searchAll(from, to, depDate, retDate, adults) {
+                const targets = State.getActiveTargets();
+                if (targets.length === 0) throw new Error('Nenhuma cia aérea compatível selecionada');
+
+                const requests = [];
+                for (const tgt of targets) {
+                    const idaPayload = tgt.buildPayload(from, to, depDate, adults, State.searchType);
+                    requests.push({ target: tgt, payload: idaPayload, direction: 'ida' });
+
+                    if (State.tripType === 'roundtrip' && retDate) {
+                        const voltaPayload = tgt.buildPayload(to, from, retDate, adults, State.searchType);
+                        requests.push({ target: tgt, payload: voltaPayload, direction: 'volta' });
+                    }
+                }
+
+                State.log(`Iniciando ${requests.length} chamadas em paralelo...`);
+
+                const results = await Promise.allSettled(
+                    requests.map(req => this.call(req.target, req.payload).then(r => ({
+                        ...r,
+                        direction: req.direction,
+                        target: req.target,
+                    })))
                 );
 
-                if (fareOptions.length === 0 && offer.priceHint) {
-                    fareOptions.push({
-                        type: 'MILHAS',
-                        money: null,
-                        miles: Number(offer.priceHint),
-                        costTax: null,
-                    });
+                const flights = { ida: [], volta: [] };
+                const errors = [];
+
+                for (const r of results) {
+                    if (r.status === 'rejected') {
+                        const msg = r.reason?.message || String(r.reason);
+                        errors.push({ direction: '?', label: 'API', reason: msg });
+                        State.log(`ERRO: ${msg}`);
+                        continue;
+                    }
+
+                    const { direction, target, notFound, data } = r.value;
+                    if (notFound) {
+                        errors.push({ direction, label: target.label, reason: 'Rota não disponível nesta cia' });
+                        continue;
+                    }
+
+                    const parsed = Parsers.parse(target.parser, data, target);
+                    State.log(`${target.label} (${target.parser}) ${direction}: ${parsed.length} voo(s)`);
+                    for (const f of parsed.slice(0, 2)) {
+                        State.log(`  → ${f.from}→${f.to} ${f.dep}→${f.arr} op:${f.operatingAirline||'?'} stops:${f.stops} fares:${f.fareOptions.length}`);
+                    }
+
+                    if (parsed.length > 0) {
+                        flights[direction].push(...parsed);
+                    } else {
+                        errors.push({ direction, label: target.label, reason: '0 voos extraídos' });
+                    }
                 }
 
-                if (fareOptions.length === 0) continue;
+                return { flights, errors };
+            },
 
-                flights.push({
-                    id: `smiles-${offer.uid||Math.random().toString(36).slice(2,8)}`,
+            async testConnection() {
+                if (!State.apiKey) throw new Error('Chave não configurada');
+                const cfg = CONFIG.AIRLINES['LATAM'];
+                const payload = cfg.buildPayload('GRU', 'GIG', App.getFutureDate(14), 1, 'money');
+                await this.call(cfg, payload);
+            },
+        };
+
+        // ╔══════════════════════════════════════════════════════════════╗
+        // ║  PARSERS — Extração de voos por cia aérea                  ║
+        // ╚══════════════════════════════════════════════════════════════╝
+        const Parsers = {
+            parse(parserName, data, cfg) {
+                switch (parserName) {
+                    case 'azul':
+                        return this._parseAzul(data, cfg);
+                    case 'latam':
+                        return this._parseLatam(data, cfg);
+                    case 'smiles':
+                        return this._parseSmiles(data, cfg);
+                    case 'gol':
+                        return this._parseGol(data, cfg);
+                    default:
+                        return this._parseGeneric(data, cfg);
+                }
+            },
+
+            /** Cria um objeto de voo padronizado */
+            _makeFlight(cfg, opts) {
+                const fareOptions = this._filterFares(opts.fareOptions || []);
+                if (fareOptions.length === 0) return null;
+                return {
+                    id: `${cfg.parser}-${opts.flightNumbers?.[0] || Math.random().toString(36).slice(2,8)}`,
                     sourceAirline: cfg.label,
                     sourceColor: cfg.color,
-                    operatingAirline: airlineName(opCarrier),
-                    operatingCode: opCarrier,
-                    operatingColor: airlineColor(opCarrier),
-                    from: offer.departureAirport,
-                    to: offer.arrivalAirport,
-                    dep: fmtTimeFromISO(offer.departureTime),
-                    arr: fmtTimeFromISO(offer.arrivalTime),
-                    durationStr: '—',
-                    stops: offer.stops || 0,
-                    flightNumbers: flightNums,
-                    aircraft: null,
-                    fareOptions: filterFareOptionsBySearchType(fareOptions),
-                });
-            }
+                    operatingAirline: opts.operatingAirline || cfg.label,
+                    operatingCode: opts.operatingCode || cfg.id,
+                    operatingColor: opts.operatingColor || cfg.color,
+                    from: opts.from || '?',
+                    to: opts.to || '?',
+                    dep: opts.dep || null,
+                    arr: opts.arr || null,
+                    durationStr: opts.durationStr || '—',
+                    stops: opts.stops || 0,
+                    flightNumbers: opts.flightNumbers || [],
+                    aircraft: opts.aircraft || null,
+                    fareOptions,
+                };
+            },
 
-            // cheapestOffer fallback
-            if (flights.length === 0 && data.cheapestOffer) {
-                const o = data.cheapestOffer;
-                const allFo = [];
-                for (const fo of o.fareOptions || []) {
-                    allFo.push({
+            _filterFares(fareOptions) {
+                if (State.searchType === 'both') return fareOptions;
+                if (State.searchType === 'money') return fareOptions.filter(f => f.money != null);
+                if (State.searchType === 'points') return fareOptions.filter(f => f.miles != null);
+                return fareOptions;
+            },
+
+            _fmtTime(iso) {
+                if (!iso) return null;
+                const s = String(iso);
+                const m = s.match(/T(\d{2}:\d{2})/) || s.match(/(\d{1,2}:\d{2})/);
+                return m ? m[1] : null;
+            },
+
+            _fmtDuration(d) {
+                if (!d) return '—';
+                const s = String(d);
+                const h = s.match(/(\d+)H/);
+                const m = s.match(/(\d+)M/);
+                if (h || m) return `${h?parseInt(h[1]):0}h${String(m?parseInt(m[1]):0).padStart(2,'0')}m`;
+                const hm = s.match(/(\d+):(\d+)/);
+                if (hm) return `${parseInt(hm[1])}h${String(parseInt(hm[2])).padStart(2,'0')}m`;
+                return s;
+            },
+
+            _extractCarrier(segments) {
+                if (!segments?.length) return null;
+                const s = segments[0];
+                // Caminhos possíveis
+                const paths = [
+                    ['flight', 'carrierCode'],
+                    ['flight', 'operatingCarrier'],
+                    ['flight', 'airlineCode'],
+                    ['operatingCarrier'],
+                    ['operatingCarrier', 'code'],
+                    ['carrier'],
+                    ['carrier', 'code'],
+                    ['airline'],
+                    ['airline', 'code'],
+                    ['marketingCarrier'],
+                ];
+                for (const path of paths) {
+                    let v = s;
+                    for (const k of path) { if (v && typeof v === 'object') v = v[k];
+                        else { v = null; break; } }
+                    if (v && typeof v === 'string' && v.length <= 6) return v.toUpperCase();
+                }
+                return null;
+            },
+
+            _airlineName(code) {
+                return CONFIG.AIRLINE_DISPLAY[code] || code || null;
+            },
+
+            _airlineColor(code) {
+                return CONFIG.AIRLINE_COLORS[code] || '#333';
+            },
+
+            // ── AZUL: data.trips[].journeys[] ──
+            _parseAzul(data, cfg) {
+                const flights = [];
+                for (const trip of data.trips || []) {
+                    for (const j of trip.journeys || []) {
+                        if (!j.available) continue;
+                        const segs = j.segments || [];
+                        const carrier = this._extractCarrier(segs) || 'AD';
+
+                        const fos = [];
+                        for (const fare of j.fares || []) {
+                            if (fare.total?.amount != null) {
+                                fos.push({ type: fare.productClass?.name || 'Tarifa', money: Number(fare.total.amount),
+                                    miles: null, costTax: null });
+                            }
+                            for (const po of fare.pointsOptions || []) {
+                                const pts = po.amount ?? po.points ?? po.miles ?? null;
+                                if (pts != null) {
+                                    fos.push({ type: 'Pontos', money: null, miles: Number(pts), costTax: po.taxes ?? po
+                                            .tax ?? po.costTax ?? null });
+                                }
+                            }
+                        }
+                        if (fos.length === 0) continue;
+
+                        const f = this._makeFlight(cfg, {
+                            from: j.origin || trip.origin,
+                            to: j.destination || trip.destination,
+                            dep: this._fmtTime(j.departure),
+                            arr: this._fmtTime(j.arrival),
+                            durationStr: this._fmtDuration(j.duration),
+                            stops: j.stopsCount || 0,
+                            flightNumbers: [segs[0]?.flight?.flightNumber].filter(Boolean),
+                            aircraft: segs[0]?.flight?.equipmentName || null,
+                            operatingAirline: this._airlineName(carrier),
+                            operatingCode: carrier,
+                            operatingColor: this._airlineColor(carrier),
+                            fareOptions: fos,
+                        });
+                        if (f) flights.push(f);
+                    }
+                }
+                return flights;
+            },
+
+            // ── LATAM: data.items[] ──
+            _parseLatam(data, cfg) {
+                let items = null;
+                if (Array.isArray(data.items)) items = data.items;
+                else if (Array.isArray(data.flights)) items = data.flights;
+                else if (Array.isArray(data.itineraries)) items = data.itineraries;
+                else if (data.availability?.flights) items = data.availability.flights;
+                else {
+                    // scan recursivo
+                    const scan = (obj, d) => {
+                        if (d > 5 || !obj || typeof obj !== 'object') return null;
+                        if (Array.isArray(obj) && obj.length > 0 && typeof obj[0] === 'object') return obj;
+                        for (const v of Object.values(obj)) { const r = scan(v, d + 1); if (r) return r; }
+                        return null;
+                    };
+                    items = scan(data, 0);
+                }
+                if (!items?.length) return [];
+
+                const flights = [];
+                for (const item of items) {
+                    let segs = [];
+                    for (const k of ['segments', 'flights', 'legs', 'journeys', 'bounds', 'connections']) {
+                        if (Array.isArray(item[k]) && item[k].length) { segs = item[k]; break; }
+                    }
+                    if (!segs.length) segs = [item];
+
+                    const first = segs[0],
+                        last = segs[segs.length - 1];
+                    const carrier = this._extractCarrier(segs) || 'LA';
+
+                    const fos = [];
+                    if (Array.isArray(item.fares)) {
+                        for (const f of item.fares) {
+                            const m = f.total?.amount ?? f.price?.amount ?? f.amount ?? f.price;
+                            const p = f.miles ?? f.points ?? f.pointsRequired;
+                            if (m != null || p != null) fos.push({ type: f.productClass?.name || 'Tarifa', money: m ?
+                                    Number(m) : null, miles: p ? Number(p) : null, costTax: f.taxes ?? null });
+                        }
+                    }
+                    if (!fos.length && Array.isArray(item.fareOptions)) {
+                        for (const fo of item.fareOptions) {
+                            fos.push({ type: fo.fareType || 'Tarifa', money: fo.money ?? null, miles: fo.miles ?? null,
+                                costTax: fo.costTax ?? null });
+                        }
+                    }
+                    if (!fos.length) {
+                        const m = item.price?.amount ?? item.price?.total ?? item.price ?? item.amount;
+                        const p = item.miles ?? item.points;
+                        if (m || p) fos.push({ type: 'Tarifa', money: m ? Number(m) : null, miles: p ? Number(p) : null,
+                            costTax: null });
+                    }
+                    if (!fos.length) continue;
+
+                    const f = this._makeFlight(cfg, {
+                        from: first.origin || first.from || first.departureAirport || '?',
+                        to: last.destination || last.to || last.arrivalAirport || '?',
+                        dep: this._fmtTime(first.departureTime || first.departure || first.depTime),
+                        arr: this._fmtTime(last.arrivalTime || last.arrival || last.arrTime),
+                        durationStr: this._fmtDuration(item.duration || first.duration),
+                        stops: Math.max(0, segs.length - 1),
+                        flightNumbers: segs.map(s => s.flightNumber || s.flight || s.number).filter(Boolean),
+                        operatingAirline: this._airlineName(carrier),
+                        operatingCode: carrier,
+                        operatingColor: this._airlineColor(carrier),
+                        fareOptions: fos,
+                    });
+                    if (f) flights.push(f);
+                }
+                return flights;
+            },
+
+            // ── SMILES: data.offers[] ──
+            _parseSmiles(data, cfg) {
+                const flights = [];
+                const offers = data.offers || [];
+                for (const o of offers) {
+                    const carrier = this._extractCarrier(o.segments || []) || 'G3';
+                    const allFos = (o.fareOptions || []).map(fo => ({
                         type: fo.fareType || 'Tarifa',
                         money: fo.money != null ? Number(fo.money) : null,
                         miles: fo.miles != null ? Number(fo.miles) : null,
                         costTax: fo.costTax != null ? Number(fo.costTax) : null,
-                    });
-                }
-                let fos = allFo.filter(f => f.type === 'SMILES' || f.type === 'SMILES_CLUB');
-                if (fos.length > 0) {
-                    flights.push({
-                        id: `smiles-cheapest-${o.uid||Math.random().toString(36).slice(2,8)}`,
-                        sourceAirline: cfg.label,
-                        sourceColor: cfg.color,
-                        operatingAirline: 'GOL',
-                        operatingCode: 'G3',
-                        operatingColor: '#FF6600',
+                    }));
+                    const fos = allFos.filter(fo => fo.type === 'SMILES' || fo.type === 'SMILES_CLUB');
+                    if (!fos.length) continue;
+
+                    const f = this._makeFlight(cfg, {
                         from: o.departureAirport,
                         to: o.arrivalAirport,
-                        dep: fmtTimeFromISO(o.departureTime),
-                        arr: fmtTimeFromISO(o.arrivalTime),
-                        durationStr: '—',
+                        dep: this._fmtTime(o.departureTime),
+                        arr: this._fmtTime(o.arrivalTime),
                         stops: o.stops || 0,
-                        flightNumbers: [],
-                        aircraft: null,
-                        fareOptions: filterFareOptionsBySearchType(fos),
+                        flightNumbers: (o.segments || []).map(s => s.flightNumber).filter(Boolean),
+                        operatingAirline: this._airlineName(carrier),
+                        operatingCode: carrier,
+                        operatingColor: this._airlineColor(carrier),
+                        fareOptions: fos,
                     });
+                    if (f) flights.push(f);
                 }
-            }
+                return flights;
+            },
 
-            return flights;
-        }
+            // ── GOL: data.itineraries[] ──
+            _parseGol(data, cfg) {
+                const flights = [];
+                for (const it of data.itineraries || []) {
+                    const segs = it.segments || [];
+                    if (!segs.length) continue;
+                    const carrier = this._extractCarrier(segs) || 'G3';
 
-        // ╔══════════════════════════════════════════════════════════╗
-        // ║  PARSER: GOL                                           ║
-        // ║  data.itineraries[] com segments[], offers[],           ║
-        // ║  cheapestOffer                                         ║
-        // ╚══════════════════════════════════════════════════════════╝
-        function parseGol(data, cfg) {
-            const flights = [];
-            const itineraries = data.itineraries || [];
-
-            for (const it of itineraries) {
-                if (!it || typeof it !== 'object') continue;
-                const segments = it.segments || [];
-                if (segments.length === 0) continue;
-
-                const first = segments[0];
-                const last = segments[segments.length - 1];
-
-                const opCarrier = extractOperatingAirline(segments) || 'G3';
-                const flightNums = segments.map(s =>
-                    s.flightNumber || s.flight || s.number || s.code || null
-                ).filter(Boolean);
-                const aircraft = first.equipment || first.equipmentName || first.aircraft || null;
-
-                // Preço principal + offers
-                const fareOptions = [];
-                const price = it.price || it.total || it.amount;
-
-                // offers[]
-                if (Array.isArray(it.offers)) {
-                    for (const o of it.offers) {
-                        if (o.price || o.amount || o.total) {
-                            fareOptions.push({
-                                type: o.name || o.brand || o.fareClass || 'Tarifa',
-                                money: o.price ?? o.amount ?? o.total ?? null,
-                                miles: o.miles ?? o.points ?? null,
-                                costTax: o.taxes ?? o.tax ?? null,
-                                cabin: o.cabin || null,
-                            });
+                    const fos = [];
+                    if (Array.isArray(it.offers)) {
+                        for (const o of it.offers) {
+                            if (o.price || o.amount) fos.push({ type: o.name || 'Tarifa', money: Number(o.price || o
+                                    .amount), miles: null, costTax: null });
                         }
                     }
+                    if (!fos.length && (it.price || it.total)) {
+                        fos.push({ type: 'Tarifa', money: Number(it.price || it.total), miles: null, costTax: null });
+                    }
+                    if (!fos.length && data.cheapestOffer) {
+                        const co = data.cheapestOffer;
+                        if (co.price) fos.push({ type: 'Menor Tarifa', money: Number(co.price), miles: null,
+                            costTax: null });
+                    }
+                    if (!fos.length) continue;
+
+                    const f = this._makeFlight(cfg, {
+                        from: it.origin || it.from || segs[0].origin || '?',
+                        to: it.destination || it.to || segs[segs.length - 1].destination || '?',
+                        dep: this._fmtTime(segs[0].departure || segs[0].departureTime),
+                        arr: this._fmtTime(segs[segs.length - 1].arrival || segs[segs.length - 1].arrivalTime),
+                        durationStr: this._fmtDuration(it.duration),
+                        stops: it.stops ?? Math.max(0, segs.length - 1),
+                        flightNumbers: segs.map(s => s.flightNumber).filter(Boolean),
+                        aircraft: segs[0].equipment || null,
+                        operatingAirline: this._airlineName(carrier),
+                        operatingCode: carrier,
+                        operatingColor: this._airlineColor(carrier),
+                        fareOptions: fos,
+                    });
+                    if (f) flights.push(f);
+                }
+                return flights;
+            },
+
+            // ── GENÉRICO ──
+            _parseGeneric(data, cfg) {
+                let items = null;
+                const keys = ['trips', 'offers', 'results', 'items', 'flights', 'itineraries', 'journeys'];
+                for (const k of keys) { if (Array.isArray(data[k])) { items = data[k]; break; } }
+                if (!items) {
+                    for (const k of keys) { if (data[k]?.flights) { items = data[k].flights; break; } }
+                }
+                if (!items) return [];
+
+                const flights = [];
+                for (const item of items) {
+                    const segs = item.segments || [];
+                    const carrier = this._extractCarrier(segs);
+                    const fos = [];
+                    if (Array.isArray(item.fares)) {
+                        for (const f of item.fares) {
+                            const m = f.total?.amount ?? f.price?.amount ?? f.amount;
+                            if (m != null) fos.push({ type: f.productClass?.name || 'Tarifa', money: Number(m),
+                                miles: null, costTax: null });
+                        }
+                    }
+                    if (!fos.length && Array.isArray(item.fareOptions)) {
+                        for (const fo of item.fareOptions) {
+                            fos.push({ type: fo.fareType || 'Tarifa', money: fo.money ?? null, miles: fo.miles ?? null,
+                                costTax: fo.costTax ?? null });
+                        }
+                    }
+                    if (!fos.length) {
+                        const m = item.price ?? item.amount ?? item.total?.amount;
+                        if (m) fos.push({ type: 'Tarifa', money: Number(m), miles: null, costTax: null });
+                    }
+                    if (!fos.length) continue;
+
+                    const f = this._makeFlight(cfg, {
+                        from: item.origin || item.from || segs[0]?.origin || '?',
+                        to: item.destination || item.to || segs[segs.length - 1]?.destination || '?',
+                        dep: this._fmtTime(item.departure || item.departureTime || segs[0]?.departure),
+                        arr: this._fmtTime(item.arrival || item.arrivalTime || segs[segs.length - 1]?.arrival),
+                        durationStr: this._fmtDuration(item.duration),
+                        stops: item.stopsCount ?? item.stops ?? Math.max(0, segs.length - 1),
+                        flightNumbers: segs.map(s => s.flightNumber).filter(Boolean),
+                        operatingAirline: this._airlineName(carrier),
+                        operatingCode: carrier,
+                        operatingColor: this._airlineColor(carrier),
+                        fareOptions: fos,
+                    });
+                    if (f) flights.push(f);
+                }
+                return flights;
+            },
+        };
+
+        // ╔══════════════════════════════════════════════════════════════╗
+        // ║  UI — Renderização e Eventos                                ║
+        // ╚══════════════════════════════════════════════════════════════╝
+        const UI = {
+            initToggleBars() {
+                document.querySelectorAll('#tripTypeBar .toggle-btn').forEach(btn => {
+                    btn.addEventListener('click', () => App.setTripType(btn.dataset.type));
+                });
+                document.querySelectorAll('#regionBar .toggle-btn').forEach(btn => {
+                    btn.addEventListener('click', () => App.setRegion(btn.dataset.region));
+                });
+                document.querySelectorAll('#searchTypeGroup .filter-btn').forEach(btn => {
+                    btn.addEventListener('click', () => App.setSearchType(btn.dataset.type));
+                });
+                // Modal close
+                document.querySelector('.btn-close-modal').addEventListener('click', () => {
+                    document.getElementById('whatsappModal').classList.remove('show');
+                });
+                document.getElementById('whatsappModal').addEventListener('click', (e) => {
+                    if (e.target.id === 'whatsappModal') document.getElementById('whatsappModal').classList
+                        .remove('show');
+                });
+                // WhatsApp buttons
+                document.getElementById('btnCopy').addEventListener('click', () => {
+                    navigator.clipboard.writeText(document.getElementById('msgPreview').textContent).then(() => {
+                            App.showToast('📋 Copiado!');
+                        })
+                        .catch(() => App.showToast('❌ Erro ao copiar'));
+                });
+                document.getElementById('btnWhatsapp').addEventListener('click', () => App.openWhatsappModal());
+                // Summary bar
+                document.getElementById('summaryBar').addEventListener('click', (e) => {
+                    if (e.target.id === 'btnWhatsapp') App.openWhatsappModal();
+                });
+            },
+
+            initAirportSelectors() {
+                ['from', 'to'].forEach(type => {
+                    const input = document.getElementById(`${type}Airport`);
+                    const wrap = input.parentElement;
+                    const dropdown = document.getElementById(`${type}Dropdown`);
+                    const clearBtn = wrap.querySelector('.clear-btn');
+
+                    input.addEventListener('input', () => this._filterAirports(type));
+                    input.addEventListener('focus', () => {
+                        this._filterAirports(type);
+                        setTimeout(() => dropdown.classList.add('show'), 50);
+                    });
+                    input.addEventListener('blur', () => setTimeout(() => dropdown.classList.remove('show'),
+                        180));
+
+                    clearBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        input.value = '';
+                        wrap.classList.remove('has-value');
+                        dropdown.classList.remove('show');
+                        if (type === 'from') State.fromAirport = null;
+                        else State.toAirport = null;
+                        input.focus();
+                    });
+                });
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.airport-selector')) {
+                        document.getElementById('fromDropdown').classList.remove('show');
+                        document.getElementById('toDropdown').classList.remove('show');
+                    }
+                });
+            },
+
+            _filterAirports(type) {
+                const input = document.getElementById(`${type}Airport`);
+                const wrap = input.parentElement;
+                const dropdown = document.getElementById(`${type}Dropdown`);
+                const query = input.value.trim();
+                wrap.classList.toggle('has-value', !!query);
+
+                let airports = CONFIG.AIRPORTS[State.region] || CONFIG.AIRPORTS['nacional'];
+                // Para origem internacional, inclui aeroportos nacionais também
+                if (type === 'from' && State.region === 'internacional') {
+                    airports = [...CONFIG.AIRPORTS['nacional'], ...CONFIG.AIRPORTS['internacional']];
                 }
 
-                if (fareOptions.length === 0 && price) {
-                    fareOptions.push({
-                        type: 'Tarifa',
-                        money: Number(price),
-                        miles: null,
-                        costTax: null,
+                const q = query.toUpperCase();
+                const filtered = !q ? airports : airports.filter(a =>
+                    a.iata.includes(q) || a.city.toUpperCase().includes(q) || a.name.toUpperCase().includes(q));
+
+                if (filtered.length === 0) {
+                    dropdown.innerHTML = '<div class="no-results">Nenhum aeroporto encontrado</div>';
+                } else {
+                    let html =
+                        `<div class="airport-dropdown-header">${filtered.length} aeroportos</div>`;
+                    for (const ap of filtered.slice(0, 20)) {
+                        html += `
+                    <div class="airport-item" data-iata="${ap.iata}" data-type="${type}">
+                      <span class="iata">${ap.iata}</span>
+                      <div class="info"><div class="city">${ap.city}</div><div class="name">${ap.name}</div></div>
+                    </div>`;
+                    }
+                    dropdown.innerHTML = html;
+
+                    // Event listeners nos itens
+                    dropdown.querySelectorAll('.airport-item').forEach(item => {
+                        item.addEventListener('mousedown', (e) => {
+                            e.preventDefault();
+                            const iata = item.dataset.iata;
+                            const t = item.dataset.type;
+                            const ap = airports.find(a => a.iata === iata);
+                            const inputEl = document.getElementById(`${t}Airport`);
+                            inputEl.value = `${iata} - ${ap ? ap.city : ''}`;
+                            inputEl.parentElement.classList.add('has-value');
+                            if (t === 'from') State.fromAirport = { iata, city: ap?.city,
+                                name: ap?.name };
+                            else State.toAirport = { iata, city: ap?.city, name: ap?.name };
+                            dropdown.classList.remove('show');
+                        });
                     });
                 }
+                dropdown.classList.add('show');
+            },
 
-                // cheapestOffer se existir
-                if (fareOptions.length === 0 && data.cheapestOffer) {
-                    const co = data.cheapestOffer;
-                    if (co.price || co.amount) {
-                        fareOptions.push({
-                            type: 'Menor Tarifa',
-                            money: Number(co.price || co.amount),
-                            miles: null,
-                            costTax: co.taxes || null,
-                        });
-                    }
+            renderAirlineToggles() {
+                const container = document.getElementById('airlineToggles');
+                container.innerHTML = '';
+                for (const [id, cfg] of Object.entries(CONFIG.AIRLINES)) {
+                    const sel = State.selectedAirlines.has(id);
+                    const compat = State.isCompatible(id);
+                    const btn = document.createElement('button');
+                    btn.className = ['airline-chip', sel ? 'active' : '', compat ? '' : 'incompatible'].join(' ')
+                        .trim();
+                    if (compat) btn.onclick = () => App.toggleAirline(id);
+                    else btn.title = 'Incompatível com o tipo de busca selecionado';
+                    btn.innerHTML = `<span class="dot" style="background:${cfg.color}"></span>${cfg.label}`;
+                    container.appendChild(btn);
                 }
+            },
 
-                if (fareOptions.length === 0) continue;
+            updateStatusBar() {
+                const bar = document.getElementById('statusBar');
+                const targets = State.getActiveTargets();
+                bar.className = 'status-bar';
+                if (targets.length === 0) {
+                    bar.textContent = '⚠️ Nenhuma cia aérea compatível — ajuste o tipo de busca';
+                    bar.classList.add('warning');
+                } else {
+                    const tipo = State.tripType === 'oneway' ? '➡️ Ida' : '🔄 Ida/Volta';
+                    const reg = State.region === 'nacional' ? '🇧🇷' : '🌎';
+                    const st = State.searchType === 'money' ? '💰' : State.searchType === 'points' ? '🎯' : '🔄';
+                    bar.textContent =
+                        `${tipo} | ${reg} | ${st} | ${targets.map(t=>t.label).join(', ')}`;
+                    bar.classList.add('ok');
+                }
+            },
 
-                flights.push({
-                    id: `gol-${flightNums[0]||Math.random().toString(36).slice(2,8)}`,
-                    sourceAirline: cfg.label,
-                    sourceColor: cfg.color,
-                    operatingAirline: airlineName(opCarrier),
-                    operatingCode: opCarrier,
-                    operatingColor: airlineColor(opCarrier),
-                    from: it.origin || it.from || first.origin || first.from || first.departureAirport || '?',
-                    to: it.destination || it.to || last.destination || last.to || last.arrivalAirport || '?',
-                    dep: fmtTimeFromISO(first.departure || first.departureTime || first.depTime),
-                    arr: fmtTimeFromISO(last.arrival || last.arrivalTime || last.arrTime),
-                    durationStr: formatDuration(it.duration),
-                    stops: it.stops ?? it.stopsCount ?? Math.max(0, segments.length - 1),
-                    flightNumbers: flightNums,
-                    aircraft,
-                    fareOptions: filterFareOptionsBySearchType(fareOptions),
+            applyTripTypeUI() {
+                document.getElementById('retDateField').style.display = State.tripType === 'oneway' ? 'none' : '';
+                if (State.tripType === 'oneway') {
+                    State.selectedVolta = null;
+                    State.allFlights.volta = [];
+                }
+            },
+
+            showLoading(msg) {
+                document.getElementById('loadingOverlay').classList.add('show');
+                document.getElementById('loadingText').textContent = msg || 'Buscando voos...';
+            },
+
+            hideLoading() {
+                document.getElementById('loadingOverlay').classList.remove('show');
+            },
+
+            renderResults() {
+                const container = document.getElementById('tripColumns');
+                const single = State.tripType === 'oneway';
+                container.className = 'trip-columns' + (single ? ' single' : '');
+
+                let html = this._buildColumn('ida', '🟢 Ida', State.allFlights.ida, State.errors.filter(e => e
+                    .direction === 'ida'));
+                if (!single) {
+                    html += this._buildColumn('volta', '🔴 Volta', State.allFlights.volta, State.errors.filter(e => e
+                        .direction === 'volta'));
+                }
+                container.innerHTML = html;
+
+                // Event listeners nos cards
+                container.querySelectorAll('.flight-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const dir = card.dataset.direction;
+                        const fid = card.dataset.flightId;
+                        App.selectFlight(dir, fid);
+                    });
                 });
-            }
 
-            return flights;
-        }
+                document.getElementById('resultsSection').classList.add('show');
+                document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+                this.updateSummary();
+            },
 
-        // ╔══════════════════════════════════════════════════════════╗
-        // ║  PARSER: GENÉRICO (fallback)                           ║
-        // ╚══════════════════════════════════════════════════════════╝
-        function parseGeneric(raw, cfg) {
-            const flights = [];
-            let data = raw?.data;
-            if (!data) return flights;
-
-            let items = null;
-            if (Array.isArray(data)) items = data;
-            else {
-                for (const key of ['trips', 'offers', 'journeys', 'results', 'items', 'flights', 'itineraries',
-                        'availability'
-                    ]) {
-                    if (Array.isArray(data[key])) { items = data[key]; break; }
-                    if (data[key] && Array.isArray(data[key].flights)) { items = data[key].flights; break; }
-                }
-                if (!items) {
-                    const scan = (obj) => {
-                        if (Array.isArray(obj) && obj.length > 0 && typeof obj[0] === 'object') return obj;
-                        if (obj && typeof obj === 'object')
-                            for (const v of Object.values(obj)) { const r = scan(v); if (r) return r; }
-                        return null;
-                    };
-                    items = scan(data);
-                }
-            }
-            if (!items) return flights;
-
-            for (const item of items) {
-                const fos = [];
-                // fares
-                if (Array.isArray(item.fares)) {
-                    for (const f of item.fares) {
-                        const fo = {
-                            type: f.productClass?.name || f.fareClass || f.name || 'Tarifa',
-                            money: f.total?.amount ?? f.price?.amount ?? f.amount ?? f.price ?? null,
-                            miles: f.miles ?? f.points ?? null,
-                            costTax: f.taxes ?? f.tax ?? null,
-                        };
-                        if (fo.money != null || fo.miles != null) fos.push(fo);
-                    }
-                }
-                // fareOptions
-                if (fos.length === 0 && Array.isArray(item.fareOptions)) {
-                    for (const fo of item.fareOptions) {
-                        fos.push({
-                            type: fo.fareType || fo.type || 'Tarifa',
-                            money: fo.money ?? fo.price ?? null,
-                            miles: fo.miles ?? fo.points ?? null,
-                            costTax: fo.costTax ?? fo.taxes ?? null,
-                        });
-                    }
-                }
-                if (fos.length === 0) {
-                    const m = item.total?.amount ?? item.price ?? item.amount ?? item.priceHint;
-                    const p = item.miles ?? item.points ?? item.pointsRequired;
-                    if (m || p) fos.push({ type: 'Tarifa', money: m ? Number(m) : null, miles: p ? Number(p) : null,
-                        costTax: null });
-                }
-                if (fos.length === 0) continue;
-
-                const segments = item.segments || [];
-                const opCarrier = extractOperatingAirline(segments);
-                const seg = segments[0] || item;
-
-                flights.push({
-                    id: `gen-${Math.random().toString(36).slice(2,8)}`,
-                    sourceAirline: cfg.label,
-                    sourceColor: cfg.color,
-                    operatingAirline: airlineName(opCarrier) || cfg.label,
-                    operatingCode: opCarrier || cfg.id,
-                    operatingColor: airlineColor(opCarrier) || cfg.color,
-                    from: item.origin || item.from || item.departureAirport || seg.origin || seg.from || '?',
-                    to: item.destination || item.to || item.arrivalAirport || seg.destination || seg.to || '?',
-                    dep: fmtTimeFromISO(item.departure || item.departureTime || seg.departure || seg.departureTime),
-                    arr: fmtTimeFromISO(item.arrival || item.arrivalTime || seg.arrival || seg.arrivalTime),
-                    durationStr: formatDuration(item.duration || seg.duration),
-                    stops: item.stopsCount ?? item.stops ?? seg.stopsCount ?? 0,
-                    flightNumbers: [],
-                    aircraft: null,
-                    fareOptions: filterFareOptionsBySearchType(fos),
-                });
-            }
-            return flights;
-        }
-
-        // ═══════════════════════════════════════════════════════════
-        //  RESULTS RENDER
-        // ═══════════════════════════════════════════════════════════
-        function renderResults(errors) {
-            const container = document.getElementById('tripColumns');
-            const showVoltaCol = tripType === 'roundtrip';
-            container.className = 'trip-columns' + (showVoltaCol ? '' : ' single');
-
-            let html = buildTripColumn('ida', '🟢 Ida', allFlights.ida, errors.filter(e => e.direction === 'ida'));
-            if (showVoltaCol) {
-                html += buildTripColumn('volta', '🔴 Volta', allFlights.volta, errors.filter(e => e.direction ===
-                    'volta'));
-            }
-            container.innerHTML = html;
-
-            ['ida', 'volta'].forEach(dir => {
-                document.querySelectorAll(`.flight-card[data-direction="${dir}"]`).forEach(card => {
-                    card.addEventListener('click', () => selectFlight(dir, card.dataset.flightId));
-                });
-            });
-            updateSummary();
-        }
-
-        function buildTripColumn(dir, label, flights, errors) {
-            let body = '';
-
-            if (!flights.length) {
-                body = '<div class="empty">Nenhum voo encontrado</div>';
-                if (errors && errors.length > 0) {
-                    for (const e of errors) {
+            _buildColumn(dir, label, flights, errors) {
+                let body = '';
+                if (!flights.length) {
+                    body +=
+                    '<div class="empty-state">Nenhum voo encontrado para esta data</div>';
+                    for (const e of errors || []) {
                         body +=
-                        `<div class="error-detail">⚠️ ${e.label}: ${e.reason}</div>`;
+                            `<div class="error-card">⚠️ <strong>${e.label}</strong>: ${e.reason}</div>`;
+                    }
+                } else {
+                    for (const f of flights) {
+                        body += this._buildFlightCard(f, dir);
                     }
                 }
-            } else {
-                for (const f of flights) {
-                    body += buildFlightCard(f, dir);
+                return `<div class="trip-column">
+              <div class="trip-column-header ${dir}">${label} <span style="font-weight:400;font-size:0.75rem;margin-left:auto;">${flights.length} voo(s)</span></div>
+              <div class="trip-column-body">${body}</div>
+            </div>`;
+            },
+
+            _buildFlightCard(f, dir) {
+                const direct = f.stops === 0;
+                const stopsBadge = direct ?
+                    '<span class="badge badge-direct">Direto</span>' :
+                    `<span class="badge badge-stops">${f.stops} parada(s)</span>`;
+                const fnBadge = f.flightNumbers.length ?
+                    `<span class="badge badge-flight">✈️ ${f.flightNumbers.join(', ')}</span>` : '';
+                const acBadge = f.aircraft ? `<span class="badge badge-fare">${f.aircraft}</span>` : '';
+
+                // Preço principal (menor)
+                const best = f.fareOptions[0] || {};
+                let priceHtml = '';
+                if (best.money != null) priceHtml +=
+                    `<span class="price-money">R$ ${best.money.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}</span>`;
+                if (best.miles != null) priceHtml +=
+                    `<span class="price-points">${best.miles.toLocaleString('pt-BR')} pts</span>`;
+                if (best.costTax != null) priceHtml +=
+                    `<span class="price-tax">+ R$ ${Number(best.costTax).toFixed(2)} taxas</span>`;
+
+                // Tabela de tarifas (se múltiplas)
+                let fareTable = '';
+                if (f.fareOptions.length > 1) {
+                    let th = '<tr><th>Tipo</th>';
+                    const shM = f.fareOptions.some(fo => fo.money != null);
+                    const shP = f.fareOptions.some(fo => fo.miles != null);
+                    const shT = f.fareOptions.some(fo => fo.costTax != null);
+                    if (shM) th += '<th>💰 Valor</th>';
+                    if (shP) th += '<th>🎯 Pontos</th>';
+                    if (shT) th += '<th>🧾 Taxas</th>';
+                    th += '</tr>';
+
+                    let tb = '';
+                    for (let i = 0; i < f.fareOptions.length; i++) {
+                        const fo = f.fareOptions[i];
+                        const cls = i === 0 ? 'best-fare' : '';
+                        tb += `<tr class="${cls}"><td>${fo.type}</td>`;
+                        if (shM) tb +=
+                            `<td>${fo.money!=null?'<strong>R$ '+fo.money.toFixed(2)+'</strong>':'—'}</td>`;
+                        if (shP) tb +=
+                            `<td>${fo.miles!=null?'<strong>'+fo.miles.toLocaleString('pt-BR')+'</strong>':'—'}</td>`;
+                        if (shT) tb +=
+                            `<td>${fo.costTax!=null?'<span class="badge badge-tax">+R$ '+Number(fo.costTax).toFixed(2)+'</span>':'—'}</td>`;
+                        tb += '</tr>';
+                    }
+                    fareTable =
+                        `<table class="fare-table"><thead>${th}</thead><tbody>${tb}</tbody></table>`;
                 }
-            }
 
-            return `<div class="trip-column">
-            <div class="trip-column-header ${dir}">${label} <span style="font-weight:400;font-size:0.78rem;margin-left:auto;">${flights.length} voo(s)</span></div>
-            <div class="trip-column-body">${body}</div>
-          </div>`;
-        }
+                const isDiff = f.operatingAirline && f.operatingAirline !== f.sourceAirline;
+                const opLabel = f.operatingAirline || f.sourceAirline;
 
-        function buildFlightCard(f, dir) {
-            const isDirect = f.stops === 0;
-            const sBadge = isDirect ?
-                '<span class="badge badge-direct">Direto</span>' :
-                `<span class="badge badge-stops">${f.stops} parada(s)</span>`;
-            const fnBadge = f.flightNumbers.length ?
-                `<span class="badge badge-flight">✈️ ${f.flightNumbers.join(', ')}</span>` : '';
-            const acBadge = f.aircraft ? `<span class="badge badge-fare">${f.aircraft}</span>` : '';
+                const isSelected = (dir === 'ida' && State.selectedIda?.id === f.id) ||
+                    (dir === 'volta' && State.selectedVolta?.id === f.id);
 
-            // Tabela de fare options (só se mais de 1)
-            let fareTable = '';
-            const showTable = f.fareOptions.length > 1;
-            if (showTable) {
-                const showMoney = f.fareOptions.some(fo => fo.money != null);
-                const showMiles = f.fareOptions.some(fo => fo.miles != null);
-                const showTax = f.fareOptions.some(fo => fo.costTax != null);
+                return `
+            <div class="flight-card${isSelected?' selected':''}" data-direction="${dir}" data-flight-id="${f.id}">
+              <div class="check">✓</div>
+              <div class="top-row">
+                <span class="op-airline-tag" style="background:${f.operatingColor}">✈️ ${opLabel}</span>
+                ${isDiff ? `<span class="src-badge">via ${f.sourceAirline}</span>` : `<span class="src-badge" style="background:${f.sourceColor};color:#fff;">${f.sourceAirline}</span>`}
+              </div>
+              <div class="route">${f.from} → ${f.to}</div>
+              <div class="times">🕐 ${f.dep||'--:--'} → ${f.arr||'--:--'} &nbsp;|&nbsp; ⏱ ${f.durationStr}</div>
+              <div class="meta">${stopsBadge}${fnBadge}${acBadge}</div>
+              <div class="prices">${priceHtml}</div>
+              ${fareTable}
+            </div>`;
+            },
 
-                let thHtml = '<tr><th>Tipo</th>';
-                if (showMoney) thHtml += '<th>💰 Valor</th>';
-                if (showMiles) thHtml += '<th>🎯 Pontos</th>';
-                if (showTax) thHtml += '<th>🧾 Taxas</th>';
-                thHtml += '</tr>';
+            updateSummary() {
+                const bar = document.getElementById('summaryBar');
+                const wp = document.getElementById('btnWhatsapp');
+                const hasIda = !!State.selectedIda;
+                const hasVolta = State.tripType === 'roundtrip' && !!State.selectedVolta;
+                const required = State.tripType === 'roundtrip' ? (hasIda && hasVolta) : hasIda;
 
-                let tbHtml = '';
-                for (let i = 0; i < f.fareOptions.length; i++) {
-                    const fo = f.fareOptions[i];
-                    const isLowest = i === 0;
-                    const typeLabel = formatFareType(fo.type);
-                    const typeClass = fo.type === 'SMILES_CLUB' ? 'badge-club' : '';
-                    tbHtml += `<tr class="fare-row${isLowest?' selected-fare':''}">`;
-                    tbHtml +=
-                        `<td><span class="${typeClass}">${typeLabel}</span></td>`;
-                    if (showMoney) tbHtml +=
-                        `<td>${fo.money!=null?'<strong>R$ '+fo.money.toLocaleString('pt-BR',{minimumFractionDigits:2})+'</strong>':'—'}</td>`;
-                    if (showMiles) tbHtml +=
-                        `<td>${fo.miles!=null?'<strong>'+fo.miles.toLocaleString('pt-BR')+'</strong>':'—'}</td>`;
-                    if (showTax) tbHtml +=
-                        `<td>${fo.costTax!=null?'<span class="badge badge-tax">+R$ '+Number(fo.costTax).toFixed(2)+'</span>':'—'}</td>`;
-                    tbHtml += '</tr>';
-                }
-                fareTable =
-                    `<table class="fare-options-table"><thead>${thHtml}</thead><tbody>${tbHtml}</tbody></table>`;
-            }
+                if (!hasIda && !hasVolta) { bar.classList.remove('show'); return; }
+                bar.classList.add('show');
 
-            // Preço principal
-            const bestFo = f.fareOptions[0] || {};
-            let priceHtml = '';
-            if (bestFo.money != null) {
-                priceHtml +=
-                    `<span class="price-money">R$ ${bestFo.money.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2})}</span>`;
-            }
-            if (bestFo.miles != null) {
-                priceHtml += `<span class="price-points">${bestFo.miles.toLocaleString('pt-BR')} pts</span>`;
-            }
-            if (bestFo.costTax != null) {
-                priceHtml +=
-                `<span class="price-tax">+ taxas R$ ${Number(bestFo.costTax).toFixed(2)}</span>`;
-            }
-            if (!bestFo.money && !bestFo.miles) {
-                priceHtml += '<span style="color:#999;font-size:0.78rem;">Ver opções</span>';
-            }
+                document.getElementById('sumIdaItem').style.display = hasIda ? '' : 'none';
+                document.getElementById('sumVoltaItem').style.display = hasVolta ? '' : 'none';
+                if (hasIda) document.getElementById('sumIda').textContent = this._fmtSummary(State.selectedIda);
+                if (hasVolta) document.getElementById('sumVolta').textContent = this._fmtSummary(State.selectedVolta);
 
-            // Cia operadora + fonte
-            const opLabel = f.operatingAirline || f.sourceAirline;
-            const opColor = f.operatingColor || f.sourceColor;
-            const isDifferentSource = f.operatingAirline && f.operatingAirline !== f.sourceAirline;
+                let totalM = 0,
+                    totalP = 0;
+                if (State.selectedIda?.fareOptions?.[0]?.money) totalM += State.selectedIda.fareOptions[0].money;
+                if (State.selectedIda?.fareOptions?.[0]?.miles) totalP += State.selectedIda.fareOptions[0].miles;
+                if (State.selectedVolta?.fareOptions?.[0]?.money) totalM += State.selectedVolta.fareOptions[0].money;
+                if (State.selectedVolta?.fareOptions?.[0]?.miles) totalP += State.selectedVolta.fareOptions[0].miles;
+                let ts = '';
+                if (totalM > 0) ts += `R$ ${totalM.toLocaleString('pt-BR',{minimumFractionDigits:2})}`;
+                if (totalP > 0) ts += (ts ? ' + ' : '') + `${totalP.toLocaleString('pt-BR')} pts`;
+                document.getElementById('sumTotal').textContent = ts || '—';
 
-            return `
-        <div class="flight-card" data-direction="${dir}" data-flight-id="${f.id}">
-          <div class="select-indicator">✓</div>
-          <div class="airline-row">
-            <span class="operating-airline" style="background:${opColor}">✈️ ${opLabel}</span>
-            ${isDifferentSource ? `<span class="source-badge">via ${f.sourceAirline}</span>` : `<span class="source-badge" style="background:${f.sourceColor};color:#fff;">${f.sourceAirline}</span>`}
-          </div>
-          <div class="route-line">${f.from} → ${f.to}</div>
-          <div class="time-line">🕐 ${f.dep||'--:--'} → ${f.arr||'--:--'} &nbsp;|&nbsp; ⏱ ${f.durationStr}</div>
-          <div class="flight-meta">${sBadge}${fnBadge}${acBadge}</div>
-          <div class="price-area">${priceHtml}</div>
-          ${fareTable}
-        </div>`;
-        }
+                wp.disabled = !required;
+                wp.textContent = required ? '💬 WhatsApp' :
+                    (State.tripType === 'roundtrip' ? '⚠️ Selecione ida E volta' : '⚠️ Selecione um voo');
+            },
 
-        function formatFareType(type) {
-            if (!type) return 'Tarifa';
-            const map = {
-                'SMILES': '🎯 Smiles',
-                'SMILES_CLUB': '⭐ Smiles Club',
-                'Pontos': '🎯 Pontos',
-                'Tarifa': '💺 Tarifa',
-                'Menor Tarifa': '💰 Menor Tarifa',
-            };
-            return map[type] || type.replace(/_/g, ' ');
-        }
-
-        function selectFlight(dir, flightId) {
-            const flight = allFlights[dir].find(f => f.id === flightId);
-            if (!flight) return;
-            if (dir === 'ida') selectedIda = (selectedIda?.id === flightId) ? null : flight;
-            else selectedVolta = (selectedVolta?.id === flightId) ? null : flight;
-            document.querySelectorAll(`.flight-card[data-direction="${dir}"]`).forEach(card =>
-                card.classList.toggle('selected', card.dataset.flightId === (dir === 'ida' ? selectedIda?.id :
-                    selectedVolta?.id)));
-            updateSummary();
-        }
-
-        function updateSummary() {
-            const bar = document.getElementById('summaryBar');
-            const wp = document.getElementById('btnWhatsapp');
-            const idaItem = document.getElementById('summaryIdaItem');
-            const voltaItem = document.getElementById('summaryVoltaItem');
-            const hasIda = !!selectedIda;
-            const hasVolta = tripType === 'roundtrip' && !!selectedVolta;
-
-            if (!hasIda && !hasVolta) { bar.classList.remove('show'); return; }
-            bar.classList.add('show');
-            idaItem.style.display = hasIda ? '' : 'none';
-            voltaItem.style.display = hasVolta ? '' : 'none';
-            document.getElementById('summaryIda').textContent = hasIda ? fmtSummary(selectedIda) : '—';
-            document.getElementById('summaryVolta').textContent = hasVolta ? fmtSummary(selectedVolta) : '—';
-
-            let total = 0,
-                totalPts = 0,
-                hm = false,
-                hp = false;
-            if (selectedIda?.fareOptions?.[0]?.money) { total += selectedIda.fareOptions[0].money;
-                hm = true; }
-            if (selectedIda?.fareOptions?.[0]?.miles) { totalPts += selectedIda.fareOptions[0].miles;
-                hp = true; }
-            if (selectedVolta?.fareOptions?.[0]?.money) { total += selectedVolta.fareOptions[0].money;
-                hm = true; }
-            if (selectedVolta?.fareOptions?.[0]?.miles) { totalPts += selectedVolta.fareOptions[0].miles;
-                hp = true; }
-            let ts = '';
-            if (hm) ts += `R$ ${total.toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
-            if (hp) ts += (ts ? ' + ' : '') + `${totalPts.toLocaleString('pt-BR')} pts`;
-            document.getElementById('summaryTotal').textContent = ts || '—';
-
-            const required = tripType === 'roundtrip' ? (selectedIda && selectedVolta) : !!selectedIda;
-            wp.disabled = !required;
-            wp.textContent = required ? '💬 WhatsApp' : (tripType === 'roundtrip' ? '⚠️ Selecione ida E volta' :
-                '⚠️ Selecione um voo');
-        }
-
-        function fmtSummary(f) {
-            const fo = f.fareOptions[0] || {};
-            const op = f.operatingAirline || f.sourceAirline;
-            const parts = [`${op}`, `${f.from}→${f.to}`, `${f.dep||'--:--'}`];
-            if (fo.money) parts.push(`R$ ${fo.money.toFixed(2)}`);
-            if (fo.miles) parts.push(`${fo.miles.toLocaleString('pt-BR')} pts`);
-            return parts.join(' | ');
-        }
-
-        // ═══════════════════════════════════════════════════════════
-        //  WHATSAPP
-        // ═══════════════════════════════════════════════════════════
-        function buildMessage() {
-            let m = '✈️ *Cotação de Voos*\n\n';
-            const depD = document.getElementById('depDate').value.split('-').reverse().join('/');
-
-            function addFlight(label, f, dateStr) {
-                if (!f) return;
+            _fmtSummary(f) {
                 const fo = f.fareOptions[0] || {};
-                const op = f.operatingAirline || f.sourceAirline;
-                m += `${label}: ${f.from} → ${f.to}\n`;
-                m += `   📅 ${dateStr} | 🕐 ${f.dep||'--:--'} → ${f.arr||'--:--'} | ${f.durationStr}\n`;
-                m += `   ✈️ Operado por: ${op} | ${f.stops===0?'Direto':f.stops+' parada(s)'}\n`;
-                if (fo.money) m += `   💰 R$ ${fo.money.toFixed(2)}\n`;
-                if (fo.miles) m += `   🎯 ${fo.miles.toLocaleString('pt-BR')} pts\n`;
-                if (fo.costTax) m += `   🧾 Taxas: R$ ${Number(fo.costTax).toFixed(2)}\n`;
-                if (f.flightNumbers?.length) m += `   🔢 Voo: ${f.flightNumbers.join(' / ')}\n`;
-                m += '\n';
-            }
+                const parts = [f.operatingAirline, `${f.from}→${f.to}`, f.dep || '--:--'];
+                if (fo.money) parts.push(`R$${fo.money.toFixed(2)}`);
+                if (fo.miles) parts.push(`${fo.miles.toLocaleString('pt-BR')}pts`);
+                return parts.join(' | ');
+            },
+        };
 
-            addFlight('🟢 *IDA*', selectedIda, depD);
-            if (tripType === 'roundtrip') {
-                const retD = document.getElementById('retDate').value.split('-').reverse().join('/');
-                addFlight('🔴 *VOLTA*', selectedVolta, retD);
-            }
+        // ╔══════════════════════════════════════════════════════════════╗
+        // ║  APP — Controle Central                                    ║
+        // ╚══════════════════════════════════════════════════════════════╝
+        const App = {
+            init() {
+                State.init();
+            },
 
-            let tM = 0,
-                tP = 0;
-            if (selectedIda?.fareOptions?.[0]?.money) tM += selectedIda.fareOptions[0].money;
-            if (selectedVolta?.fareOptions?.[0]?.money) tM += selectedVolta.fareOptions[0].money;
-            if (selectedIda?.fareOptions?.[0]?.miles) tP += selectedIda.fareOptions[0].miles;
-            if (selectedVolta?.fareOptions?.[0]?.miles) tP += selectedVolta.fareOptions[0].miles;
-            if (tM > 0 || tP > 0) {
-                m += '💵 *TOTAL*: ';
-                if (tM > 0) m += `R$ ${tM.toFixed(2)}`;
-                if (tP > 0) m += `${tM>0?' + ':''}${tP.toLocaleString('pt-BR')} pts`;
-                m += '\n\n';
-            }
-            m +=
-                `🔗 ${selectedIda?.from||'?'} ↔ ${selectedIda?.to||'?'} | ${new Date().toLocaleDateString('pt-BR')}`;
-            return m;
-        }
+            setTripType(type) {
+                State.tripType = type;
+                document.querySelectorAll('#tripTypeBar .toggle-btn').forEach(b =>
+                    b.classList.toggle('active', b.dataset.type === type));
+                UI.applyTripTypeUI();
+                UI.updateStatusBar();
+            },
 
-        function openWhatsappModal() {
-            const msg = buildMessage();
-            document.getElementById('msgPreview').textContent = msg;
-            document.getElementById('btnSendWa').href = `https://wa.me/?text=${encodeURIComponent(msg)}`;
-            document.getElementById('whatsappModal').classList.add('show');
-            document.getElementById('btnCopy').textContent = '📋 Copiar';
-            document.getElementById('btnCopy').classList.remove('copied');
-        }
+            setRegion(region) {
+                State.region = region;
+                document.querySelectorAll('#regionBar .toggle-btn').forEach(b =>
+                    b.classList.toggle('active', b.dataset.region === region));
+                // Limpa seleções de aeroporto
+                ['from', 'to'].forEach(t => {
+                    const el = document.getElementById(`${t}Airport`);
+                    el.value = '';
+                    el.parentElement.classList.remove('has-value');
+                });
+                State.fromAirport = null;
+                State.toAirport = null;
+                UI.updateStatusBar();
+            },
 
-        function closeWhatsappModal() { document.getElementById('whatsappModal').classList.remove('show'); }
+            setSearchType(type) {
+                State.searchType = type;
+                document.querySelectorAll('#searchTypeGroup .filter-btn').forEach(b =>
+                    b.classList.toggle('active', b.dataset.type === type));
+                UI.renderAirlineToggles();
+                UI.updateStatusBar();
+            },
 
-        function copyMessage() {
-            navigator.clipboard.writeText(document.getElementById('msgPreview').textContent).then(() => {
-                const b = document.getElementById('btnCopy');
-                b.textContent = '✅ Copiado!';
-                b.classList.add('copied');
-                showToast('📋 Mensagem copiada!');
-                setTimeout(() => { b.textContent = '📋 Copiar';
-                    b.classList.remove('copied'); }, 2000);
-            }).catch(() => showToast('❌ Erro ao copiar'));
-        }
-        document.addEventListener('click', (e) => { if (e.target.id === 'whatsappModal') closeWhatsappModal(); });
+            toggleAirline(id) {
+                if (State.selectedAirlines.has(id)) State.selectedAirlines.delete(id);
+                else State.selectedAirlines.add(id);
+                UI.renderAirlineToggles();
+                UI.updateStatusBar();
+            },
 
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            t.textContent = msg;
-            t.classList.add('show');
-            clearTimeout(t._tid);
-            t._tid = setTimeout(() => t.classList.remove('show'), 2500);
-        }
+            saveApiKey() {
+                const val = document.getElementById('apiKeyInput').value.trim();
+                State.apiKey = val;
+                localStorage.setItem('geckoApiKey', val);
+                if (val) {
+                    State._updateApiStatus('configured');
+                    this.showToast('✅ Chave salva!');
+                } else {
+                    State._updateApiStatus('empty');
+                    this.showToast('⚠️ Chave removida');
+                }
+            },
 
-        // ═══════════════════════════════════════════════════════════
-        //  INIT
-        // ═══════════════════════════════════════════════════════════
-        renderAirlineToggles();
-        updateStatusBar();
+            async testApi() {
+                if (!State.apiKey) { this.showToast('⚠️ Insira a chave primeiro'); return; }
+                State._updateApiStatus('testing');
+                try {
+                    await API.testConnection();
+                    State._updateApiStatus('ok');
+                    this.showToast('✅ Conexão OK!');
+                } catch (e) {
+                    State._updateApiStatus('error');
+                    this.showToast(`❌ ${e.message.substring(0, 80)}`);
+                }
+            },
+
+            async doSearch() {
+                const targets = State.getActiveTargets();
+                if (targets.length === 0) { this.showToast('⚠️ Nenhuma cia compatível selecionada'); return; }
+                if (!State.apiKey) { this.showToast('⚠️ Configure sua chave GeckoAPI'); return; }
+
+                const fromIata = State.getIata('from');
+                const toIata = State.getIata('to');
+                const depDate = document.getElementById('depDate').value;
+                const retDate = document.getElementById('retDate').value;
+                const adults = parseInt(document.getElementById('numAdults').value) || 1;
+
+                if (!fromIata || !toIata) { this.showToast('⚠️ Selecione origem e destino'); return; }
+                if (!depDate) { this.showToast('⚠️ Selecione a data de ida'); return; }
+                if (fromIata === toIata) { this.showToast('⚠️ Origem e destino iguais'); return; }
+
+                const btn = document.getElementById('btnSearch');
+                btn.disabled = true;
+                btn.textContent = '⏳ Buscando...';
+
+                State.allFlights = { ida: [], volta: [] };
+                State.errors = [];
+                State.selectedIda = null;
+                State.selectedVolta = null;
+                State.debugLogs = [];
+                document.getElementById('debugPanel').textContent = '';
+
+                UI.showLoading(`Consultando ${targets.length} cia(s): ${targets.map(t=>t.label).join(', ')}...`);
+                UI.updateStatusBar();
+
+                try {
+                    const result = await API.searchAll(fromIata, toIata, depDate, retDate, adults);
+                    State.allFlights = result.flights;
+                    State.errors = result.errors;
+
+                    // Ordena por preço
+                    const sortFn = (a, b) => {
+                        const va = a.fareOptions[0]?.money ?? a.fareOptions[0]?.miles ?? Infinity;
+                        const vb = b.fareOptions[0]?.money ?? b.fareOptions[0]?.miles ?? Infinity;
+                        return va - vb;
+                    };
+                    State.allFlights.ida.sort(sortFn);
+                    State.allFlights.volta.sort(sortFn);
+
+                    UI.hideLoading();
+                    UI.renderResults();
+                } catch (e) {
+                    UI.hideLoading();
+                    this.showToast(`❌ ${e.message.substring(0, 100)}`);
+                    State.log(`ERRO FATAL: ${e.message}`);
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = '🔍 Buscar Voos';
+                }
+            },
+
+            selectFlight(dir, flightId) {
+                const flight = State.allFlights[dir].find(f => f.id === flightId);
+                if (!flight) return;
+                if (dir === 'ida') {
+                    State.selectedIda = (State.selectedIda?.id === flightId) ? null : flight;
+                } else {
+                    State.selectedVolta = (State.selectedVolta?.id === flightId) ? null : flight;
+                }
+                // Atualiza visual
+                document.querySelectorAll(`.flight-card[data-direction="${dir}"]`).forEach(card => {
+                    const fid = card.dataset.flightId;
+                    const selId = dir === 'ida' ? State.selectedIda?.id : State.selectedVolta?.id;
+                    card.classList.toggle('selected', fid === selId);
+                });
+                UI.updateSummary();
+            },
+
+            getFutureDate(days) {
+                const d = new Date();
+                d.setDate(d.getDate() + days);
+                return d.toISOString().split('T')[0];
+            },
+
+            openWhatsappModal() {
+                const msg = this._buildWhatsappMsg();
+                document.getElementById('msgPreview').textContent = msg;
+                document.getElementById('btnSendWa').href =
+                    `https://wa.me/?text=${encodeURIComponent(msg)}`;
+                document.getElementById('whatsappModal').classList.add('show');
+            },
+
+            _buildWhatsappMsg() {
+                let m = '✈️ *Cotação de Voos*\n\n';
+                const depD = document.getElementById('depDate').value.split('-').reverse().join('/');
+
+                const add = (label, f, date) => {
+                    if (!f) return;
+                    const fo = f.fareOptions[0] || {};
+                    m += `${label}: ${f.from} → ${f.to}\n`;
+                    m +=
+                        `   📅 ${date} | 🕐 ${f.dep||'--:--'} → ${f.arr||'--:--'} | ${f.durationStr}\n`;
+                    m +=
+                    `   ✈️ Operado: ${f.operatingAirline} | ${f.stops===0?'Direto':f.stops+' parada(s)'}\n`;
+                    if (fo.money) m += `   💰 R$ ${fo.money.toFixed(2)}\n`;
+                    if (fo.miles) m += `   🎯 ${fo.miles.toLocaleString('pt-BR')} pts\n`;
+                    if (fo.costTax) m += `   🧾 Taxas: R$ ${Number(fo.costTax).toFixed(2)}\n`;
+                    if (f.flightNumbers?.length) m += `   🔢 Voo: ${f.flightNumbers.join(' / ')}\n`;
+                    m += '\n';
+                };
+
+                add('🟢 *IDA*', State.selectedIda, depD);
+                if (State.tripType === 'roundtrip') {
+                    const retD = document.getElementById('retDate').value.split('-').reverse().join('/');
+                    add('🔴 *VOLTA*', State.selectedVolta, retD);
+                }
+
+                let tM = 0,
+                    tP = 0;
+                [State.selectedIda, State.selectedVolta].forEach(f => {
+                    if (f?.fareOptions?.[0]?.money) tM += f.fareOptions[0].money;
+                    if (f?.fareOptions?.[0]?.miles) tP += f.fareOptions[0].miles;
+                });
+                if (tM > 0 || tP > 0) {
+                    m += '💵 *TOTAL*: ';
+                    if (tM > 0) m += `R$ ${tM.toFixed(2)}`;
+                    if (tP > 0) m += `${tM>0?' + ':''}${tP.toLocaleString('pt-BR')} pts`;
+                    m += '\n\n';
+                }
+                m +=
+                    `🔗 ${State.selectedIda?.from||'?'} ↔ ${State.selectedIda?.to||'?'} | ${new Date().toLocaleDateString('pt-BR')}`;
+                return m;
+            },
+
+            toggleDebug() {
+                CONFIG.DEBUG = !CONFIG.DEBUG;
+                const panel = document.getElementById('debugPanel');
+                if (CONFIG.DEBUG) {
+                    panel.textContent = State.debugLogs.slice(-30).join('\n');
+                    panel.classList.add('show');
+                    document.getElementById('debugToggle').textContent = '🐛 Ocultar Debug';
+                } else {
+                    panel.classList.remove('show');
+                    document.getElementById('debugToggle').textContent = '🐛 Debug';
+                }
+            },
+
+            showToast(msg) {
+                const t = document.getElementById('toast');
+                t.textContent = msg;
+                t.classList.add('show');
+                clearTimeout(t._tid);
+                t._tid = setTimeout(() => t.classList.remove('show'), 2800);
+            },
+        };
+
+        // ═══════════════════════════════════════════════════════════════
+        //  BOOT
+        // ═══════════════════════════════════════════════════════════════
+        document.addEventListener('DOMContentLoaded', () => App.init());
+
+        // Expor funções globais para onclick no HTML
+        window.App = App;
     </script>
 </body>
 </html>
