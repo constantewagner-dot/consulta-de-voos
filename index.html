@@ -33,10 +33,13 @@
         .toggle-btn:hover:not(.active) { background:#f5f7fa; color:var(--text); }
         .search-card { background:var(--card); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); margin-bottom:12px; }
         .search-row { display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; }
-        .search-field { display:flex; flex-direction:column; gap:4px; flex:1; min-width:130px; }
+        .search-field { display:flex; flex-direction:column; gap:4px; flex:1; min-width:115px; }
         .search-field label { font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--sub); }
         .search-field input,.search-field select { padding:9px 11px; border:2px solid var(--border); border-radius:8px; font-size:0.9rem; outline:none; transition:border-color 0.2s; background:#fafafa; font-family:inherit; }
         .search-field input:focus,.search-field select:focus { border-color:var(--primary); background:#fff; }
+        .search-field.pax { flex:0.45; min-width:75px; }
+        .search-field.pax-sm { flex:0.35; min-width:60px; }
+        .pax-row { display:flex; gap:6px; }
         .btn-search { padding:10px 26px; background:var(--success); color:#fff; border:none; border-radius:8px; font-size:0.92rem; font-weight:700; cursor:pointer; transition:all 0.2s; white-space:nowrap; align-self:flex-end; min-height:42px; }
         .btn-search:hover:not(:disabled) { background:#0b7532; transform:translateY(-1px); box-shadow:0 4px 12px rgba(13,138,62,0.3); }
         .btn-search:disabled { background:#aaa; cursor:not-allowed; }
@@ -191,12 +194,29 @@
                 <label>📅 Volta</label>
                 <input type="date" id="retDate">
             </div>
-            <div class="search-field" style="flex:0.4;min-width:70px;">
-                <label>👥 Adultos</label>
+
+            <!-- 🆕 Passageiros: Adultos + Crianças + Bebês -->
+            <div class="search-field pax">
+                <label>👤 Adultos</label>
                 <select id="numAdults">
-                    <option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option>
+                    <option value="1">1</option><option value="2" selected>2</option><option value="3">3</option>
+                    <option value="4">4</option><option value="5">5</option><option value="6">6</option>
                 </select>
             </div>
+            <div class="search-field pax-sm">
+                <label>👶 Crianças</label>
+                <select id="numChildren">
+                    <option value="0" selected>0</option><option value="1">1</option><option value="2">2</option>
+                    <option value="3">3</option><option value="4">4</option>
+                </select>
+            </div>
+            <div class="search-field pax-sm">
+                <label>🍼 Bebês</label>
+                <select id="numInfants">
+                    <option value="0" selected>0</option><option value="1">1</option><option value="2">2</option>
+                </select>
+            </div>
+
             <button class="btn-search" id="btnSearch" type="button">🔍 Buscar Voos</button>
         </div>
     </div>
@@ -246,7 +266,7 @@
 <script>
 (function(){
 'use strict';
-console.log('🚀 MyHub Nitro — Consulta de Voos v3');
+console.log('🚀 MyHub Nitro — Consulta de Voos v4');
 
 /* ============================================================
    CONFIG — Payloads exatamente como na documentação da GeckoAPI
@@ -255,30 +275,24 @@ var GECKO_API = 'https://api.geckoapi.com.br/v1/extract';
 var DEBUG = false;
 
 /*
-   ESTRUTURA DAS CIAS:
-   - id, label, target: identificação e target da GeckoAPI
-   - parser: qual função usar para interpretar a resposta
-   - color: cor do chip
-   - canMoney, canPoints: o que essa cia suporta
-   - region: 'nacional' | 'internacional' | 'both'
-   - build(): monta o payload EXATO conforme doc da GeckoAPI
-   - modes: quais modos gerar quando searchType='both':
-       ['money'] → só dinheiro
-       ['points'] → só pontos
-       ['money','points'] → 2 chamadas separadas (LATAM e Azul)
+   ESTRUTURA DAS CIAS
+   - build(from, to, date, adults, children, infants, mode)
+     mode: 'money' | 'points'
+   - modes: quais modos disparar quando searchType='both'
 */
 
 var AIRLINES = {};
 
 /* ─── LATAM ────────────────────────────────────────────────
    Doc: https://geckoapi.com.br/docs/latamairlines-com-plp/
-   Dinheiro: {target,type,from,to,departureDate,numAdults,numChildren,numInfants}
-   Pontos:   mesmo payload + points:true
+   Blog: "Você também pode enviar uma url pública... Quando não
+          enviar url, use from, to, departureDate, numAdults,
+          numChildren, numInfants."
    ─────────────────────────────────────────────────────────── */
 AIRLINES['LATAM'] = {
     id:'LATAM', label:'LATAM', target:'latamairlines.com', parser:'latam', color:'#E30613',
     canMoney:true, canPoints:true, region:'both', modes:['money','points'],
-    build: function(from,to,date,adults,mode){
+    build: function(from,to,date,adults,children,infants,mode){
         var p = {
             target: 'latamairlines.com',
             type: 'plp',
@@ -286,8 +300,8 @@ AIRLINES['LATAM'] = {
             to: to,
             departureDate: date,
             numAdults: adults,
-            numChildren: 0,
-            numInfants: 0
+            numChildren: children,
+            numInfants: infants
         };
         if(mode==='points') p.points = true;
         return p;
@@ -296,12 +310,11 @@ AIRLINES['LATAM'] = {
 
 /* ─── Azul ─────────────────────────────────────────────────
    Doc: https://geckoapi.com.br/docs/voeazul-com-br-plp/
-   Dinheiro/Pontos: {target,type,from,to,departureDate,numAdults,numChildren,numInfants,currency}
    ─────────────────────────────────────────────────────────── */
 AIRLINES['AZUL'] = {
     id:'AZUL', label:'Azul', target:'voeazul.com.br', parser:'azul', color:'#0033A0',
     canMoney:true, canPoints:true, region:'both', modes:['money','points'],
-    build: function(from,to,date,adults,mode){
+    build: function(from,to,date,adults,children,infants,mode){
         return {
             target: 'voeazul.com.br',
             type: 'plp',
@@ -309,8 +322,8 @@ AIRLINES['AZUL'] = {
             to: to,
             departureDate: date,
             numAdults: adults,
-            numChildren: 0,
-            numInfants: 0,
+            numChildren: children,
+            numInfants: infants,
             currency: 'BRL'
         };
     }
@@ -318,12 +331,11 @@ AIRLINES['AZUL'] = {
 
 /* ─── GOL ──────────────────────────────────────────────────
    Doc: https://geckoapi.com.br/docs/voegol-com-br-plp/
-   Apenas dinheiro: {target,type,from,to,departureDate,numAdults,numChildren,numInfants}
    ─────────────────────────────────────────────────────────── */
 AIRLINES['GOL'] = {
     id:'GOL', label:'GOL', target:'voegol.com.br', parser:'gol', color:'#FF6600',
     canMoney:true, canPoints:false, region:'both', modes:['money'],
-    build: function(from,to,date,adults,mode){
+    build: function(from,to,date,adults,children,infants,mode){
         return {
             target: 'voegol.com.br',
             type: 'plp',
@@ -331,20 +343,19 @@ AIRLINES['GOL'] = {
             to: to,
             departureDate: date,
             numAdults: adults,
-            numChildren: 0,
-            numInfants: 0
+            numChildren: children,
+            numInfants: infants
         };
     }
 };
 
 /* ─── Smiles ───────────────────────────────────────────────
    Doc: https://geckoapi.com.br/docs/smiles-com-br-plp/
-   Apenas pontos: {target,type,from,to,departureDate,numAdults,numChildren,numInfants}
    ─────────────────────────────────────────────────────────── */
 AIRLINES['SMILES'] = {
     id:'SMILES', label:'Smiles', target:'smiles.com.br', parser:'smiles', color:'#6B2D8B',
     canMoney:false, canPoints:true, region:'both', modes:['points'],
-    build: function(from,to,date,adults,mode){
+    build: function(from,to,date,adults,children,infants,mode){
         return {
             target: 'smiles.com.br',
             type: 'plp',
@@ -352,20 +363,19 @@ AIRLINES['SMILES'] = {
             to: to,
             departureDate: date,
             numAdults: adults,
-            numChildren: 0,
-            numInfants: 0
+            numChildren: children,
+            numInfants: infants
         };
     }
 };
 
 /* ─── KAYAK ────────────────────────────────────────────────
    Doc: https://geckoapi.com.br/docs/kayak-com-br-plp/
-   Metabuscador: {target,type,from,to,departureDate,numAdults,numChildren,numInfants,lang,currency}
    ─────────────────────────────────────────────────────────── */
 AIRLINES['KAYAK'] = {
     id:'KAYAK', label:'KAYAK', target:'kayak.com.br', parser:'kayak', color:'#FF690F',
     canMoney:true, canPoints:false, region:'both', modes:['money'],
-    build: function(from,to,date,adults,mode){
+    build: function(from,to,date,adults,children,infants,mode){
         return {
             target: 'kayak.com.br',
             type: 'plp',
@@ -373,8 +383,8 @@ AIRLINES['KAYAK'] = {
             to: to,
             departureDate: date,
             numAdults: adults,
-            numChildren: 0,
-            numInfants: 0,
+            numChildren: children,
+            numInfants: infants,
             lang: 'pt-BR',
             currency: 'BRL'
         };
@@ -473,7 +483,6 @@ function setApiStatus(s){
     el.textContent = v[0]; el.style.color = v[1];
 }
 
-/* Retorna as cias ativas considerando região, tipo de busca e seleção */
 function getActive(){
     var list = [];
     Object.keys(state.selected).forEach(function(id){
@@ -489,9 +498,8 @@ function getActive(){
 
 /* Gera as tarefas (tasks) de API para cada cia ativa.
    Se searchType='both' E a cia tiver modes=['money','points'],
-   gera 2 chamadas separadas (uma money, uma points).
-   Caso contrário, 1 chamada com o modo apropriado. */
-function buildTasks(from,to,depDate,adults){
+   gera 2 chamadas separadas. */
+function buildTasks(from,to,depDate,adults,children,infants){
     var tasks = [];
     var dirs = state.tripType === 'roundtrip' ? ['ida','volta'] : ['ida'];
 
@@ -502,10 +510,8 @@ function buildTasks(from,to,depDate,adults){
             var dest = (dir==='volta') ? from : to;
             if(!date) return;
 
-            // Determina quais modos disparar para esta cia
             var modesToCall = [];
             if(state.searchType === 'both'){
-                // 'both': dispara todos os modos que a cia suporta
                 modesToCall = cfg.modes || ['money'];
             } else if(state.searchType === 'money' && cfg.canMoney){
                 modesToCall = ['money'];
@@ -516,7 +522,7 @@ function buildTasks(from,to,depDate,adults){
             modesToCall.forEach(function(mode){
                 tasks.push({
                     target: cfg,
-                    payload: cfg.build(origin, dest, date, adults, mode),
+                    payload: cfg.build(origin, dest, date, adults, children, infants, mode),
                     direction: dir,
                     mode: mode
                 });
@@ -535,7 +541,7 @@ function getIata(which){
 }
 
 /* ============================================================
-   PARSERS (interpretam resposta JSON de cada target)
+   PARSERS
    ============================================================ */
 function fmtTime(iso){
     if(!iso) return null;
@@ -575,8 +581,22 @@ function getCarrier(segs){
 function alName(code){ return AL_DISPLAY[code] || code || null; }
 function alColor(code){ return AL_COLORS[code] || '#333'; }
 
+/* Ordena fareOptions: dinheiro (menor→maior), depois pontos (menor→maior) */
+function sortFareOptions(fos){
+    fos.sort(function(a,b){
+        var aM = a.money!=null ? a.money : Infinity;
+        var bM = b.money!=null ? b.money : Infinity;
+        if(aM !== bM) return aM - bM;
+        var aP = a.miles!=null ? a.miles : Infinity;
+        var bP = b.miles!=null ? b.miles : Infinity;
+        return aP - bP;
+    });
+    return fos;
+}
+
 function mkFlight(cfg,opts){
     if(!opts.fareOptions||!opts.fareOptions.length) return null;
+    sortFareOptions(opts.fareOptions);
     return {
         id: cfg.parser+'-'+cfg.id+'-'+(opts.flightNums&&opts.flightNums[0]?opts.flightNums[0]:Math.random().toString(36).slice(2,8)),
         sourceAirline: cfg.label, sourceColor: cfg.color,
@@ -614,7 +634,9 @@ function parseAzul(data,cfg){
     return f;
 }
 
-/* --- LATAM --- */
+/* --- LATAM ---
+   Doc response: data.items[] com price.amount, price.total.
+   O parser tenta items, flights, itineraries e faz scan profundo. */
 function parseLatam(data,cfg){
     var items=null;
     if(Array.isArray(data.items)) items=data.items;
@@ -636,7 +658,8 @@ function parseLatam(data,cfg){
             if(mon!=null||pts!=null) fos.push({type:(f2.productClass&&f2.productClass.name)||'Tarifa',money:mon?Number(mon):null,miles:pts?Number(pts):null,costTax:f2.taxes||null});
         });}
         if(!fos.length&&Array.isArray(item.fareOptions)){item.fareOptions.forEach(function(fo){fos.push({type:fo.fareType||'Tarifa',money:fo.money!=null?fo.money:null,miles:fo.miles!=null?fo.miles:null,costTax:fo.costTax!=null?fo.costTax:null});});}
-        if(!fos.length){var mon=(item.price&&(item.price.amount||item.price.total))||item.price||item.amount;var pts=item.miles||item.points;if(mon||pts) fos.push({type:'Tarifa',money:mon?Number(mon):null,miles:pts?Number(pts):null,costTax:null});}
+        // Preço no nível do item (LATAM retorna price.amount e price.total)
+        if(!fos.length){var mon=(item.price&&(item.price.amount||item.price.total))||item.price||item.amount;var pts=item.miles||item.points;if(mon||pts) fos.push({type:'Tarifa',money:mon&&typeof mon==='number'?mon:null,miles:pts?Number(pts):null,costTax:null});}
         if(!fos.length) return;
         var fl=mkFlight(cfg,{from:first.origin||first.from||first.departureAirport||'?',to:last.destination||last.to||last.arrivalAirport||'?',dep:fmtTime(first.departureTime||first.departure||first.depTime),arr:fmtTime(last.arrivalTime||last.arrival||last.arrTime),dur:fmtDur(item.duration||first.duration),stops:Math.max(0,segs.length-1),flightNums:segs.map(function(s){return s.flightNumber||s.flight||s.number;}).filter(Boolean),opAirline:alName(carrier),opCode:carrier,opColor:alColor(carrier),fareOptions:fos});
         if(fl) f.push(fl);
@@ -741,13 +764,11 @@ async function apiCall(task){
     }
 
     if(json.notFound === true || json.data === null){
-        log('📭 '+label+' → notFound (rota indisponível)');
+        log('📭 '+label+' → notFound');
         return { notFound: true, data: null, direction: task.direction, target: cfg, mode: task.mode };
     }
 
-    var keys = json.data ? Object.keys(json.data).slice(0,10).join(',') : 'null';
-    log('✅ '+label+' → OK | keys: '+keys);
-
+    log('✅ '+label+' → OK');
     return {
         notFound: false,
         data: json.data,
@@ -758,10 +779,10 @@ async function apiCall(task){
 }
 
 /* ============================================================
-   SEARCH — Dispara todas as tarefas em paralelo
+   SEARCH
    ============================================================ */
-async function searchAll(from,to,depDate,adults){
-    var tasks = buildTasks(from,to,depDate,adults);
+async function searchAll(from,to,depDate,adults,children,infants){
+    var tasks = buildTasks(from,to,depDate,adults,children,infants);
 
     if(!tasks.length) throw new Error('Nenhuma cia compatível selecionada');
 
@@ -774,11 +795,7 @@ async function searchAll(from,to,depDate,adults){
 
     settled.forEach(function(r){
         if(r.status === 'rejected'){
-            errors.push({
-                direction: '?',
-                label: 'API',
-                reason: r.reason ? r.reason.message : String(r.reason)
-            });
+            errors.push({direction:'?',label:'API',reason:r.reason?r.reason.message:String(r.reason)});
             log('💥 Rejeitada: '+ (r.reason?r.reason.message:String(r.reason)));
             return;
         }
@@ -786,11 +803,7 @@ async function searchAll(from,to,depDate,adults){
         var val = r.value;
 
         if(val.notFound){
-            errors.push({
-                direction: val.direction,
-                label: val.target.label + (val.mode==='points'?' 🎯':' 💰'),
-                reason: 'Rota indisponível'
-            });
+            errors.push({direction:val.direction,label:val.target.label+(val.mode==='points'?' 🎯':' 💰'),reason:'Rota indisponível'});
             return;
         }
 
@@ -799,16 +812,41 @@ async function searchAll(from,to,depDate,adults){
             log('📊 '+val.target.label+' '+val.direction+' ('+val.mode+'): '+parsed.length+' voo(s)');
             flights[val.direction] = flights[val.direction].concat(parsed);
         } catch(e) {
-            errors.push({
-                direction: val.direction,
-                label: val.target.label,
-                reason: 'Erro ao interpretar: '+e.message
-            });
+            errors.push({direction:val.direction,label:val.target.label,reason:'Parse: '+e.message});
             log('⚠️ Parse error '+val.target.label+': '+e.message);
         }
     });
 
     return { flights: flights, errors: errors };
+}
+
+/* ============================================================
+   SORTING — Ordena voos pelo menor valor
+   ============================================================ */
+function getFlightSortValue(f){
+    /* Se searchType='money': ordena pelo menor preço em dinheiro.
+       Se searchType='points': ordena pelo menor preço em pontos.
+       Se searchType='both': ordena pelo menor dinheiro; se não tem dinheiro,
+       coloca no fim ordenado por pontos. */
+    var fo = f.fareOptions && f.fareOptions[0];
+    if(!fo) return Infinity;
+
+    if(state.searchType === 'money'){
+        return fo.money != null ? fo.money : Infinity;
+    }
+    if(state.searchType === 'points'){
+        return fo.miles != null ? fo.miles : Infinity;
+    }
+    /* both: dinheiro primeiro, depois pontos */
+    if(fo.money != null) return fo.money;                // dinheiro → posição natural
+    if(fo.miles != null) return 1000000000 + fo.miles;   // pontos → empurrado pro fim mas ordenado entre si
+    return Infinity;
+}
+
+function sortFlights(list){
+    list.sort(function(a,b){
+        return getFlightSortValue(a) - getFlightSortValue(b);
+    });
 }
 
 /* ============================================================
@@ -819,7 +857,7 @@ async function testConnection(){
     var cfg = AIRLINES['LATAM'];
     var d = new Date(); d.setDate(d.getDate()+14);
     var ds = d.toISOString().split('T')[0];
-    var task = { target: cfg, payload: cfg.build('GRU','GIG',ds,1,'money'), direction:'ida', mode:'money' };
+    var task = { target: cfg, payload: cfg.build('GRU','GIG',ds,1,0,0,'money'), direction:'ida', mode:'money' };
     await apiCall(task);
 }
 
@@ -1124,7 +1162,13 @@ async function doSearch(){
     var tgts=getActive();
     if(!tgts.length){ toast('⚠️ Nenhuma cia compatível'); return; }
     if(!state.apiKey){ toast('⚠️ Configure a chave API primeiro'); return; }
-    var fromIata=getIata('from'),toIata=getIata('to'),depDate=$('depDate').value,retDate=$('retDate').value,adults=parseInt($('numAdults').value)||1;
+
+    var fromIata=getIata('from'),toIata=getIata('to'),
+        depDate=$('depDate').value,retDate=$('retDate').value,
+        adults=parseInt($('numAdults').value)||1,
+        children=parseInt($('numChildren').value)||0,
+        infants=parseInt($('numInfants').value)||0;
+
     if(!fromIata||!toIata){ toast('⚠️ Selecione origem e destino'); return; }
     if(!depDate){ toast('⚠️ Selecione a data de ida'); return; }
     if(fromIata===toIata){ toast('⚠️ Origem e destino iguais'); return; }
@@ -1137,14 +1181,13 @@ async function doSearch(){
     $('loadingText').textContent='Consultando '+tgts.map(function(t){return t.label;}).join(', ')+'...';
 
     try {
-        var result=await searchAll(fromIata,toIata,depDate,adults);
+        var result=await searchAll(fromIata,toIata,depDate,adults,children,infants);
         state.flights=result.flights; state.errors=result.errors;
-        var sf=function(a,b){
-            var va=(a.fareOptions&&a.fareOptions[0]?(a.fareOptions[0].money!=null?a.fareOptions[0].money:(a.fareOptions[0].miles!=null?a.fareOptions[0].miles:Infinity)):Infinity);
-            var vb=(b.fareOptions&&b.fareOptions[0]?(b.fareOptions[0].money!=null?b.fareOptions[0].money:(b.fareOptions[0].miles!=null?b.fareOptions[0].miles:Infinity)):Infinity);
-            return va-vb;
-        };
-        state.flights.ida.sort(sf); state.flights.volta.sort(sf);
+
+        // 🆕 Ordenação corrigida por menor valor (dinheiro ou pontos)
+        sortFlights(state.flights.ida);
+        sortFlights(state.flights.volta);
+
         $('loadingBox').classList.remove('show');
         renderResults();
     } catch(e){
@@ -1160,7 +1203,7 @@ async function doSearch(){
    INIT
    ============================================================ */
 function init(){
-    console.log('🎯 Inicializando v3...');
+    console.log('🎯 Inicializando v4...');
     if(state.apiKey){ $('apiKeyInput').value=state.apiKey; setApiStatus('configured'); }
 
     var now=new Date(),ida=new Date(now); ida.setDate(ida.getDate()+14);
@@ -1204,7 +1247,7 @@ function init(){
         });
     });
 
-    console.log('✅ App v3 inicializado!');
+    console.log('✅ App v4 inicializado!');
 }
 
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
